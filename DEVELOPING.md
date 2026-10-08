@@ -1,0 +1,116 @@
+# คู่มือพัฒนาต่อ — Smart Hospital Navigation รพ.สีชมพู
+
+เอกสารนี้สำหรับผู้ที่จะแก้ไข/พัฒนาระบบต่อ อ่าน `README.md` ก่อนเพื่อดูภาพรวมการใช้งาน
+
+## 1. เริ่มต้นบนเครื่องใหม่
+
+```
+git clone https://github.com/kungsill/sichomphu-hosmap.git
+cd sichomphu-hosmap
+copy .env.example .env        # แล้วใส่ค่าจริง (ขอจากผู้ดูแล ห้าม commit)
+run.bat                        # ครั้งแรกจะสร้าง .venv และลงไลบรารีให้
+```
+
+เปิด http://localhost:8090 (เจ้าหน้าที่) · http://localhost:8090/builder (Map Builder) · http://localhost:8090/q (ผู้ป่วย)
+
+| โหมด | ตั้งใน `.env` | ได้อะไร |
+|---|---|---|
+| สาธิต | `HOSXP_MODE=mock` (หรือไม่มี `.env`) | ผู้ป่วยจำลอง + แผนที่ตัวอย่าง 1 อาคาร (ไม่ใช่ผังจริง) |
+| ใช้งานจริง | `HOSXP_MODE=mysql` + `HOSXP_DB_URL=...` | ผู้ป่วยจริงจาก HOSxP + แผนที่จริง 7 โซน |
+
+ต้องใช้ Python 3.11+ และเครื่องต้องต่อถึงฐานข้อมูล HOSxP ได้ (บัญชีอ่านอย่างเดียว)
+
+## 2. โครงสร้างโค้ด
+
+```
+app/
+  main.py          FastAPI: หน้าเว็บ, API, SSE, ใบนำทาง, ป้าย QR, ค้นหาคิว (/q)
+  config.py        อ่านค่าจาก .env
+  db.py            ตารางฐานข้อมูลระบบนำทาง (สร้าง/อัปเกรดคอลัมน์อัตโนมัติ)
+  auth.py          เข้าสู่ระบบ (cookie ลงลายมือชื่อ), กันเดารหัส
+  mapdata.py       แผนที่ร่าง/เผยแพร่, จับคู่รหัส HOSxP→ห้อง (แยกตามโซนด้วย main_dep), Dijkstra
+  status.py        สร้าง snapshot: คิว เวลารอ ความหนาแน่น ขั้นตอน ข้อมูลหน้าผู้ป่วย
+  seed.py          ผังทั้ง 7 โซน (วาดจากผังร่าง) + การจับคู่รหัส HOSxP เริ่มต้น
+  mapio.py         ส่งออก/นำเข้าแผนที่เป็น JSON
+  hosxp/
+    source.py      ต่อ HOSxP แบบอ่านอย่างเดียว + แปลงชนิดข้อมูล
+    worker.py      ดึงทุก POLL_SECONDS เทียบกับรอบก่อน → สร้างเหตุการณ์/สถานะ (กันซ้ำ, กู้คืนเองได้)
+    mock.py        HOSxP จำลองสำหรับโหมดสาธิต
+static/
+  js/iso.js        ตัววาดแผนที่ 3 มิติ (Canvas) — แสงเงา คนเดิน เส้นทาง ป้ายห้อง
+  js/dashboard.js  หน้าเจ้าหน้าที่      js/patient.js  หน้าผู้ป่วย
+  js/builder.js    Map Builder          js/common.js   ฟังก์ชันร่วม
+  css/app.css      ดีไซน์ทั้งหมด (โทนชมพู–เขียว, การ์ดโปร่งแสง)
+  *.html           index, patient, builder, login, lookup (/q), poster, slip
+hosxp_queries.ini  คำสั่ง SQL ที่อ่าน HOSxP (แก้ได้โดยไม่ต้องแก้โค้ด)
+maps/sichomphu_map.json   แผนที่ล่าสุด (ใช้แชร์ผ่าน Git)
+```
+
+## 3. ข้อมูลจาก HOSxP ที่ใช้ (ตรวจกับฐานจริงแล้ว)
+
+| ใช้ทำอะไร | มาจาก |
+|---|---|
+| ผู้ป่วยอยู่แผนกไหน | `ovst.cur_dep`, `ovst.cur_dep_time` |
+| รับแล้ว / ให้บริการเสร็จ | `opd_dep_queue` แถวล่าสุดของแผนกปัจจุบัน (`accept_datetime`, `finish_datetime`) |
+| จบ Visit | ส่งไป `176` หรือ `999` หรือห้องยา `010/039` จ่ายเสร็จ (`ovstost` ใช้ไม่ได้ที่ รพ.นี้) |
+| เลขคิวบนใบ neoQ | `neoq_track_ovst.queue_type` (เช่น G113, C26, F21) |
+| สัญญาณชีพ | `opdscreen` |
+
+`ovst.cur_dep_busy` ที่ รพ.นี้ไม่ได้ใช้ จึงใช้ `opd_dep_queue` แทน
+
+## 4. แผนที่: แก้ที่ไหน และแชร์ผ่าน Git อย่างไร
+
+แผนที่ที่ใช้งานอยู่เก็บในฐานข้อมูล (`data/`) **ไม่ได้อยู่ใน Git** — ถ้าแก้ใน Map Builder ต้องส่งออกเป็นไฟล์ก่อน commit:
+
+```
+# หลังแก้ใน Map Builder และกด "เผยแพร่แผนที่"
+.venv\Scripts\python -m app.mapio export        # → maps/sichomphu_map.json
+git add maps/sichomphu_map.json && git commit -m "แก้แผนที่: ..." && git push
+
+# อีกเครื่องดึงไปใช้
+git pull
+.venv\Scripts\python -m app.mapio import         # นำเข้าและเผยแพร่ทันที
+```
+
+ติดตั้งใหม่ (ยังไม่มีแผนที่ในฐานข้อมูล) ระบบจะโหลด `maps/sichomphu_map.json` ให้อัตโนมัติ
+`seed.py` เป็นผังตั้งต้นที่วาดจากผังร่าง — ใช้เมื่อไม่มีไฟล์ JSON
+
+**เพิ่มโซนใหม่:** วาดใน Map Builder (แท็บ อาคาร/ชั้น → + อาคาร) แล้วจับคู่รหัส HOSxP ในแท็บ "จับคู่ HOSxP"
+ถ้ารหัสเดียวกันใช้หลายโซน (เช่น ห้องยา `010` ของ OPD กับ ARI) ให้ใส่ "ใช้เฉพาะผู้ป่วยแผนกหลัก" = `main_dep` ของโซนนั้น
+
+หาว่าโซนใช้รหัสอะไร (อ่านอย่างเดียว):
+```sql
+SELECT q.depcode, k.department, COUNT(DISTINCT q.vn)
+FROM ovst o JOIN opd_dep_queue q ON q.vn = o.vn LEFT JOIN kskdepartment k ON k.depcode = q.depcode
+WHERE o.vstdate >= CURDATE() - INTERVAL 30 DAY AND o.main_dep = '<รหัสแผนกหลัก>'
+GROUP BY q.depcode, k.department ORDER BY 3 DESC;
+```
+
+## 5. ขั้นตอนทำงานร่วมกันผ่าน Git
+
+```
+git pull                          # ดึงของล่าสุดก่อนเริ่มทุกครั้ง
+git switch -c feature/ชื่องาน      # แยก branch ต่องาน
+... แก้โค้ด / ทดสอบ ...
+git add -A && git commit -m "อธิบายสั้น ๆ ว่าแก้อะไร"
+git push -u origin feature/ชื่องาน # แล้วเปิด Pull Request บน GitHub ให้อีกคนดู
+```
+
+**ห้าม commit:** `.env`, `data/` (มีข้อมูลผู้ป่วย), รูปใบคิว/เอกสารที่มีชื่อ เลขบัตรประชาชน หรือ HN — `.gitignore` กันไว้แล้วบางส่วน ตรวจด้วย `git status` ก่อน commit ทุกครั้ง
+
+## 6. ทดสอบก่อนส่งงาน
+
+- เปิดหน้า `/` ทุกโซน ดูว่าไม่มี error ใน Console (F12)
+- คลิกผู้ป่วย → การ์ด/เส้นทางขึ้น · ค้นหาเลขคิว · `/q` กรอกเลขคิว+HN 4 ตัวท้าย
+- Map Builder → แท็บ "ทดสอบเส้นทาง" → ส่วน "ตรวจความพร้อมของแผนที่" ต้องไม่มีปัญหา
+- ถ้าแก้ `hosxp_queries.ini` ให้ดู http://localhost:8090/api/health ว่า `"ok": true`
+
+## 7. งานที่ยังค้าง / ต้องยืนยันกับหน้างาน
+
+1. ขนาดห้องประมาณจากผังร่าง (≈0.08 ม./พิกเซล) — ควรวัดจริงแล้วปรับใน Map Builder
+2. ขอ neoQ เพิ่มปุ่ม "ดูแผนที่" ในหน้า `patient_status.aspx` ลิงก์ไป `/q?vn=<VN>`
+3. เปิดโดเมน (เช่น `nav.scphos.go.th` + HTTPS) ให้มือถือผู้ป่วยเข้าได้นอก Wi-Fi แล้วตั้ง `PUBLIC_BASE_URL`
+4. รหัสที่ยังเดาอยู่: "คอมหมอ" ARI = `002`?, ARI ส่งไป `046` คือจุดไหน, วัคซีน `007/011/025` อยู่ห้องไหน, `024` คลินิกพิเศษ = จุดรอรวม?
+5. ห้องย่อย (ห้องตรวจ 1–4 ฯลฯ) ยังไม่รู้จาก HOSxP → ผู้ป่วยไปรอที่ห้องรอก่อน ถ้าหาได้ว่า HOSxP/neoQ เก็บเลขห้องที่ไหน ให้คืนค่าเป็น `room_hint` ใน `hosxp_queries.ini`
+6. ทางเชื่อมระหว่างตึก (ทันตกรรม/แผนไทย → ห้องยา/การเงิน OPD) ยังไม่มีเส้นทางข้ามตึก
+7. โหมดสาธิตยังใช้แผนที่ตัวอย่าง ไม่ใช่ผังจริง 7 โซน

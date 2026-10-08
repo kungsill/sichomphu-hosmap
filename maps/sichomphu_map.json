@@ -1,0 +1,7662 @@
+{
+ "buildings": [
+  {
+   "id": "bld_ari",
+   "code": "ARI",
+   "name": "ARI",
+   "sort": 3
+  },
+  {
+   "id": "bld_clinic",
+   "code": "CLINIC",
+   "name": "คลินิกพิเศษ",
+   "sort": 2
+  },
+  {
+   "id": "bld_dental",
+   "code": "DENT",
+   "name": "ทันตกรรม",
+   "sort": 4
+  },
+  {
+   "id": "bld_opd",
+   "code": "OPD",
+   "name": "โซน OPD",
+   "sort": 1
+  },
+  {
+   "id": "bld_physio",
+   "code": "PT",
+   "name": "กายภาพบำบัด",
+   "sort": 5
+  },
+  {
+   "id": "bld_promo",
+   "code": "HP",
+   "name": "ส่งเสริมสุขภาพ",
+   "sort": 7
+  },
+  {
+   "id": "bld_thaimed",
+   "code": "TTM",
+   "name": "แพทย์แผนไทย",
+   "sort": 6
+  }
+ ],
+ "floors": [
+  {
+   "id": "flr_ari_1",
+   "building_id": "bld_ari",
+   "level": 1,
+   "name": "ชั้น 1",
+   "width": 77.6,
+   "height": 54.4,
+   "plan_image": null,
+   "plan_opacity": 0.5
+  },
+  {
+   "id": "flr_clinic_1",
+   "building_id": "bld_clinic",
+   "level": 1,
+   "name": "ชั้น 1",
+   "width": 82.6,
+   "height": 37.4,
+   "plan_image": null,
+   "plan_opacity": 0.5
+  },
+  {
+   "id": "flr_dental_1",
+   "building_id": "bld_dental",
+   "level": 1,
+   "name": "ชั้น 1",
+   "width": 30.4,
+   "height": 58.0,
+   "plan_image": null,
+   "plan_opacity": 0.5
+  },
+  {
+   "id": "flr_opd_1",
+   "building_id": "bld_opd",
+   "level": 1,
+   "name": "ชั้น 1",
+   "width": 58.4,
+   "height": 56.2,
+   "plan_image": null,
+   "plan_opacity": 0.5
+  },
+  {
+   "id": "flr_physio_1",
+   "building_id": "bld_physio",
+   "level": 1,
+   "name": "ชั้น 1",
+   "width": 49.6,
+   "height": 65.6,
+   "plan_image": null,
+   "plan_opacity": 0.5
+  },
+  {
+   "id": "flr_promo_1",
+   "building_id": "bld_promo",
+   "level": 1,
+   "name": "ชั้น 1",
+   "width": 60.8,
+   "height": 49.6,
+   "plan_image": null,
+   "plan_opacity": 0.5
+  },
+  {
+   "id": "flr_thaimed_1",
+   "building_id": "bld_thaimed",
+   "level": 1,
+   "name": "ชั้น 1",
+   "width": 56.8,
+   "height": 56.0,
+   "plan_image": null,
+   "plan_opacity": 0.5
+  }
+ ],
+ "rooms": [
+  {
+   "id": "a_doc",
+   "floor_id": "flr_ari_1",
+   "code": "A-DOC",
+   "name": "คอมหมอ",
+   "short_name": "คอมหมอ",
+   "kind": "counter",
+   "polygon": [
+    [
+     57.9,
+     22.8
+    ],
+    [
+     66.2,
+     22.8
+    ],
+    [
+     66.2,
+     25.5
+    ],
+    [
+     57.9,
+     25.5
+    ]
+   ],
+   "door_node_id": "a_d_doc",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "a_ex1",
+   "floor_id": "flr_ari_1",
+   "code": "A-EX1",
+   "name": "ห้องตรวจ ARI 1",
+   "short_name": "ห้องตรวจ 1",
+   "kind": "service",
+   "polygon": [
+    [
+     66.6,
+     41.1
+    ],
+    [
+     74.9,
+     41.1
+    ],
+    [
+     74.9,
+     48.4
+    ],
+    [
+     66.6,
+     48.4
+    ]
+   ],
+   "door_node_id": "a_d_ex1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "a_ex2",
+   "floor_id": "flr_ari_1",
+   "code": "A-EX2",
+   "name": "ห้องตรวจ ARI 2",
+   "short_name": "ห้องตรวจ 2",
+   "kind": "service",
+   "polygon": [
+    [
+     66.6,
+     33.8
+    ],
+    [
+     74.9,
+     33.8
+    ],
+    [
+     74.9,
+     41.1
+    ],
+    [
+     66.6,
+     41.1
+    ]
+   ],
+   "door_node_id": "a_d_ex2",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "a_ex3",
+   "floor_id": "flr_ari_1",
+   "code": "A-EX3",
+   "name": "ห้องตรวจ ARI 3",
+   "short_name": "ห้องตรวจ 3",
+   "kind": "service",
+   "polygon": [
+    [
+     66.6,
+     26.4
+    ],
+    [
+     74.9,
+     26.4
+    ],
+    [
+     74.9,
+     33.8
+    ],
+    [
+     66.6,
+     33.8
+    ]
+   ],
+   "door_node_id": "a_d_ex3",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "a_hx1",
+   "floor_id": "flr_ari_1",
+   "code": "A-HX1",
+   "name": "ซักประวัติ 1",
+   "short_name": "ซักประวัติ 1",
+   "kind": "counter",
+   "polygon": [
+    [
+     57.9,
+     17.3
+    ],
+    [
+     66.2,
+     17.3
+    ],
+    [
+     66.2,
+     19.9
+    ],
+    [
+     57.9,
+     19.9
+    ]
+   ],
+   "door_node_id": "a_d_hx1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "a_pharm",
+   "floor_id": "flr_ari_1",
+   "code": "A-PH",
+   "name": "จุดรับยา ARI",
+   "short_name": "จุดรับยา",
+   "kind": "window",
+   "polygon": [
+    [
+     57.4,
+     49.0
+    ],
+    [
+     65.7,
+     49.0
+    ],
+    [
+     65.7,
+     51.8
+    ],
+    [
+     57.4,
+     51.8
+    ]
+   ],
+   "door_node_id": "a_d_ph",
+   "color": null,
+   "capacity": 6,
+   "seats": false,
+   "desk": "w",
+   "decor": "pharmacy"
+  },
+  {
+   "id": "a_scr",
+   "floor_id": "flr_ari_1",
+   "code": "A-SCR",
+   "name": "จุดคัดกรอง ARI",
+   "short_name": "คัดกรอง",
+   "kind": "counter",
+   "polygon": [
+    [
+     57.8,
+     11.7
+    ],
+    [
+     66.0,
+     11.7
+    ],
+    [
+     66.0,
+     14.3
+    ],
+    [
+     57.8,
+     14.3
+    ]
+   ],
+   "door_node_id": "a_d_scr",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "a_wait",
+   "floor_id": "flr_ari_1",
+   "code": "A-W",
+   "name": "ห้องรอพบแพทย์ ARI",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     18.4,
+     10.6
+    ],
+    [
+     52.2,
+     10.6
+    ],
+    [
+     52.2,
+     50.3
+    ],
+    [
+     18.4,
+     50.3
+    ]
+   ],
+   "door_node_id": "a_d_hw",
+   "color": null,
+   "capacity": 150,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "a_wait_s",
+   "floor_id": "flr_ari_1",
+   "code": "A-WS",
+   "name": "จุดรอหน้าห้องตรวจ ARI",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     57.3,
+     29.4
+    ],
+    [
+     66.2,
+     29.4
+    ],
+    [
+     66.2,
+     46.7
+    ],
+    [
+     57.3,
+     46.7
+    ]
+   ],
+   "door_node_id": "a_d_ws",
+   "color": null,
+   "capacity": 20,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "a_xray",
+   "floor_id": "flr_ari_1",
+   "code": "A-XR",
+   "name": "X-RAY (ARI)",
+   "short_name": "X-RAY",
+   "kind": "service",
+   "polygon": [
+    [
+     45.9,
+     1.3
+    ],
+    [
+     65.3,
+     1.3
+    ],
+    [
+     65.3,
+     7.6
+    ],
+    [
+     45.9,
+     7.6
+    ]
+   ],
+   "door_node_id": "a_d_xr",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "d_ex1",
+   "floor_id": "flr_dental_1",
+   "code": "D-EX1",
+   "name": "ห้องทันตกรรม 1",
+   "short_name": "ห้องตรวจ 1",
+   "kind": "service",
+   "polygon": [
+    [
+     2.6,
+     33.0
+    ],
+    [
+     18.0,
+     33.0
+    ],
+    [
+     18.0,
+     40.7
+    ],
+    [
+     2.6,
+     40.7
+    ]
+   ],
+   "door_node_id": "d_d_ex1",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": "dental"
+  },
+  {
+   "id": "d_ex2",
+   "floor_id": "flr_dental_1",
+   "code": "D-EX2",
+   "name": "ห้องทันตกรรม 2",
+   "short_name": "ห้องตรวจ 2",
+   "kind": "service",
+   "polygon": [
+    [
+     2.6,
+     25.3
+    ],
+    [
+     18.0,
+     25.3
+    ],
+    [
+     18.0,
+     33.0
+    ],
+    [
+     2.6,
+     33.0
+    ]
+   ],
+   "door_node_id": "d_d_ex2",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": "dental"
+  },
+  {
+   "id": "d_ex3",
+   "floor_id": "flr_dental_1",
+   "code": "D-EX3",
+   "name": "ห้องทันตกรรม 3",
+   "short_name": "ห้องตรวจ 3",
+   "kind": "service",
+   "polygon": [
+    [
+     2.6,
+     17.5
+    ],
+    [
+     18.0,
+     17.5
+    ],
+    [
+     18.0,
+     25.3
+    ],
+    [
+     2.6,
+     25.3
+    ]
+   ],
+   "door_node_id": "d_d_ex3",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": "dental"
+  },
+  {
+   "id": "d_ex4",
+   "floor_id": "flr_dental_1",
+   "code": "D-EX4",
+   "name": "ห้องทันตกรรม 4",
+   "short_name": "ห้องตรวจ 4",
+   "kind": "service",
+   "polygon": [
+    [
+     2.6,
+     9.8
+    ],
+    [
+     18.0,
+     9.8
+    ],
+    [
+     18.0,
+     17.5
+    ],
+    [
+     2.6,
+     17.5
+    ]
+   ],
+   "door_node_id": "d_d_ex4",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": "dental"
+  },
+  {
+   "id": "d_hx1",
+   "floor_id": "flr_dental_1",
+   "code": "D-HX1",
+   "name": "ซักประวัติ 1 ทันตกรรม",
+   "short_name": "ซักประวัติ 1",
+   "kind": "counter",
+   "polygon": [
+    [
+     10.3,
+     44.2
+    ],
+    [
+     17.9,
+     44.2
+    ],
+    [
+     17.9,
+     46.6
+    ],
+    [
+     10.3,
+     46.6
+    ]
+   ],
+   "door_node_id": "d_d_hx1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "d_scr",
+   "floor_id": "flr_dental_1",
+   "code": "D-SCR",
+   "name": "จุดคัดกรอง ทันตกรรม",
+   "short_name": "คัดกรอง",
+   "kind": "counter",
+   "polygon": [
+    [
+     2.6,
+     44.2
+    ],
+    [
+     10.2,
+     44.2
+    ],
+    [
+     10.2,
+     46.6
+    ],
+    [
+     2.6,
+     46.6
+    ]
+   ],
+   "door_node_id": "d_d_scr",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "d_wait_b",
+   "floor_id": "flr_dental_1",
+   "code": "D-WB",
+   "name": "ห้องรอพบแพทย์ (ด้านล่าง)",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     2.5,
+     51.7
+    ],
+    [
+     26.5,
+     51.7
+    ],
+    [
+     26.5,
+     55.4
+    ],
+    [
+     2.5,
+     55.4
+    ]
+   ],
+   "door_node_id": "d_d_wb",
+   "color": null,
+   "capacity": 30,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "d_wait_r",
+   "floor_id": "flr_dental_1",
+   "code": "D-WR",
+   "name": "ห้องรอพบแพทย์ (หน้าห้องตรวจ)",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     20.3,
+     2.0
+    ],
+    [
+     26.6,
+     2.0
+    ],
+    [
+     26.6,
+     40.7
+    ],
+    [
+     20.3,
+     40.7
+    ]
+   ],
+   "door_node_id": "d_d_wr",
+   "color": null,
+   "capacity": 40,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "d_xray",
+   "floor_id": "flr_dental_1",
+   "code": "D-XR",
+   "name": "X-ray ทันตกรรม",
+   "short_name": "X-ray",
+   "kind": "service",
+   "polygon": [
+    [
+     2.6,
+     2.0
+    ],
+    [
+     18.0,
+     2.0
+    ],
+    [
+     18.0,
+     9.8
+    ],
+    [
+     2.6,
+     9.8
+    ]
+   ],
+   "door_node_id": "d_d_xr",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "h_dent",
+   "floor_id": "flr_promo_1",
+   "code": "HP-DENT",
+   "name": "ห้องตรวจฟัน (แม่และเด็ก)",
+   "short_name": "ห้องตรวจฟัน",
+   "kind": "service",
+   "polygon": [
+    [
+     26.1,
+     39.0
+    ],
+    [
+     41.4,
+     39.0
+    ],
+    [
+     41.4,
+     46.6
+    ],
+    [
+     26.1,
+     46.6
+    ]
+   ],
+   "door_node_id": "h_d_dent",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": "dental"
+  },
+  {
+   "id": "h_ex1",
+   "floor_id": "flr_promo_1",
+   "code": "HP-EX1",
+   "name": "ห้องตรวจส่งเสริมสุขภาพ 1",
+   "short_name": "ห้องตรวจ 1",
+   "kind": "service",
+   "polygon": [
+    [
+     42.8,
+     29.4
+    ],
+    [
+     58.1,
+     29.4
+    ],
+    [
+     58.1,
+     37.1
+    ],
+    [
+     42.8,
+     37.1
+    ]
+   ],
+   "door_node_id": "h_d_ex1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "h_ex2",
+   "floor_id": "flr_promo_1",
+   "code": "HP-EX2",
+   "name": "ห้องตรวจส่งเสริมสุขภาพ 2",
+   "short_name": "ห้องตรวจ 2",
+   "kind": "service",
+   "polygon": [
+    [
+     42.8,
+     21.7
+    ],
+    [
+     58.1,
+     21.7
+    ],
+    [
+     58.1,
+     29.4
+    ],
+    [
+     42.8,
+     29.4
+    ]
+   ],
+   "door_node_id": "h_d_ex2",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "h_ex3",
+   "floor_id": "flr_promo_1",
+   "code": "HP-EX3",
+   "name": "ห้องตรวจส่งเสริมสุขภาพ 3",
+   "short_name": "ห้องตรวจ 3",
+   "kind": "service",
+   "polygon": [
+    [
+     42.8,
+     14.0
+    ],
+    [
+     58.1,
+     14.0
+    ],
+    [
+     58.1,
+     21.7
+    ],
+    [
+     42.8,
+     21.7
+    ]
+   ],
+   "door_node_id": "h_d_ex3",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "h_ex4",
+   "floor_id": "flr_promo_1",
+   "code": "HP-EX4",
+   "name": "ห้องตรวจส่งเสริมสุขภาพ 4",
+   "short_name": "ห้องตรวจ 4",
+   "kind": "service",
+   "polygon": [
+    [
+     42.8,
+     6.3
+    ],
+    [
+     58.1,
+     6.3
+    ],
+    [
+     58.1,
+     14.0
+    ],
+    [
+     42.8,
+     14.0
+    ]
+   ],
+   "door_node_id": "h_d_ex4",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "h_hx1",
+   "floor_id": "flr_promo_1",
+   "code": "HP-HX1",
+   "name": "ซักประวัติ 1 ส่งเสริมสุขภาพ",
+   "short_name": "ซักประวัติ 1",
+   "kind": "counter",
+   "polygon": [
+    [
+     37.4,
+     25.7
+    ],
+    [
+     39.8,
+     25.7
+    ],
+    [
+     39.8,
+     33.2
+    ],
+    [
+     37.4,
+     33.2
+    ]
+   ],
+   "door_node_id": "h_d_hx1",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "h_hx2",
+   "floor_id": "flr_promo_1",
+   "code": "HP-HX2",
+   "name": "ซักประวัติ 2 ส่งเสริมสุขภาพ",
+   "short_name": "ซักประวัติ 2",
+   "kind": "counter",
+   "polygon": [
+    [
+     37.4,
+     9.4
+    ],
+    [
+     39.8,
+     9.4
+    ],
+    [
+     39.8,
+     16.9
+    ],
+    [
+     37.4,
+     16.9
+    ]
+   ],
+   "door_node_id": "h_d_hx2",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "h_scr",
+   "floor_id": "flr_promo_1",
+   "code": "HP-SCR",
+   "name": "จุดคัดกรอง ส่งเสริมสุขภาพ",
+   "short_name": "คัดกรอง",
+   "kind": "counter",
+   "polygon": [
+    [
+     14.9,
+     31.3
+    ],
+    [
+     22.3,
+     31.3
+    ],
+    [
+     22.3,
+     33.7
+    ],
+    [
+     14.9,
+     33.7
+    ]
+   ],
+   "door_node_id": "h_d_scr",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "h_sw1",
+   "floor_id": "flr_promo_1",
+   "code": "HP-SW1",
+   "name": "จุดรอซักประวัติ 1",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     33.8,
+     25.8
+    ],
+    [
+     36.6,
+     25.8
+    ],
+    [
+     36.6,
+     33.0
+    ],
+    [
+     33.8,
+     33.0
+    ]
+   ],
+   "door_node_id": "h_d_sw1",
+   "color": null,
+   "capacity": 8,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "h_sw2",
+   "floor_id": "flr_promo_1",
+   "code": "HP-SW2",
+   "name": "จุดรอซักประวัติ 2",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     33.8,
+     9.4
+    ],
+    [
+     36.6,
+     9.4
+    ],
+    [
+     36.6,
+     16.6
+    ],
+    [
+     33.8,
+     16.6
+    ]
+   ],
+   "door_node_id": "h_d_sw2",
+   "color": null,
+   "capacity": 8,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "h_wait",
+   "floor_id": "flr_promo_1",
+   "code": "HP-W",
+   "name": "ห้องรอพบแพทย์ ส่งเสริมสุขภาพ",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     14.2,
+     6.3
+    ],
+    [
+     30.6,
+     6.3
+    ],
+    [
+     30.6,
+     29.8
+    ],
+    [
+     14.2,
+     29.8
+    ]
+   ],
+   "door_node_id": "h_d_wb2",
+   "color": null,
+   "capacity": 80,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "k_ex1",
+   "floor_id": "flr_clinic_1",
+   "code": "C-EX1",
+   "name": "ห้องตรวจคลินิกพิเศษ 1",
+   "short_name": "ห้องตรวจ 1",
+   "kind": "service",
+   "polygon": [
+    [
+     46.5,
+     7.6
+    ],
+    [
+     51.7,
+     7.6
+    ],
+    [
+     51.7,
+     13.4
+    ],
+    [
+     46.5,
+     13.4
+    ]
+   ],
+   "door_node_id": "k_d_ex1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_ex2",
+   "floor_id": "flr_clinic_1",
+   "code": "C-EX2",
+   "name": "ห้องตรวจคลินิกพิเศษ 2",
+   "short_name": "ห้องตรวจ 2",
+   "kind": "service",
+   "polygon": [
+    [
+     51.7,
+     7.6
+    ],
+    [
+     56.9,
+     7.6
+    ],
+    [
+     56.9,
+     13.4
+    ],
+    [
+     51.7,
+     13.4
+    ]
+   ],
+   "door_node_id": "k_d_ex2",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_ex3",
+   "floor_id": "flr_clinic_1",
+   "code": "C-EX3",
+   "name": "ห้องตรวจคลินิกพิเศษ 3",
+   "short_name": "ห้องตรวจ 3",
+   "kind": "service",
+   "polygon": [
+    [
+     56.9,
+     7.6
+    ],
+    [
+     62.1,
+     7.6
+    ],
+    [
+     62.1,
+     13.4
+    ],
+    [
+     56.9,
+     13.4
+    ]
+   ],
+   "door_node_id": "k_d_ex3",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_ex4",
+   "floor_id": "flr_clinic_1",
+   "code": "C-EX4",
+   "name": "ห้องตรวจคลินิกพิเศษ 4",
+   "short_name": "ห้องตรวจ 4",
+   "kind": "service",
+   "polygon": [
+    [
+     62.1,
+     7.6
+    ],
+    [
+     67.3,
+     7.6
+    ],
+    [
+     67.3,
+     13.4
+    ],
+    [
+     62.1,
+     13.4
+    ]
+   ],
+   "door_node_id": "k_d_ex4",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_hx1",
+   "floor_id": "flr_clinic_1",
+   "code": "C-HX1",
+   "name": "ซักประวัติ 1",
+   "short_name": "ซักประวัติ 1",
+   "kind": "counter",
+   "polygon": [
+    [
+     26.6,
+     29.2
+    ],
+    [
+     27.9,
+     29.2
+    ],
+    [
+     27.9,
+     33.0
+    ],
+    [
+     26.6,
+     33.0
+    ]
+   ],
+   "door_node_id": "k_d_hx1",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "k_hx2",
+   "floor_id": "flr_clinic_1",
+   "code": "C-HX2",
+   "name": "ซักประวัติ 2",
+   "short_name": "ซักประวัติ 2",
+   "kind": "counter",
+   "polygon": [
+    [
+     31.8,
+     13.4
+    ],
+    [
+     36.2,
+     13.4
+    ],
+    [
+     36.2,
+     14.9
+    ],
+    [
+     31.8,
+     14.9
+    ]
+   ],
+   "door_node_id": "k_d_hx2",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_hx3",
+   "floor_id": "flr_clinic_1",
+   "code": "C-HX3",
+   "name": "ซักประวัติ 3",
+   "short_name": "ซักประวัติ 3",
+   "kind": "counter",
+   "polygon": [
+    [
+     37.7,
+     13.4
+    ],
+    [
+     42.1,
+     13.4
+    ],
+    [
+     42.1,
+     14.9
+    ],
+    [
+     37.7,
+     14.9
+    ]
+   ],
+   "door_node_id": "k_d_hx3",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_hx4",
+   "floor_id": "flr_clinic_1",
+   "code": "C-HX4",
+   "name": "ซักประวัติ 4",
+   "short_name": "ซักประวัติ 4",
+   "kind": "counter",
+   "polygon": [
+    [
+     42.1,
+     13.4
+    ],
+    [
+     46.4,
+     13.4
+    ],
+    [
+     46.4,
+     14.9
+    ],
+    [
+     42.1,
+     14.9
+    ]
+   ],
+   "door_node_id": "k_d_hx4",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_pharm",
+   "floor_id": "flr_clinic_1",
+   "code": "C-PH",
+   "name": "รับยาและชำระเงิน",
+   "short_name": "รับยากลับบ้าน",
+   "kind": "window",
+   "polygon": [
+    [
+     67.8,
+     1.3
+    ],
+    [
+     81.0,
+     1.3
+    ],
+    [
+     81.0,
+     7.0
+    ],
+    [
+     67.8,
+     7.0
+    ]
+   ],
+   "door_node_id": "k_d_ph",
+   "color": null,
+   "capacity": 8,
+   "seats": false,
+   "desk": "s",
+   "decor": "pharmacy"
+  },
+  {
+   "id": "k_post5",
+   "floor_id": "flr_clinic_1",
+   "code": "C-POST5",
+   "name": "หลังตรวจ 5",
+   "short_name": "หลังตรวจ 5",
+   "kind": "counter",
+   "polygon": [
+    [
+     48.0,
+     13.5
+    ],
+    [
+     51.7,
+     13.5
+    ],
+    [
+     51.7,
+     14.7
+    ],
+    [
+     48.0,
+     14.7
+    ]
+   ],
+   "door_node_id": "k_d_post5",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_post6",
+   "floor_id": "flr_clinic_1",
+   "code": "C-POST6",
+   "name": "หลังตรวจ 6",
+   "short_name": "หลังตรวจ 6",
+   "kind": "counter",
+   "polygon": [
+    [
+     51.7,
+     13.5
+    ],
+    [
+     55.3,
+     13.5
+    ],
+    [
+     55.3,
+     14.7
+    ],
+    [
+     51.7,
+     14.7
+    ]
+   ],
+   "door_node_id": "k_d_post6",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_post7",
+   "floor_id": "flr_clinic_1",
+   "code": "C-POST7",
+   "name": "หลังตรวจ 7",
+   "short_name": "หลังตรวจ 7",
+   "kind": "counter",
+   "polygon": [
+    [
+     58.3,
+     13.5
+    ],
+    [
+     62.0,
+     13.5
+    ],
+    [
+     62.0,
+     14.7
+    ],
+    [
+     58.3,
+     14.7
+    ]
+   ],
+   "door_node_id": "k_d_post7",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_post8",
+   "floor_id": "flr_clinic_1",
+   "code": "C-POST8",
+   "name": "หลังตรวจ 8",
+   "short_name": "หลังตรวจ 8",
+   "kind": "counter",
+   "polygon": [
+    [
+     63.6,
+     13.5
+    ],
+    [
+     67.2,
+     13.5
+    ],
+    [
+     67.2,
+     14.7
+    ],
+    [
+     63.6,
+     14.7
+    ]
+   ],
+   "door_node_id": "k_d_post8",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "k_post9",
+   "floor_id": "flr_clinic_1",
+   "code": "C-POST9",
+   "name": "หลังตรวจ 9",
+   "short_name": "หลังตรวจ 9",
+   "kind": "counter",
+   "polygon": [
+    [
+     59.0,
+     29.6
+    ],
+    [
+     63.4,
+     29.6
+    ],
+    [
+     63.4,
+     31.0
+    ],
+    [
+     59.0,
+     31.0
+    ]
+   ],
+   "door_node_id": "k_d_post9",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "k_scr",
+   "floor_id": "flr_clinic_1",
+   "code": "C-SCR",
+   "name": "จุดคัดกรอง (คลินิกพิเศษ)",
+   "short_name": "คัดกรอง",
+   "kind": "counter",
+   "polygon": [
+    [
+     26.6,
+     14.6
+    ],
+    [
+     27.9,
+     14.6
+    ],
+    [
+     27.9,
+     18.5
+    ],
+    [
+     26.6,
+     18.5
+    ]
+   ],
+   "door_node_id": "k_d_scr",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "k_sw1",
+   "floor_id": "flr_clinic_1",
+   "code": "C-SW1",
+   "name": "จุดรอหน้าห้องตรวจ 1",
+   "short_name": "รอ 1",
+   "kind": "waiting",
+   "polygon": [
+    [
+     46.5,
+     13.4
+    ],
+    [
+     47.6,
+     13.4
+    ],
+    [
+     47.6,
+     19.3
+    ],
+    [
+     46.5,
+     19.3
+    ]
+   ],
+   "door_node_id": "k_d_sw1",
+   "color": null,
+   "capacity": 5,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "k_sw2",
+   "floor_id": "flr_clinic_1",
+   "code": "C-SW2",
+   "name": "จุดรอหน้าห้องตรวจ 2",
+   "short_name": "รอ 2",
+   "kind": "waiting",
+   "polygon": [
+    [
+     55.3,
+     13.4
+    ],
+    [
+     56.5,
+     13.4
+    ],
+    [
+     56.5,
+     19.3
+    ],
+    [
+     55.3,
+     19.3
+    ]
+   ],
+   "door_node_id": "k_d_sw2",
+   "color": null,
+   "capacity": 5,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "k_sw3",
+   "floor_id": "flr_clinic_1",
+   "code": "C-SW3",
+   "name": "จุดรอหน้าห้องตรวจ 3",
+   "short_name": "รอ 3",
+   "kind": "waiting",
+   "polygon": [
+    [
+     57.0,
+     13.4
+    ],
+    [
+     58.2,
+     13.4
+    ],
+    [
+     58.2,
+     19.3
+    ],
+    [
+     57.0,
+     19.3
+    ]
+   ],
+   "door_node_id": "k_d_sw3",
+   "color": null,
+   "capacity": 5,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "k_sw4",
+   "floor_id": "flr_clinic_1",
+   "code": "C-SW4",
+   "name": "จุดรอหน้าห้องตรวจ 4",
+   "short_name": "รอ 4",
+   "kind": "waiting",
+   "polygon": [
+    [
+     62.3,
+     13.4
+    ],
+    [
+     63.5,
+     13.4
+    ],
+    [
+     63.5,
+     19.3
+    ],
+    [
+     62.3,
+     19.3
+    ]
+   ],
+   "door_node_id": "k_d_sw4",
+   "color": null,
+   "capacity": 5,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "k_wait_l",
+   "floor_id": "flr_clinic_1",
+   "code": "C-WL",
+   "name": "ห้องรอพบแพทย์ (ซ้าย)",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     1.6,
+     7.6
+    ],
+    [
+     25.5,
+     7.6
+    ],
+    [
+     25.5,
+     35.8
+    ],
+    [
+     1.6,
+     35.8
+    ]
+   ],
+   "door_node_id": "k_d_wl",
+   "color": null,
+   "capacity": 120,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "k_wait_m",
+   "floor_id": "flr_clinic_1",
+   "code": "C-WM",
+   "name": "ห้องรอพบแพทย์ (กลาง)",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     31.2,
+     22.6
+    ],
+    [
+     57.7,
+     22.6
+    ],
+    [
+     57.7,
+     36.2
+    ],
+    [
+     31.2,
+     36.2
+    ]
+   ],
+   "door_node_id": "k_d_wm",
+   "color": null,
+   "capacity": 100,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "k_wait_r",
+   "floor_id": "flr_clinic_1",
+   "code": "C-WR",
+   "name": "ห้องรอรับยา",
+   "short_name": "รอรับยา",
+   "kind": "waiting",
+   "polygon": [
+    [
+     67.8,
+     7.6
+    ],
+    [
+     81.0,
+     7.6
+    ],
+    [
+     81.0,
+     35.8
+    ],
+    [
+     67.8,
+     35.8
+    ]
+   ],
+   "door_node_id": "k_d_wr",
+   "color": null,
+   "capacity": 80,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "p_beds",
+   "floor_id": "flr_physio_1",
+   "code": "PT-BED",
+   "name": "เตียงกายภาพ",
+   "short_name": "เตียงกายภาพ",
+   "kind": "service",
+   "polygon": [
+    [
+     18.5,
+     0.6
+    ],
+    [
+     37.0,
+     0.6
+    ],
+    [
+     37.0,
+     33.9
+    ],
+    [
+     18.5,
+     33.9
+    ]
+   ],
+   "door_node_id": "p_d_beds",
+   "color": null,
+   "capacity": 40,
+   "seats": false,
+   "desk": null,
+   "decor": "beds"
+  },
+  {
+   "id": "p_hx1",
+   "floor_id": "flr_physio_1",
+   "code": "PT-HX1",
+   "name": "ซักประวัติ 1 กายภาพ",
+   "short_name": "ซักประวัติ 1",
+   "kind": "counter",
+   "polygon": [
+    [
+     38.6,
+     27.9
+    ],
+    [
+     42.4,
+     27.9
+    ],
+    [
+     42.4,
+     36.5
+    ],
+    [
+     38.6,
+     36.5
+    ]
+   ],
+   "door_node_id": "p_d_hx1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "p_scr",
+   "floor_id": "flr_physio_1",
+   "code": "PT-SCR",
+   "name": "จุดคัดกรอง กายภาพ",
+   "short_name": "คัดกรอง",
+   "kind": "counter",
+   "polygon": [
+    [
+     18.6,
+     46.6
+    ],
+    [
+     21.3,
+     46.6
+    ],
+    [
+     21.3,
+     55.0
+    ],
+    [
+     18.6,
+     55.0
+    ]
+   ],
+   "door_node_id": "p_d_scr",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "p_staff",
+   "floor_id": "flr_physio_1",
+   "code": "PT-STAFF",
+   "name": "ห้องพักนักกายภาพ",
+   "short_name": "ห้องพักนักกายภาพ",
+   "kind": "service",
+   "polygon": [
+    [
+     18.5,
+     41.9
+    ],
+    [
+     47.7,
+     41.9
+    ],
+    [
+     47.7,
+     60.8
+    ],
+    [
+     18.5,
+     60.8
+    ]
+   ],
+   "door_node_id": "p_d_staff",
+   "color": null,
+   "capacity": 10,
+   "seats": false,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "p_wait_l",
+   "floor_id": "flr_physio_1",
+   "code": "PT-WL",
+   "name": "จุดรอพบแพทย์ (ฝั่งตะวันตก)",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     8.7,
+     47.6
+    ],
+    [
+     13.0,
+     47.6
+    ],
+    [
+     13.0,
+     60.8
+    ],
+    [
+     8.7,
+     60.8
+    ]
+   ],
+   "door_node_id": "p_d_wl",
+   "color": null,
+   "capacity": 15,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "p_wait_s",
+   "floor_id": "flr_physio_1",
+   "code": "PT-WS",
+   "name": "จุดรอพบแพทย์ (หน้าเตียงกายภาพ)",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     18.5,
+     38.2
+    ],
+    [
+     36.2,
+     38.2
+    ],
+    [
+     36.2,
+     41.5
+    ],
+    [
+     18.5,
+     41.5
+    ]
+   ],
+   "door_node_id": "p_d_ws",
+   "color": null,
+   "capacity": 20,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_card",
+   "floor_id": "flr_opd_1",
+   "code": "CARD",
+   "name": "ห้องบัตร",
+   "short_name": "ห้องบัตร",
+   "kind": "counter",
+   "polygon": [
+    [
+     6.3,
+     44.6
+    ],
+    [
+     12.5,
+     44.6
+    ],
+    [
+     12.5,
+     47.9
+    ],
+    [
+     6.3,
+     47.9
+    ]
+   ],
+   "door_node_id": "d_card",
+   "color": null,
+   "capacity": 6,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "r_er",
+   "floor_id": "flr_opd_1",
+   "code": "ER",
+   "name": "ห้องฉุกเฉิน (ER)",
+   "short_name": "ER",
+   "kind": "service",
+   "polygon": [
+    [
+     6.3,
+     1.6
+    ],
+    [
+     26.8,
+     1.6
+    ],
+    [
+     26.8,
+     12.3
+    ],
+    [
+     6.3,
+     12.3
+    ]
+   ],
+   "door_node_id": "d_er",
+   "color": null,
+   "capacity": 15,
+   "seats": false,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_er_wait",
+   "floor_id": "flr_opd_1",
+   "code": "ER-W",
+   "name": "จุดรอพบแพทย์ ER",
+   "short_name": "รอ ER",
+   "kind": "waiting",
+   "polygon": [
+    [
+     26.8,
+     1.6
+    ],
+    [
+     28.5,
+     1.6
+    ],
+    [
+     28.5,
+     8.7
+    ],
+    [
+     26.8,
+     8.7
+    ]
+   ],
+   "door_node_id": "d_erw",
+   "color": null,
+   "capacity": 8,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_ex1",
+   "floor_id": "flr_opd_1",
+   "code": "EX1",
+   "name": "ห้องตรวจ 1",
+   "short_name": "ห้องตรวจ 1",
+   "kind": "service",
+   "polygon": [
+    [
+     16.4,
+     44.5
+    ],
+    [
+     22.6,
+     44.5
+    ],
+    [
+     22.6,
+     51.4
+    ],
+    [
+     16.4,
+     51.4
+    ]
+   ],
+   "door_node_id": "d_ex1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_ex2",
+   "floor_id": "flr_opd_1",
+   "code": "EX2",
+   "name": "ห้องตรวจ 2",
+   "short_name": "ห้องตรวจ 2",
+   "kind": "service",
+   "polygon": [
+    [
+     22.6,
+     44.5
+    ],
+    [
+     28.7,
+     44.5
+    ],
+    [
+     28.7,
+     51.4
+    ],
+    [
+     22.6,
+     51.4
+    ]
+   ],
+   "door_node_id": "d_ex2",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_ex3",
+   "floor_id": "flr_opd_1",
+   "code": "EX3",
+   "name": "ห้องตรวจ 3",
+   "short_name": "ห้องตรวจ 3",
+   "kind": "service",
+   "polygon": [
+    [
+     28.7,
+     44.5
+    ],
+    [
+     35.0,
+     44.5
+    ],
+    [
+     35.0,
+     51.4
+    ],
+    [
+     28.7,
+     51.4
+    ]
+   ],
+   "door_node_id": "d_ex3",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_ex4",
+   "floor_id": "flr_opd_1",
+   "code": "EX4",
+   "name": "ห้องตรวจ 4",
+   "short_name": "ห้องตรวจ 4",
+   "kind": "service",
+   "polygon": [
+    [
+     35.0,
+     44.5
+    ],
+    [
+     41.1,
+     44.5
+    ],
+    [
+     41.1,
+     51.4
+    ],
+    [
+     35.0,
+     51.4
+    ]
+   ],
+   "door_node_id": "d_ex4",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_ex9",
+   "floor_id": "flr_opd_1",
+   "code": "EX9",
+   "name": "ห้องตรวจ 9 (เปิดเสริม)",
+   "short_name": "ห้องตรวจ 9",
+   "kind": "service",
+   "polygon": [
+    [
+     6.3,
+     47.9
+    ],
+    [
+     12.5,
+     47.9
+    ],
+    [
+     12.5,
+     54.6
+    ],
+    [
+     6.3,
+     54.6
+    ]
+   ],
+   "door_node_id": "d_ex9",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "r_exw1",
+   "floor_id": "flr_opd_1",
+   "code": "EXW1",
+   "name": "จุดรอหน้าห้องตรวจ 1",
+   "short_name": "รอห้อง 1",
+   "kind": "waiting",
+   "polygon": [
+    [
+     16.4,
+     37.8
+    ],
+    [
+     17.8,
+     37.8
+    ],
+    [
+     17.8,
+     44.5
+    ],
+    [
+     16.4,
+     44.5
+    ]
+   ],
+   "door_node_id": "d_exw1",
+   "color": null,
+   "capacity": 6,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_exw2",
+   "floor_id": "flr_opd_1",
+   "code": "EXW2",
+   "name": "จุดรอหน้าห้องตรวจ 2",
+   "short_name": "รอห้อง 2",
+   "kind": "waiting",
+   "polygon": [
+    [
+     22.6,
+     37.8
+    ],
+    [
+     23.9,
+     37.8
+    ],
+    [
+     23.9,
+     44.5
+    ],
+    [
+     22.6,
+     44.5
+    ]
+   ],
+   "door_node_id": "d_exw2",
+   "color": null,
+   "capacity": 6,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_exw3",
+   "floor_id": "flr_opd_1",
+   "code": "EXW3",
+   "name": "จุดรอหน้าห้องตรวจ 3",
+   "short_name": "รอห้อง 3",
+   "kind": "waiting",
+   "polygon": [
+    [
+     28.7,
+     37.8
+    ],
+    [
+     30.1,
+     37.8
+    ],
+    [
+     30.1,
+     44.5
+    ],
+    [
+     28.7,
+     44.5
+    ]
+   ],
+   "door_node_id": "d_exw3",
+   "color": null,
+   "capacity": 6,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_exw4",
+   "floor_id": "flr_opd_1",
+   "code": "EXW4",
+   "name": "จุดรอหน้าห้องตรวจ 4",
+   "short_name": "รอห้อง 4",
+   "kind": "waiting",
+   "polygon": [
+    [
+     35.0,
+     37.8
+    ],
+    [
+     36.3,
+     37.8
+    ],
+    [
+     36.3,
+     44.5
+    ],
+    [
+     35.0,
+     44.5
+    ]
+   ],
+   "door_node_id": "d_exw4",
+   "color": null,
+   "capacity": 6,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_exw9",
+   "floor_id": "flr_opd_1",
+   "code": "EXW9",
+   "name": "จุดรอหน้าห้องตรวจ 9",
+   "short_name": "รอห้อง 9",
+   "kind": "waiting",
+   "polygon": [
+    [
+     15.0,
+     44.6
+    ],
+    [
+     16.4,
+     44.6
+    ],
+    [
+     16.4,
+     51.4
+    ],
+    [
+     15.0,
+     51.4
+    ]
+   ],
+   "door_node_id": "d_exw9",
+   "color": null,
+   "capacity": 6,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_fin",
+   "floor_id": "flr_opd_1",
+   "code": "FIN",
+   "name": "ห้องเก็บเงิน",
+   "short_name": "เก็บเงิน",
+   "kind": "window",
+   "polygon": [
+    [
+     47.4,
+     20.3
+    ],
+    [
+     56.8,
+     20.3
+    ],
+    [
+     56.8,
+     25.1
+    ],
+    [
+     47.4,
+     25.1
+    ]
+   ],
+   "door_node_id": "d_fin",
+   "color": null,
+   "capacity": 6,
+   "seats": false,
+   "desk": "w",
+   "decor": "cashier"
+  },
+  {
+   "id": "r_hx1",
+   "floor_id": "flr_opd_1",
+   "code": "HX1",
+   "name": "ซักประวัติ 1",
+   "short_name": "ซักประวัติ 1",
+   "kind": "service",
+   "polygon": [
+    [
+     12.6,
+     18.8
+    ],
+    [
+     14.1,
+     18.8
+    ],
+    [
+     14.1,
+     23.4
+    ],
+    [
+     12.6,
+     23.4
+    ]
+   ],
+   "door_node_id": "d_hx1",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "r_hx2",
+   "floor_id": "flr_opd_1",
+   "code": "HX2",
+   "name": "ซักประวัติ 2",
+   "short_name": "ซักประวัติ 2",
+   "kind": "service",
+   "polygon": [
+    [
+     12.6,
+     23.4
+    ],
+    [
+     14.1,
+     23.4
+    ],
+    [
+     14.1,
+     27.9
+    ],
+    [
+     12.6,
+     27.9
+    ]
+   ],
+   "door_node_id": "d_hx2",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "r_hx3",
+   "floor_id": "flr_opd_1",
+   "code": "HX3",
+   "name": "ซักประวัติ 3",
+   "short_name": "ซักประวัติ 3",
+   "kind": "service",
+   "polygon": [
+    [
+     12.6,
+     27.9
+    ],
+    [
+     14.1,
+     27.9
+    ],
+    [
+     14.1,
+     32.5
+    ],
+    [
+     12.6,
+     32.5
+    ]
+   ],
+   "door_node_id": "d_hx3",
+   "color": null,
+   "capacity": 2,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "r_lab",
+   "floor_id": "flr_opd_1",
+   "code": "LAB",
+   "name": "ห้องปฏิบัติการ (LAB)",
+   "short_name": "LAB",
+   "kind": "service",
+   "polygon": [
+    [
+     41.1,
+     44.5
+    ],
+    [
+     56.8,
+     44.5
+    ],
+    [
+     56.8,
+     51.4
+    ],
+    [
+     41.1,
+     51.4
+    ]
+   ],
+   "door_node_id": "d_lab",
+   "color": null,
+   "capacity": 8,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_labw",
+   "floor_id": "flr_opd_1",
+   "code": "LAB-W",
+   "name": "จุดรอ LAB",
+   "short_name": "รอ LAB",
+   "kind": "waiting",
+   "polygon": [
+    [
+     41.1,
+     37.8
+    ],
+    [
+     42.5,
+     37.8
+    ],
+    [
+     42.5,
+     44.5
+    ],
+    [
+     41.1,
+     44.5
+    ]
+   ],
+   "door_node_id": "d_exw5",
+   "color": null,
+   "capacity": 6,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_left_wait",
+   "floor_id": "flr_opd_1",
+   "code": "W-L",
+   "name": "จุดรอคัดกรอง",
+   "short_name": "รอคัดกรอง",
+   "kind": "waiting",
+   "polygon": [
+    [
+     1.6,
+     15.5
+    ],
+    [
+     4.9,
+     15.5
+    ],
+    [
+     4.9,
+     23.3
+    ],
+    [
+     1.6,
+     23.3
+    ]
+   ],
+   "door_node_id": "d_lw",
+   "color": null,
+   "capacity": 12,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_main_wait",
+   "floor_id": "flr_opd_1",
+   "code": "W-OPD",
+   "name": "ห้องรอพบแพทย์",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     15.5,
+     18.2
+    ],
+    [
+     44.0,
+     18.2
+    ],
+    [
+     44.0,
+     33.4
+    ],
+    [
+     15.5,
+     33.4
+    ]
+   ],
+   "door_node_id": "d_bw2",
+   "color": null,
+   "capacity": 120,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_ph",
+   "floor_id": "flr_opd_1",
+   "code": "PHARM",
+   "name": "ห้องยา",
+   "short_name": "ห้องยา",
+   "kind": "window",
+   "polygon": [
+    [
+     47.4,
+     25.1
+    ],
+    [
+     56.8,
+     25.1
+    ],
+    [
+     56.8,
+     44.5
+    ],
+    [
+     47.4,
+     44.5
+    ]
+   ],
+   "door_node_id": "d_ph",
+   "color": null,
+   "capacity": 10,
+   "seats": false,
+   "desk": "w",
+   "decor": "pharmacy"
+  },
+  {
+   "id": "r_post4",
+   "floor_id": "flr_opd_1",
+   "code": "POST4",
+   "name": "หลังตรวจ 4",
+   "short_name": "หลังตรวจ 4",
+   "kind": "counter",
+   "polygon": [
+    [
+     23.3,
+     34.8
+    ],
+    [
+     28.5,
+     34.8
+    ],
+    [
+     28.5,
+     36.4
+    ],
+    [
+     23.3,
+     36.4
+    ]
+   ],
+   "door_node_id": "d_post4",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_post5",
+   "floor_id": "flr_opd_1",
+   "code": "POST5",
+   "name": "หลังตรวจ 5",
+   "short_name": "หลังตรวจ 5",
+   "kind": "counter",
+   "polygon": [
+    [
+     28.5,
+     34.8
+    ],
+    [
+     33.6,
+     34.8
+    ],
+    [
+     33.6,
+     36.4
+    ],
+    [
+     28.5,
+     36.4
+    ]
+   ],
+   "door_node_id": "d_post5",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_post6",
+   "floor_id": "flr_opd_1",
+   "code": "POST6",
+   "name": "หลังตรวจ 6",
+   "short_name": "หลังตรวจ 6",
+   "kind": "counter",
+   "polygon": [
+    [
+     33.6,
+     34.8
+    ],
+    [
+     41.0,
+     34.8
+    ],
+    [
+     41.0,
+     36.4
+    ],
+    [
+     33.6,
+     36.4
+    ]
+   ],
+   "door_node_id": "d_post6",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "s",
+   "decor": null
+  },
+  {
+   "id": "r_proc",
+   "floor_id": "flr_opd_1",
+   "code": "PROC",
+   "name": "ห้องหัตถการ",
+   "short_name": "หัตถการ",
+   "kind": "service",
+   "polygon": [
+    [
+     30.2,
+     1.6
+    ],
+    [
+     46.6,
+     1.6
+    ],
+    [
+     46.6,
+     7.0
+    ],
+    [
+     30.2,
+     7.0
+    ]
+   ],
+   "door_node_id": "d_proc",
+   "color": null,
+   "capacity": 6,
+   "seats": false,
+   "desk": null,
+   "decor": null
+  },
+  {
+   "id": "r_queue",
+   "floor_id": "flr_opd_1",
+   "code": "QUE",
+   "name": "เปิดบัตรคิว",
+   "short_name": "บัตรคิว",
+   "kind": "counter",
+   "polygon": [
+    [
+     8.2,
+     25.1
+    ],
+    [
+     10.6,
+     25.1
+    ],
+    [
+     10.6,
+     29.6
+    ],
+    [
+     8.2,
+     29.6
+    ]
+   ],
+   "door_node_id": "d_q",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "r_screen",
+   "floor_id": "flr_opd_1",
+   "code": "SCR",
+   "name": "จุดคัดกรอง",
+   "short_name": "คัดกรอง",
+   "kind": "counter",
+   "polygon": [
+    [
+     6.3,
+     15.5
+    ],
+    [
+     8.8,
+     15.5
+    ],
+    [
+     8.8,
+     23.3
+    ],
+    [
+     6.3,
+     23.3
+    ]
+   ],
+   "door_node_id": "d_scr",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "e",
+   "decor": null
+  },
+  {
+   "id": "r_xray",
+   "floor_id": "flr_opd_1",
+   "code": "XRAY",
+   "name": "ห้องเอกซ์เรย์ (X-RAY)",
+   "short_name": "X-RAY",
+   "kind": "service",
+   "polygon": [
+    [
+     30.2,
+     7.0
+    ],
+    [
+     46.6,
+     7.0
+    ],
+    [
+     46.6,
+     12.3
+    ],
+    [
+     30.2,
+     12.3
+    ]
+   ],
+   "door_node_id": "d_xr",
+   "color": null,
+   "capacity": 4,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "t_beds",
+   "floor_id": "flr_thaimed_1",
+   "code": "T-BED",
+   "name": "เตียงแผนไทย",
+   "short_name": "เตียงแผนไทย",
+   "kind": "service",
+   "polygon": [
+    [
+     36.3,
+     2.4
+    ],
+    [
+     54.9,
+     2.4
+    ],
+    [
+     54.9,
+     53.8
+    ],
+    [
+     36.3,
+     53.8
+    ]
+   ],
+   "door_node_id": "t_d_beds",
+   "color": null,
+   "capacity": 40,
+   "seats": false,
+   "desk": null,
+   "decor": "beds"
+  },
+  {
+   "id": "t_ex1",
+   "floor_id": "flr_thaimed_1",
+   "code": "T-EX1",
+   "name": "ห้องตรวจแพทย์แผนไทย 1",
+   "short_name": "ห้องตรวจ 1",
+   "kind": "service",
+   "polygon": [
+    [
+     14.0,
+     22.3
+    ],
+    [
+     31.5,
+     22.3
+    ],
+    [
+     31.5,
+     31.1
+    ],
+    [
+     14.0,
+     31.1
+    ]
+   ],
+   "door_node_id": "t_d_ex1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "t_ex2",
+   "floor_id": "flr_thaimed_1",
+   "code": "T-EX2",
+   "name": "ห้องตรวจแพทย์แผนไทย 2",
+   "short_name": "ห้องตรวจ 2",
+   "kind": "service",
+   "polygon": [
+    [
+     14.0,
+     13.5
+    ],
+    [
+     31.5,
+     13.5
+    ],
+    [
+     31.5,
+     22.3
+    ],
+    [
+     14.0,
+     22.3
+    ]
+   ],
+   "door_node_id": "t_d_ex2",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "w",
+   "decor": null
+  },
+  {
+   "id": "t_hx1",
+   "floor_id": "flr_thaimed_1",
+   "code": "T-HX1",
+   "name": "ซักประวัติ 1 แผนไทย",
+   "short_name": "ซักประวัติ 1",
+   "kind": "counter",
+   "polygon": [
+    [
+     22.6,
+     37.0
+    ],
+    [
+     31.2,
+     37.0
+    ],
+    [
+     31.2,
+     39.7
+    ],
+    [
+     22.6,
+     39.7
+    ]
+   ],
+   "door_node_id": "t_d_hx1",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "t_scr",
+   "floor_id": "flr_thaimed_1",
+   "code": "T-SCR",
+   "name": "จุดคัดกรอง แผนไทย",
+   "short_name": "คัดกรอง",
+   "kind": "counter",
+   "polygon": [
+    [
+     14.0,
+     37.0
+    ],
+    [
+     22.6,
+     37.0
+    ],
+    [
+     22.6,
+     39.7
+    ],
+    [
+     14.0,
+     39.7
+    ]
+   ],
+   "door_node_id": "t_d_scr",
+   "color": null,
+   "capacity": 3,
+   "seats": false,
+   "desk": "n",
+   "decor": null
+  },
+  {
+   "id": "t_wait",
+   "floor_id": "flr_thaimed_1",
+   "code": "T-W",
+   "name": "ห้องรอพบแพทย์ แผนไทย",
+   "short_name": "รอพบแพทย์",
+   "kind": "waiting",
+   "polygon": [
+    [
+     13.4,
+     45.4
+    ],
+    [
+     31.4,
+     45.4
+    ],
+    [
+     31.4,
+     53.8
+    ],
+    [
+     13.4,
+     53.8
+    ]
+   ],
+   "door_node_id": "t_d_wait",
+   "color": null,
+   "capacity": 30,
+   "seats": true,
+   "desk": null,
+   "decor": null
+  }
+ ],
+ "nodes": [
+  {
+   "id": "a115",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 3.2,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a170",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 7.6,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a220",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 11.6,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a260",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 14.8,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a300",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 18.0,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a420",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 27.6,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a442",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 29.4,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a555",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 38.4,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a646",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 45.7,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a785",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 56.8,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a95",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 1.6,
+   "y": 13.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c140",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 54.8,
+   "y": 8.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c192",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 54.8,
+   "y": 13.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c262",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 54.8,
+   "y": 18.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c332",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 54.8,
+   "y": 24.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c355",
+   "floor_id": "flr_ari_1",
+   "kind": "junction",
+   "x": 54.8,
+   "y": 26.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c405",
+   "floor_id": "flr_ari_1",
+   "kind": "junction",
+   "x": 54.8,
+   "y": 30.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c506",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 54.8,
+   "y": 38.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c640",
+   "floor_id": "flr_ari_1",
+   "kind": "junction",
+   "x": 54.8,
+   "y": 48.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_c660",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 54.8,
+   "y": 50.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_d_doc",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 57.9,
+   "y": 24.2,
+   "name": "หน้าคอมหมอ",
+   "link_group": null
+  },
+  {
+   "id": "a_d_ex1",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 66.6,
+   "y": 44.8,
+   "name": "หน้าห้องตรวจ 1 (ARI)",
+   "link_group": null
+  },
+  {
+   "id": "a_d_ex2",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 66.6,
+   "y": 37.4,
+   "name": "หน้าห้องตรวจ 2 (ARI)",
+   "link_group": null
+  },
+  {
+   "id": "a_d_ex3",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 66.6,
+   "y": 30.1,
+   "name": "หน้าห้องตรวจ 3 (ARI)",
+   "link_group": null
+  },
+  {
+   "id": "a_d_he",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 52.2,
+   "y": 30.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_d_hw",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 18.4,
+   "y": 30.0,
+   "name": "ทางเข้าห้องรอพบแพทย์",
+   "link_group": null
+  },
+  {
+   "id": "a_d_hx1",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 57.9,
+   "y": 18.6,
+   "name": "หน้าซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "a_d_ph",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 57.4,
+   "y": 50.4,
+   "name": "จุดรับยา ARI",
+   "link_group": null
+  },
+  {
+   "id": "a_d_scr",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 57.8,
+   "y": 13.0,
+   "name": "หน้าจุดคัดกรอง",
+   "link_group": null
+  },
+  {
+   "id": "a_d_ws",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 57.3,
+   "y": 38.1,
+   "name": "จุดรอหน้าห้องตรวจ",
+   "link_group": null
+  },
+  {
+   "id": "a_d_xr",
+   "floor_id": "flr_ari_1",
+   "kind": "door",
+   "x": 55.6,
+   "y": 7.6,
+   "name": "หน้าห้อง X-ray",
+   "link_group": null
+  },
+  {
+   "id": "a_e230",
+   "floor_id": "flr_ari_1",
+   "kind": "junction",
+   "x": 16.0,
+   "y": 30.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_ent",
+   "floor_id": "flr_ari_1",
+   "kind": "entrance",
+   "x": 0.0,
+   "y": 30.0,
+   "name": "ทางเข้า-ออก ARI",
+   "link_group": null
+  },
+  {
+   "id": "a_x355",
+   "floor_id": "flr_ari_1",
+   "kind": "junction",
+   "x": 66.4,
+   "y": 26.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_x406",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 66.4,
+   "y": 30.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_x498",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 66.4,
+   "y": 37.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_x590",
+   "floor_id": "flr_ari_1",
+   "kind": "corridor",
+   "x": 66.4,
+   "y": 44.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "a_x640",
+   "floor_id": "flr_ari_1",
+   "kind": "junction",
+   "x": 66.4,
+   "y": 48.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "b398",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 25.8,
+   "y": 34.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "b447",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 29.8,
+   "y": 34.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "b463",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 31.0,
+   "y": 34.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "b541",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 37.3,
+   "y": 34.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c246",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 13.7,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c271",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 15.7,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c288",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 17.0,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c327",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 20.2,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c365",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 23.2,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c404",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 26.3,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c442",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 29.4,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c481",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 32.5,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c520",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 35.6,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c559",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 38.7,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c597",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 41.8,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c628",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 44.2,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_bw1",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 15.5,
+   "y": 30.2,
+   "name": "ทางเข้าห้องรอพบแพทย์",
+   "link_group": null
+  },
+  {
+   "id": "d_bw2",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 29.8,
+   "y": 33.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_card",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 12.5,
+   "y": 46.2,
+   "name": "หน้าห้องบัตร",
+   "link_group": null
+  },
+  {
+   "id": "d_d_ex1",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 18.0,
+   "y": 36.9,
+   "name": "หน้าห้องตรวจ 1 (ทันตกรรม)",
+   "link_group": null
+  },
+  {
+   "id": "d_d_ex2",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 18.0,
+   "y": 29.2,
+   "name": "หน้าห้องตรวจ 2 (ทันตกรรม)",
+   "link_group": null
+  },
+  {
+   "id": "d_d_ex3",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 18.0,
+   "y": 21.4,
+   "name": "หน้าห้องตรวจ 3 (ทันตกรรม)",
+   "link_group": null
+  },
+  {
+   "id": "d_d_ex4",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 18.0,
+   "y": 13.6,
+   "name": "หน้าห้องตรวจ 4 (ทันตกรรม)",
+   "link_group": null
+  },
+  {
+   "id": "d_d_hx1",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 14.1,
+   "y": 46.6,
+   "name": "หน้าซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "d_d_scr",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 6.4,
+   "y": 46.6,
+   "name": "หน้าจุดคัดกรอง",
+   "link_group": null
+  },
+  {
+   "id": "d_d_wb",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 14.1,
+   "y": 51.7,
+   "name": "ทางเข้าห้องรอ (ด้านล่าง)",
+   "link_group": null
+  },
+  {
+   "id": "d_d_wr",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 20.3,
+   "y": 21.4,
+   "name": "ทางเข้าห้องรอหน้าห้องตรวจ",
+   "link_group": null
+  },
+  {
+   "id": "d_d_xr",
+   "floor_id": "flr_dental_1",
+   "kind": "door",
+   "x": 18.0,
+   "y": 5.8,
+   "name": "หน้าห้อง X-ray ทันตกรรม",
+   "link_group": null
+  },
+  {
+   "id": "d_ent",
+   "floor_id": "flr_dental_1",
+   "kind": "entrance",
+   "x": 30.4,
+   "y": 45.4,
+   "name": "ทางเข้า-ออก ทันตกรรม",
+   "link_group": null
+  },
+  {
+   "id": "d_er",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 18.0,
+   "y": 12.3,
+   "name": "หน้า ER",
+   "link_group": null
+  },
+  {
+   "id": "d_erw",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 27.6,
+   "y": 8.7,
+   "name": "หน้าจุดรอ ER",
+   "link_group": null
+  },
+  {
+   "id": "d_ex1",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 20.2,
+   "y": 44.5,
+   "name": "หน้าห้องตรวจ 1",
+   "link_group": null
+  },
+  {
+   "id": "d_ex2",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 26.3,
+   "y": 44.5,
+   "name": "หน้าห้องตรวจ 2",
+   "link_group": null
+  },
+  {
+   "id": "d_ex3",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 32.5,
+   "y": 44.5,
+   "name": "หน้าห้องตรวจ 3",
+   "link_group": null
+  },
+  {
+   "id": "d_ex4",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 38.7,
+   "y": 44.5,
+   "name": "หน้าห้องตรวจ 4",
+   "link_group": null
+  },
+  {
+   "id": "d_ex9",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 12.5,
+   "y": 52.2,
+   "name": "หน้าห้องตรวจ 9",
+   "link_group": null
+  },
+  {
+   "id": "d_exw1",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 17.0,
+   "y": 37.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_exw2",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 23.2,
+   "y": 37.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_exw3",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 29.4,
+   "y": 37.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_exw4",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 35.6,
+   "y": 37.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_exw5",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 41.8,
+   "y": 37.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_exw9",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 15.7,
+   "y": 44.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_fin",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 47.4,
+   "y": 22.7,
+   "name": "หน้าห้องเก็บเงิน",
+   "link_group": null
+  },
+  {
+   "id": "d_h140",
+   "floor_id": "flr_dental_1",
+   "kind": "corridor",
+   "x": 6.4,
+   "y": 49.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_h236",
+   "floor_id": "flr_dental_1",
+   "kind": "junction",
+   "x": 14.1,
+   "y": 49.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_hx1",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 14.1,
+   "y": 21.1,
+   "name": "หน้าซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "d_hx2",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 14.1,
+   "y": 25.6,
+   "name": "หน้าซักประวัติ 2",
+   "link_group": null
+  },
+  {
+   "id": "d_hx3",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 14.1,
+   "y": 30.2,
+   "name": "หน้าซักประวัติ 3",
+   "link_group": null
+  },
+  {
+   "id": "d_lab",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 44.2,
+   "y": 44.5,
+   "name": "หน้าห้อง LAB",
+   "link_group": null
+  },
+  {
+   "id": "d_lw",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 3.2,
+   "y": 15.5,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_ph",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 47.4,
+   "y": 34.1,
+   "name": "หน้าห้องยา",
+   "link_group": null
+  },
+  {
+   "id": "d_post4",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 25.9,
+   "y": 34.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_post5",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 31.0,
+   "y": 34.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_post6",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 37.3,
+   "y": 34.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_proc",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 30.2,
+   "y": 5.0,
+   "name": "หน้าห้องหัตถการ",
+   "link_group": null
+  },
+  {
+   "id": "d_q",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 10.6,
+   "y": 27.4,
+   "name": "หน้าจุดเปิดบัตรคิว",
+   "link_group": null
+  },
+  {
+   "id": "d_scr",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 7.6,
+   "y": 15.5,
+   "name": "หน้าจุดคัดกรอง",
+   "link_group": null
+  },
+  {
+   "id": "d_v185",
+   "floor_id": "flr_dental_1",
+   "kind": "corridor",
+   "x": 19.2,
+   "y": 13.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_v282",
+   "floor_id": "flr_dental_1",
+   "kind": "junction",
+   "x": 19.2,
+   "y": 21.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_v380",
+   "floor_id": "flr_dental_1",
+   "kind": "corridor",
+   "x": 19.2,
+   "y": 29.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_v476",
+   "floor_id": "flr_dental_1",
+   "kind": "corridor",
+   "x": 19.2,
+   "y": 36.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_v545",
+   "floor_id": "flr_dental_1",
+   "kind": "junction",
+   "x": 19.2,
+   "y": 42.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_v583",
+   "floor_id": "flr_dental_1",
+   "kind": "junction",
+   "x": 19.2,
+   "y": 45.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_v630",
+   "floor_id": "flr_dental_1",
+   "kind": "junction",
+   "x": 19.2,
+   "y": 49.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_v88",
+   "floor_id": "flr_dental_1",
+   "kind": "corridor",
+   "x": 19.2,
+   "y": 5.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "d_xr",
+   "floor_id": "flr_opd_1",
+   "kind": "door",
+   "x": 38.4,
+   "y": 12.3,
+   "name": "หน้าห้อง X-ray",
+   "link_group": null
+  },
+  {
+   "id": "ent",
+   "floor_id": "flr_opd_1",
+   "kind": "entrance",
+   "x": 0.0,
+   "y": 13.9,
+   "name": "ทางเข้า-ออก (ฝั่ง ER / จุดคัดกรอง)",
+   "link_group": null
+  },
+  {
+   "id": "h_d_dent",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 33.8,
+   "y": 39.0,
+   "name": "หน้าห้องตรวจฟัน",
+   "link_group": null
+  },
+  {
+   "id": "h_d_ex1",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 42.8,
+   "y": 33.2,
+   "name": "หน้าห้องตรวจ 1 (ส่งเสริมสุขภาพ)",
+   "link_group": null
+  },
+  {
+   "id": "h_d_ex2",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 42.8,
+   "y": 25.5,
+   "name": "หน้าห้องตรวจ 2 (ส่งเสริมสุขภาพ)",
+   "link_group": null
+  },
+  {
+   "id": "h_d_ex3",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 42.8,
+   "y": 17.8,
+   "name": "หน้าห้องตรวจ 3 (ส่งเสริมสุขภาพ)",
+   "link_group": null
+  },
+  {
+   "id": "h_d_ex4",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 42.8,
+   "y": 10.2,
+   "name": "หน้าห้องตรวจ 4 (ส่งเสริมสุขภาพ)",
+   "link_group": null
+  },
+  {
+   "id": "h_d_hx1",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 37.4,
+   "y": 29.4,
+   "name": "หน้าซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "h_d_hx2",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 37.4,
+   "y": 13.0,
+   "name": "หน้าซักประวัติ 2",
+   "link_group": null
+  },
+  {
+   "id": "h_d_scr",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 18.6,
+   "y": 33.7,
+   "name": "หน้าจุดคัดกรอง",
+   "link_group": null
+  },
+  {
+   "id": "h_d_sw1",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 33.8,
+   "y": 29.4,
+   "name": "จุดรอซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "h_d_sw2",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 33.8,
+   "y": 13.0,
+   "name": "จุดรอซักประวัติ 2",
+   "link_group": null
+  },
+  {
+   "id": "h_d_wb",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 14.2,
+   "y": 17.6,
+   "name": "ทางเข้าห้องรอพบแพทย์",
+   "link_group": null
+  },
+  {
+   "id": "h_d_wb2",
+   "floor_id": "flr_promo_1",
+   "kind": "door",
+   "x": 30.6,
+   "y": 21.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_e130",
+   "floor_id": "flr_promo_1",
+   "kind": "junction",
+   "x": 41.3,
+   "y": 8.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_e157",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 41.3,
+   "y": 10.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_e253",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 41.3,
+   "y": 17.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_e349",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 41.3,
+   "y": 25.5,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_e445",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 41.3,
+   "y": 33.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_ent1",
+   "floor_id": "flr_promo_1",
+   "kind": "entrance",
+   "x": 0.0,
+   "y": 3.6,
+   "name": "ทางเข้า-ออก (บน)",
+   "link_group": null
+  },
+  {
+   "id": "h_ent2",
+   "floor_id": "flr_promo_1",
+   "kind": "entrance",
+   "x": 0.0,
+   "y": 37.6,
+   "name": "ทางเข้า-ออก (ล่าง)",
+   "link_group": null
+  },
+  {
+   "id": "h_m130",
+   "floor_id": "flr_promo_1",
+   "kind": "junction",
+   "x": 32.4,
+   "y": 8.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_m192",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 32.4,
+   "y": 13.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_m300",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 32.4,
+   "y": 21.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_m397",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 32.4,
+   "y": 29.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_r272",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 18.6,
+   "y": 36.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_r445",
+   "floor_id": "flr_promo_1",
+   "kind": "junction",
+   "x": 32.4,
+   "y": 36.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_r462",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 33.8,
+   "y": 36.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_r556",
+   "floor_id": "flr_promo_1",
+   "kind": "junction",
+   "x": 41.3,
+   "y": 36.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_w250",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 12.0,
+   "y": 17.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_w480",
+   "floor_id": "flr_promo_1",
+   "kind": "junction",
+   "x": 12.0,
+   "y": 36.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_w500",
+   "floor_id": "flr_promo_1",
+   "kind": "corridor",
+   "x": 12.0,
+   "y": 37.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "h_w75",
+   "floor_id": "flr_promo_1",
+   "kind": "junction",
+   "x": 12.0,
+   "y": 3.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k626",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 13.7,
+   "y": 46.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k700",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 13.7,
+   "y": 52.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_ex1",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 47.8,
+   "y": 13.4,
+   "name": "หน้าห้องตรวจ 1 (คลินิกพิเศษ)",
+   "link_group": null
+  },
+  {
+   "id": "k_d_ex2",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 56.6,
+   "y": 13.4,
+   "name": "หน้าห้องตรวจ 2 (คลินิกพิเศษ)",
+   "link_group": null
+  },
+  {
+   "id": "k_d_ex3",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 58.2,
+   "y": 13.4,
+   "name": "หน้าห้องตรวจ 3 (คลินิกพิเศษ)",
+   "link_group": null
+  },
+  {
+   "id": "k_d_ex4",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 63.5,
+   "y": 13.4,
+   "name": "หน้าห้องตรวจ 4 (คลินิกพิเศษ)",
+   "link_group": null
+  },
+  {
+   "id": "k_d_hx1",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 27.9,
+   "y": 31.0,
+   "name": "หน้าซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "k_d_hx2",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 34.0,
+   "y": 14.9,
+   "name": "หน้าซักประวัติ 2",
+   "link_group": null
+  },
+  {
+   "id": "k_d_hx3",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 39.8,
+   "y": 14.9,
+   "name": "หน้าซักประวัติ 3",
+   "link_group": null
+  },
+  {
+   "id": "k_d_hx4",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 44.2,
+   "y": 14.9,
+   "name": "หน้าซักประวัติ 4",
+   "link_group": null
+  },
+  {
+   "id": "k_d_ph",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 74.4,
+   "y": 7.3,
+   "name": "ช่องรับยากลับบ้าน",
+   "link_group": null
+  },
+  {
+   "id": "k_d_post5",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 49.8,
+   "y": 14.7,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_post6",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 53.4,
+   "y": 14.7,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_post7",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 60.2,
+   "y": 14.7,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_post8",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 65.4,
+   "y": 14.7,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_post9",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 63.4,
+   "y": 30.3,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_scr",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 27.9,
+   "y": 16.6,
+   "name": "หน้าจุดคัดกรอง",
+   "link_group": null
+  },
+  {
+   "id": "k_d_sw1",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 47.0,
+   "y": 19.3,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_sw2",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 55.8,
+   "y": 19.3,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_sw3",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 57.5,
+   "y": 19.3,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_sw4",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 62.9,
+   "y": 19.3,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_wl",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 25.5,
+   "y": 20.8,
+   "name": "ทางเข้าห้องรอ (ซ้าย)",
+   "link_group": null
+  },
+  {
+   "id": "k_d_wm",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 44.2,
+   "y": 22.6,
+   "name": "ทางเข้าห้องรอ (กลาง)",
+   "link_group": null
+  },
+  {
+   "id": "k_d_wm2",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 31.2,
+   "y": 32.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_wm3",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 57.7,
+   "y": 32.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_d_wr",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 67.8,
+   "y": 20.8,
+   "name": "ทางเข้าห้องรอ (ขวา)",
+   "link_group": null
+  },
+  {
+   "id": "k_d_wr2",
+   "floor_id": "flr_clinic_1",
+   "kind": "door",
+   "x": 74.4,
+   "y": 7.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_ent",
+   "floor_id": "flr_clinic_1",
+   "kind": "entrance",
+   "x": 28.8,
+   "y": 0.0,
+   "name": "ทางเข้าคลินิกพิเศษ",
+   "link_group": null
+  },
+  {
+   "id": "k_exit",
+   "floor_id": "flr_clinic_1",
+   "kind": "exit",
+   "x": 66.4,
+   "y": 0.0,
+   "name": "ทางออก (รับยากลับบ้าน)",
+   "link_group": null
+  },
+  {
+   "id": "k_h465",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 34.0,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h538",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 39.8,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h593",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 44.2,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h628",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 47.0,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h637",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 47.8,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h663",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 49.8,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h708",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 53.4,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h738",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 55.8,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h748",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 56.6,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h759",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 57.5,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h768",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 58.2,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h792",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 60.2,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h826",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 62.9,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h834",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 63.5,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h857",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 65.4,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_h860",
+   "floor_id": "flr_clinic_1",
+   "kind": "junction",
+   "x": 65.6,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_p870",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 66.4,
+   "y": 7.3,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_t400",
+   "floor_id": "flr_clinic_1",
+   "kind": "junction",
+   "x": 28.8,
+   "y": 4.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_t593",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 44.2,
+   "y": 4.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_t870",
+   "floor_id": "flr_clinic_1",
+   "kind": "junction",
+   "x": 66.4,
+   "y": 4.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_v247",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 28.8,
+   "y": 16.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_v300",
+   "floor_id": "flr_clinic_1",
+   "kind": "junction",
+   "x": 28.8,
+   "y": 20.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_v428",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 28.8,
+   "y": 31.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_v450",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 28.8,
+   "y": 32.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_w419",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 65.6,
+   "y": 30.3,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "k_w450",
+   "floor_id": "flr_clinic_1",
+   "kind": "corridor",
+   "x": 65.6,
+   "y": 32.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "l390",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 11.6,
+   "y": 27.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "l512",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 11.6,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "m311",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 14.8,
+   "y": 21.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "m368",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 14.8,
+   "y": 25.6,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "m425",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 14.8,
+   "y": 30.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "m474",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 14.8,
+   "y": 34.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p442",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 29.4,
+   "y": 5.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_d_beds",
+   "floor_id": "flr_physio_1",
+   "kind": "door",
+   "x": 27.8,
+   "y": 33.9,
+   "name": "ทางเข้าเตียงกายภาพ",
+   "link_group": null
+  },
+  {
+   "id": "p_d_hx1",
+   "floor_id": "flr_physio_1",
+   "kind": "door",
+   "x": 40.5,
+   "y": 36.5,
+   "name": "หน้าซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "p_d_scr",
+   "floor_id": "flr_physio_1",
+   "kind": "door",
+   "x": 18.6,
+   "y": 50.4,
+   "name": "หน้าจุดคัดกรอง",
+   "link_group": null
+  },
+  {
+   "id": "p_d_staff",
+   "floor_id": "flr_physio_1",
+   "kind": "door",
+   "x": 43.2,
+   "y": 41.9,
+   "name": "ห้องพักนักกายภาพ",
+   "link_group": null
+  },
+  {
+   "id": "p_d_wl",
+   "floor_id": "flr_physio_1",
+   "kind": "door",
+   "x": 13.0,
+   "y": 50.4,
+   "name": "จุดรอ (ฝั่งตะวันตก)",
+   "link_group": null
+  },
+  {
+   "id": "p_d_ws",
+   "floor_id": "flr_physio_1",
+   "kind": "door",
+   "x": 27.8,
+   "y": 38.2,
+   "name": "จุดรอหน้าเตียงกายภาพ",
+   "link_group": null
+  },
+  {
+   "id": "p_e800",
+   "floor_id": "flr_physio_1",
+   "kind": "junction",
+   "x": 48.6,
+   "y": 63.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_ent_s",
+   "floor_id": "flr_physio_1",
+   "kind": "entrance",
+   "x": 32.0,
+   "y": 65.6,
+   "name": "ทางเข้า-ออก (ด้านล่าง)",
+   "link_group": null
+  },
+  {
+   "id": "p_ent_w",
+   "floor_id": "flr_physio_1",
+   "kind": "entrance",
+   "x": 0.0,
+   "y": 45.0,
+   "name": "ทางเข้า-ออก (ฝั่งตะวันตก)",
+   "link_group": null
+  },
+  {
+   "id": "p_r387",
+   "floor_id": "flr_physio_1",
+   "kind": "junction",
+   "x": 27.8,
+   "y": 37.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_r546",
+   "floor_id": "flr_physio_1",
+   "kind": "corridor",
+   "x": 40.5,
+   "y": 37.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_r580",
+   "floor_id": "flr_physio_1",
+   "kind": "corridor",
+   "x": 43.2,
+   "y": 37.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_r648",
+   "floor_id": "flr_physio_1",
+   "kind": "junction",
+   "x": 48.6,
+   "y": 37.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_s800",
+   "floor_id": "flr_physio_1",
+   "kind": "corridor",
+   "x": 32.0,
+   "y": 63.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_w475",
+   "floor_id": "flr_physio_1",
+   "kind": "junction",
+   "x": 16.0,
+   "y": 37.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_w572",
+   "floor_id": "flr_physio_1",
+   "kind": "junction",
+   "x": 16.0,
+   "y": 45.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "p_w640",
+   "floor_id": "flr_physio_1",
+   "kind": "corridor",
+   "x": 16.0,
+   "y": 50.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "r332",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 45.7,
+   "y": 22.7,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "r370",
+   "floor_id": "flr_opd_1",
+   "kind": "corridor",
+   "x": 45.7,
+   "y": 25.8,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "r474",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 45.7,
+   "y": 34.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "r512",
+   "floor_id": "flr_opd_1",
+   "kind": "junction",
+   "x": 45.7,
+   "y": 37.1,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_c244",
+   "floor_id": "flr_thaimed_1",
+   "kind": "corridor",
+   "x": 33.9,
+   "y": 17.9,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_c354",
+   "floor_id": "flr_thaimed_1",
+   "kind": "corridor",
+   "x": 33.9,
+   "y": 26.7,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_c400",
+   "floor_id": "flr_thaimed_1",
+   "kind": "corridor",
+   "x": 33.9,
+   "y": 30.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_d_beds",
+   "floor_id": "flr_thaimed_1",
+   "kind": "door",
+   "x": 36.3,
+   "y": 30.4,
+   "name": "ทางเข้าเตียงแผนไทย",
+   "link_group": null
+  },
+  {
+   "id": "t_d_ex1",
+   "floor_id": "flr_thaimed_1",
+   "kind": "door",
+   "x": 31.5,
+   "y": 26.7,
+   "name": "หน้าห้องตรวจ 1 (แผนไทย)",
+   "link_group": null
+  },
+  {
+   "id": "t_d_ex2",
+   "floor_id": "flr_thaimed_1",
+   "kind": "door",
+   "x": 31.5,
+   "y": 17.9,
+   "name": "หน้าห้องตรวจ 2 (แผนไทย)",
+   "link_group": null
+  },
+  {
+   "id": "t_d_hx1",
+   "floor_id": "flr_thaimed_1",
+   "kind": "door",
+   "x": 26.9,
+   "y": 39.7,
+   "name": "หน้าซักประวัติ 1",
+   "link_group": null
+  },
+  {
+   "id": "t_d_scr",
+   "floor_id": "flr_thaimed_1",
+   "kind": "door",
+   "x": 18.2,
+   "y": 39.7,
+   "name": "หน้าจุดคัดกรอง",
+   "link_group": null
+  },
+  {
+   "id": "t_d_wait",
+   "floor_id": "flr_thaimed_1",
+   "kind": "door",
+   "x": 22.4,
+   "y": 45.4,
+   "name": "ทางเข้าห้องรอ",
+   "link_group": null
+  },
+  {
+   "id": "t_ent",
+   "floor_id": "flr_thaimed_1",
+   "kind": "entrance",
+   "x": 0.0,
+   "y": 42.2,
+   "name": "ทางเข้า-ออก แพทย์แผนไทย",
+   "link_group": null
+  },
+  {
+   "id": "t_r180",
+   "floor_id": "flr_thaimed_1",
+   "kind": "corridor",
+   "x": 12.0,
+   "y": 42.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_r258",
+   "floor_id": "flr_thaimed_1",
+   "kind": "corridor",
+   "x": 18.2,
+   "y": 42.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_r310",
+   "floor_id": "flr_thaimed_1",
+   "kind": "corridor",
+   "x": 22.4,
+   "y": 42.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_r366",
+   "floor_id": "flr_thaimed_1",
+   "kind": "corridor",
+   "x": 26.9,
+   "y": 42.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "t_r454",
+   "floor_id": "flr_thaimed_1",
+   "kind": "junction",
+   "x": 33.9,
+   "y": 42.2,
+   "name": null,
+   "link_group": null
+  }
+ ],
+ "edges": [
+  {
+   "id": "e_a115_a170",
+   "node_a": "a115",
+   "node_b": "a170",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a115_d_lw",
+   "node_a": "a115",
+   "node_b": "d_lw",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a170_a220",
+   "node_a": "a170",
+   "node_b": "a220",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a170_d_scr",
+   "node_a": "a170",
+   "node_b": "d_scr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a220_a260",
+   "node_a": "a220",
+   "node_b": "a260",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a220_l390",
+   "node_a": "a220",
+   "node_b": "l390",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a260_a300",
+   "node_a": "a260",
+   "node_b": "a300",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a260_m311",
+   "node_a": "a260",
+   "node_b": "m311",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a300_a420",
+   "node_a": "a300",
+   "node_b": "a420",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a300_d_er",
+   "node_a": "a300",
+   "node_b": "d_er",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a420_a442",
+   "node_a": "a420",
+   "node_b": "a442",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a420_d_erw",
+   "node_a": "a420",
+   "node_b": "d_erw",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a442_a555",
+   "node_a": "a442",
+   "node_b": "a555",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a442_p442",
+   "node_a": "a442",
+   "node_b": "p442",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a555_a646",
+   "node_a": "a555",
+   "node_b": "a646",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a555_d_xr",
+   "node_a": "a555",
+   "node_b": "d_xr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a646_a785",
+   "node_a": "a646",
+   "node_b": "a785",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a646_r332",
+   "node_a": "a646",
+   "node_b": "r332",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a95_a115",
+   "node_a": "a95",
+   "node_b": "a115",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c140_a_c192",
+   "node_a": "a_c140",
+   "node_b": "a_c192",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c140_a_d_xr",
+   "node_a": "a_c140",
+   "node_b": "a_d_xr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c192_a_c262",
+   "node_a": "a_c192",
+   "node_b": "a_c262",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c192_a_d_scr",
+   "node_a": "a_c192",
+   "node_b": "a_d_scr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c262_a_c332",
+   "node_a": "a_c262",
+   "node_b": "a_c332",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c262_a_d_hx1",
+   "node_a": "a_c262",
+   "node_b": "a_d_hx1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c332_a_c355",
+   "node_a": "a_c332",
+   "node_b": "a_c355",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c332_a_d_doc",
+   "node_a": "a_c332",
+   "node_b": "a_d_doc",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c355_a_c405",
+   "node_a": "a_c355",
+   "node_b": "a_c405",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c355_a_x355",
+   "node_a": "a_c355",
+   "node_b": "a_x355",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c405_a_c506",
+   "node_a": "a_c405",
+   "node_b": "a_c506",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c506_a_c640",
+   "node_a": "a_c506",
+   "node_b": "a_c640",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c506_a_d_ws",
+   "node_a": "a_c506",
+   "node_b": "a_d_ws",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c640_a_c660",
+   "node_a": "a_c640",
+   "node_b": "a_c660",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c640_a_x640",
+   "node_a": "a_c640",
+   "node_b": "a_x640",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_c660_a_d_ph",
+   "node_a": "a_c660",
+   "node_b": "a_d_ph",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_d_he_a_c405",
+   "node_a": "a_d_he",
+   "node_b": "a_c405",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_d_hw_a_d_he",
+   "node_a": "a_d_hw",
+   "node_b": "a_d_he",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_e230_a_d_hw",
+   "node_a": "a_e230",
+   "node_b": "a_d_hw",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_ent_a_e230",
+   "node_a": "a_ent",
+   "node_b": "a_e230",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_x355_a_x406",
+   "node_a": "a_x355",
+   "node_b": "a_x406",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_x406_a_d_ex3",
+   "node_a": "a_x406",
+   "node_b": "a_d_ex3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_x406_a_x498",
+   "node_a": "a_x406",
+   "node_b": "a_x498",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_x498_a_d_ex2",
+   "node_a": "a_x498",
+   "node_b": "a_d_ex2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_x498_a_x590",
+   "node_a": "a_x498",
+   "node_b": "a_x590",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_x590_a_d_ex1",
+   "node_a": "a_x590",
+   "node_b": "a_d_ex1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_a_x590_a_x640",
+   "node_a": "a_x590",
+   "node_b": "a_x640",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b398_b447",
+   "node_a": "b398",
+   "node_b": "b447",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b398_d_post4",
+   "node_a": "b398",
+   "node_b": "d_post4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b447_b463",
+   "node_a": "b447",
+   "node_b": "b463",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b447_d_bw2",
+   "node_a": "b447",
+   "node_b": "d_bw2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b463_b541",
+   "node_a": "b463",
+   "node_b": "b541",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b463_d_post5",
+   "node_a": "b463",
+   "node_b": "d_post5",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b541_d_post6",
+   "node_a": "b541",
+   "node_b": "d_post6",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_b541_r474",
+   "node_a": "b541",
+   "node_b": "r474",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c246_c271",
+   "node_a": "c246",
+   "node_b": "c271",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c246_k626",
+   "node_a": "c246",
+   "node_b": "k626",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c271_c288",
+   "node_a": "c271",
+   "node_b": "c288",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c271_d_exw9",
+   "node_a": "c271",
+   "node_b": "d_exw9",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c288_c327",
+   "node_a": "c288",
+   "node_b": "c327",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c288_d_exw1",
+   "node_a": "c288",
+   "node_b": "d_exw1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c327_c365",
+   "node_a": "c327",
+   "node_b": "c365",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c327_d_ex1",
+   "node_a": "c327",
+   "node_b": "d_ex1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c365_c404",
+   "node_a": "c365",
+   "node_b": "c404",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c365_d_exw2",
+   "node_a": "c365",
+   "node_b": "d_exw2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c404_c442",
+   "node_a": "c404",
+   "node_b": "c442",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c404_d_ex2",
+   "node_a": "c404",
+   "node_b": "d_ex2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c442_c481",
+   "node_a": "c442",
+   "node_b": "c481",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c442_d_exw3",
+   "node_a": "c442",
+   "node_b": "d_exw3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c481_c520",
+   "node_a": "c481",
+   "node_b": "c520",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c481_d_ex3",
+   "node_a": "c481",
+   "node_b": "d_ex3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c520_c559",
+   "node_a": "c520",
+   "node_b": "c559",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c520_d_exw4",
+   "node_a": "c520",
+   "node_b": "d_exw4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c559_c597",
+   "node_a": "c559",
+   "node_b": "c597",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c559_d_ex4",
+   "node_a": "c559",
+   "node_b": "d_ex4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c597_c628",
+   "node_a": "c597",
+   "node_b": "c628",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c597_d_exw5",
+   "node_a": "c597",
+   "node_b": "d_exw5",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c628_d_lab",
+   "node_a": "c628",
+   "node_b": "d_lab",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c628_r512",
+   "node_a": "c628",
+   "node_b": "r512",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_bw1_d_bw2",
+   "node_a": "d_bw1",
+   "node_b": "d_bw2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_ent_d_v583",
+   "node_a": "d_ent",
+   "node_b": "d_v583",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_h140_d_d_scr",
+   "node_a": "d_h140",
+   "node_b": "d_d_scr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_h140_d_h236",
+   "node_a": "d_h140",
+   "node_b": "d_h236",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_h236_d_d_hx1",
+   "node_a": "d_h236",
+   "node_b": "d_d_hx1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_h236_d_d_wb",
+   "node_a": "d_h236",
+   "node_b": "d_d_wb",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_h236_d_v630",
+   "node_a": "d_h236",
+   "node_b": "d_v630",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v185_d_d_ex4",
+   "node_a": "d_v185",
+   "node_b": "d_d_ex4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v185_d_v282",
+   "node_a": "d_v185",
+   "node_b": "d_v282",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v282_d_d_ex3",
+   "node_a": "d_v282",
+   "node_b": "d_d_ex3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v282_d_d_wr",
+   "node_a": "d_v282",
+   "node_b": "d_d_wr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v282_d_v380",
+   "node_a": "d_v282",
+   "node_b": "d_v380",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v380_d_d_ex2",
+   "node_a": "d_v380",
+   "node_b": "d_d_ex2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v380_d_v476",
+   "node_a": "d_v380",
+   "node_b": "d_v476",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v476_d_d_ex1",
+   "node_a": "d_v476",
+   "node_b": "d_d_ex1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v476_d_v545",
+   "node_a": "d_v476",
+   "node_b": "d_v545",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v545_d_v583",
+   "node_a": "d_v545",
+   "node_b": "d_v583",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v583_d_v630",
+   "node_a": "d_v583",
+   "node_b": "d_v630",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v88_d_d_xr",
+   "node_a": "d_v88",
+   "node_b": "d_d_xr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_d_v88_d_v185",
+   "node_a": "d_v88",
+   "node_b": "d_v185",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_ent_a95",
+   "node_a": "ent",
+   "node_b": "a95",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_d_sw1_h_d_hx1",
+   "node_a": "h_d_sw1",
+   "node_b": "h_d_hx1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_d_sw2_h_d_hx2",
+   "node_a": "h_d_sw2",
+   "node_b": "h_d_hx2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_d_wb_h_d_wb2",
+   "node_a": "h_d_wb",
+   "node_b": "h_d_wb2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e130_h_e157",
+   "node_a": "h_e130",
+   "node_b": "h_e157",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e157_h_d_ex4",
+   "node_a": "h_e157",
+   "node_b": "h_d_ex4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e157_h_e253",
+   "node_a": "h_e157",
+   "node_b": "h_e253",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e253_h_d_ex3",
+   "node_a": "h_e253",
+   "node_b": "h_d_ex3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e253_h_e349",
+   "node_a": "h_e253",
+   "node_b": "h_e349",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e349_h_d_ex2",
+   "node_a": "h_e349",
+   "node_b": "h_d_ex2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e349_h_e445",
+   "node_a": "h_e349",
+   "node_b": "h_e445",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e445_h_d_ex1",
+   "node_a": "h_e445",
+   "node_b": "h_d_ex1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_e445_h_r556",
+   "node_a": "h_e445",
+   "node_b": "h_r556",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_ent1_h_w75",
+   "node_a": "h_ent1",
+   "node_b": "h_w75",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_ent2_h_w500",
+   "node_a": "h_ent2",
+   "node_b": "h_w500",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m130_h_e130",
+   "node_a": "h_m130",
+   "node_b": "h_e130",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m130_h_m192",
+   "node_a": "h_m130",
+   "node_b": "h_m192",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m192_h_d_sw2",
+   "node_a": "h_m192",
+   "node_b": "h_d_sw2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m192_h_m300",
+   "node_a": "h_m192",
+   "node_b": "h_m300",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m300_h_d_wb2",
+   "node_a": "h_m300",
+   "node_b": "h_d_wb2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m300_h_m397",
+   "node_a": "h_m300",
+   "node_b": "h_m397",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m397_h_d_sw1",
+   "node_a": "h_m397",
+   "node_b": "h_d_sw1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_m397_h_r445",
+   "node_a": "h_m397",
+   "node_b": "h_r445",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_r272_h_d_scr",
+   "node_a": "h_r272",
+   "node_b": "h_d_scr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_r272_h_r445",
+   "node_a": "h_r272",
+   "node_b": "h_r445",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_r445_h_r462",
+   "node_a": "h_r445",
+   "node_b": "h_r462",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_r462_h_d_dent",
+   "node_a": "h_r462",
+   "node_b": "h_d_dent",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_r462_h_r556",
+   "node_a": "h_r462",
+   "node_b": "h_r556",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_w250_h_d_wb",
+   "node_a": "h_w250",
+   "node_b": "h_d_wb",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_w250_h_w480",
+   "node_a": "h_w250",
+   "node_b": "h_w480",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_w480_h_r272",
+   "node_a": "h_w480",
+   "node_b": "h_r272",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_w480_h_w500",
+   "node_a": "h_w480",
+   "node_b": "h_w500",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_h_w75_h_w250",
+   "node_a": "h_w75",
+   "node_b": "h_w250",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k626_d_card",
+   "node_a": "k626",
+   "node_b": "d_card",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k626_k700",
+   "node_a": "k626",
+   "node_b": "k700",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k700_d_ex9",
+   "node_a": "k700",
+   "node_b": "d_ex9",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_d_ph_k_p870",
+   "node_a": "k_d_ph",
+   "node_b": "k_p870",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_d_wm_k_d_wm2",
+   "node_a": "k_d_wm",
+   "node_b": "k_d_wm2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_d_wm_k_d_wm3",
+   "node_a": "k_d_wm",
+   "node_b": "k_d_wm3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_d_wr2_k_d_ph",
+   "node_a": "k_d_wr2",
+   "node_b": "k_d_ph",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_d_wr_k_d_wr2",
+   "node_a": "k_d_wr",
+   "node_b": "k_d_wr2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_ent_k_t400",
+   "node_a": "k_ent",
+   "node_b": "k_t400",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h465_k_d_hx2",
+   "node_a": "k_h465",
+   "node_b": "k_d_hx2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h465_k_h538",
+   "node_a": "k_h465",
+   "node_b": "k_h538",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h538_k_d_hx3",
+   "node_a": "k_h538",
+   "node_b": "k_d_hx3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h538_k_h593",
+   "node_a": "k_h538",
+   "node_b": "k_h593",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h593_k_d_hx4",
+   "node_a": "k_h593",
+   "node_b": "k_d_hx4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h593_k_d_wm",
+   "node_a": "k_h593",
+   "node_b": "k_d_wm",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h593_k_h628",
+   "node_a": "k_h593",
+   "node_b": "k_h628",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h628_k_d_sw1",
+   "node_a": "k_h628",
+   "node_b": "k_d_sw1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h628_k_h637",
+   "node_a": "k_h628",
+   "node_b": "k_h637",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h637_k_d_ex1",
+   "node_a": "k_h637",
+   "node_b": "k_d_ex1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h637_k_h663",
+   "node_a": "k_h637",
+   "node_b": "k_h663",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h663_k_d_post5",
+   "node_a": "k_h663",
+   "node_b": "k_d_post5",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h663_k_h708",
+   "node_a": "k_h663",
+   "node_b": "k_h708",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h708_k_d_post6",
+   "node_a": "k_h708",
+   "node_b": "k_d_post6",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h708_k_h738",
+   "node_a": "k_h708",
+   "node_b": "k_h738",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h738_k_d_sw2",
+   "node_a": "k_h738",
+   "node_b": "k_d_sw2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h738_k_h748",
+   "node_a": "k_h738",
+   "node_b": "k_h748",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h748_k_d_ex2",
+   "node_a": "k_h748",
+   "node_b": "k_d_ex2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h748_k_h759",
+   "node_a": "k_h748",
+   "node_b": "k_h759",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h759_k_d_sw3",
+   "node_a": "k_h759",
+   "node_b": "k_d_sw3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h759_k_h768",
+   "node_a": "k_h759",
+   "node_b": "k_h768",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h768_k_d_ex3",
+   "node_a": "k_h768",
+   "node_b": "k_d_ex3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h768_k_h792",
+   "node_a": "k_h768",
+   "node_b": "k_h792",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h792_k_d_post7",
+   "node_a": "k_h792",
+   "node_b": "k_d_post7",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h792_k_h826",
+   "node_a": "k_h792",
+   "node_b": "k_h826",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h826_k_d_sw4",
+   "node_a": "k_h826",
+   "node_b": "k_d_sw4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h826_k_h834",
+   "node_a": "k_h826",
+   "node_b": "k_h834",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h834_k_d_ex4",
+   "node_a": "k_h834",
+   "node_b": "k_d_ex4",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h834_k_h857",
+   "node_a": "k_h834",
+   "node_b": "k_h857",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h857_k_d_post8",
+   "node_a": "k_h857",
+   "node_b": "k_d_post8",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h857_k_h860",
+   "node_a": "k_h857",
+   "node_b": "k_h860",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h860_k_d_wr",
+   "node_a": "k_h860",
+   "node_b": "k_d_wr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_h860_k_w419",
+   "node_a": "k_h860",
+   "node_b": "k_w419",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_p870_k_t870",
+   "node_a": "k_p870",
+   "node_b": "k_t870",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_t400_k_t593",
+   "node_a": "k_t400",
+   "node_b": "k_t593",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_t400_k_v247",
+   "node_a": "k_t400",
+   "node_b": "k_v247",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_t593_k_t870",
+   "node_a": "k_t593",
+   "node_b": "k_t870",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_t870_k_exit",
+   "node_a": "k_t870",
+   "node_b": "k_exit",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v247_k_d_scr",
+   "node_a": "k_v247",
+   "node_b": "k_d_scr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v247_k_v300",
+   "node_a": "k_v247",
+   "node_b": "k_v300",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v300_k_d_wl",
+   "node_a": "k_v300",
+   "node_b": "k_d_wl",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v300_k_h465",
+   "node_a": "k_v300",
+   "node_b": "k_h465",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v300_k_v428",
+   "node_a": "k_v300",
+   "node_b": "k_v428",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v428_k_d_hx1",
+   "node_a": "k_v428",
+   "node_b": "k_d_hx1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v428_k_v450",
+   "node_a": "k_v428",
+   "node_b": "k_v450",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_v450_k_d_wm2",
+   "node_a": "k_v450",
+   "node_b": "k_d_wm2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_w419_k_d_post9",
+   "node_a": "k_w419",
+   "node_b": "k_d_post9",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_w419_k_w450",
+   "node_a": "k_w419",
+   "node_b": "k_w450",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_k_w450_k_d_wm3",
+   "node_a": "k_w450",
+   "node_b": "k_d_wm3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_l390_d_q",
+   "node_a": "l390",
+   "node_b": "d_q",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_l390_l512",
+   "node_a": "l390",
+   "node_b": "l512",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_l512_c246",
+   "node_a": "l512",
+   "node_b": "c246",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m311_d_hx1",
+   "node_a": "m311",
+   "node_b": "d_hx1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m311_m368",
+   "node_a": "m311",
+   "node_b": "m368",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m368_d_hx2",
+   "node_a": "m368",
+   "node_b": "d_hx2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m368_m425",
+   "node_a": "m368",
+   "node_b": "m425",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m425_d_bw1",
+   "node_a": "m425",
+   "node_b": "d_bw1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m425_d_hx3",
+   "node_a": "m425",
+   "node_b": "d_hx3",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m425_m474",
+   "node_a": "m425",
+   "node_b": "m474",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m474_b398",
+   "node_a": "m474",
+   "node_b": "b398",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_m474_c271",
+   "node_a": "m474",
+   "node_b": "c271",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p442_d_proc",
+   "node_a": "p442",
+   "node_b": "d_proc",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_e800_p_s800",
+   "node_a": "p_e800",
+   "node_b": "p_s800",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_ent_w_p_w572",
+   "node_a": "p_ent_w",
+   "node_b": "p_w572",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r387_p_d_beds",
+   "node_a": "p_r387",
+   "node_b": "p_d_beds",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r387_p_d_ws",
+   "node_a": "p_r387",
+   "node_b": "p_d_ws",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r387_p_r546",
+   "node_a": "p_r387",
+   "node_b": "p_r546",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r546_p_d_hx1",
+   "node_a": "p_r546",
+   "node_b": "p_d_hx1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r546_p_r580",
+   "node_a": "p_r546",
+   "node_b": "p_r580",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r580_p_d_staff",
+   "node_a": "p_r580",
+   "node_b": "p_d_staff",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r580_p_r648",
+   "node_a": "p_r580",
+   "node_b": "p_r648",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_r648_p_e800",
+   "node_a": "p_r648",
+   "node_b": "p_e800",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_s800_p_ent_s",
+   "node_a": "p_s800",
+   "node_b": "p_ent_s",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_w475_p_r387",
+   "node_a": "p_w475",
+   "node_b": "p_r387",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_w475_p_w572",
+   "node_a": "p_w475",
+   "node_b": "p_w572",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_w572_p_w640",
+   "node_a": "p_w572",
+   "node_b": "p_w640",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_w640_p_d_scr",
+   "node_a": "p_w640",
+   "node_b": "p_d_scr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_p_w640_p_d_wl",
+   "node_a": "p_w640",
+   "node_b": "p_d_wl",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_r332_d_fin",
+   "node_a": "r332",
+   "node_b": "d_fin",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_r332_r370",
+   "node_a": "r332",
+   "node_b": "r370",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_r370_r474",
+   "node_a": "r370",
+   "node_b": "r474",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_r474_d_ph",
+   "node_a": "r474",
+   "node_b": "d_ph",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_r474_r512",
+   "node_a": "r474",
+   "node_b": "r512",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_c244_t_c354",
+   "node_a": "t_c244",
+   "node_b": "t_c354",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_c244_t_d_ex2",
+   "node_a": "t_c244",
+   "node_b": "t_d_ex2",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_c354_t_c400",
+   "node_a": "t_c354",
+   "node_b": "t_c400",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_c354_t_d_ex1",
+   "node_a": "t_c354",
+   "node_b": "t_d_ex1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_c400_t_d_beds",
+   "node_a": "t_c400",
+   "node_b": "t_d_beds",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_c400_t_r454",
+   "node_a": "t_c400",
+   "node_b": "t_r454",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_ent_t_r180",
+   "node_a": "t_ent",
+   "node_b": "t_r180",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_r180_t_r258",
+   "node_a": "t_r180",
+   "node_b": "t_r258",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_r258_t_d_scr",
+   "node_a": "t_r258",
+   "node_b": "t_d_scr",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_r258_t_r310",
+   "node_a": "t_r258",
+   "node_b": "t_r310",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_r310_t_d_wait",
+   "node_a": "t_r310",
+   "node_b": "t_d_wait",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_r310_t_r366",
+   "node_a": "t_r310",
+   "node_b": "t_r366",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_r366_t_d_hx1",
+   "node_a": "t_r366",
+   "node_b": "t_d_hx1",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_t_r366_t_r454",
+   "node_a": "t_r366",
+   "node_b": "t_r454",
+   "kind": "walk",
+   "accessible": true
+  }
+ ],
+ "mapping": [
+  {
+   "id": "m_001_r_fin",
+   "depcode": "001",
+   "dep_name": "ห้องเก็บเงิน",
+   "room_id": "r_fin",
+   "wait_room_id": "r_main_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "finance",
+   "priority": 60,
+   "queue_prefix": null,
+   "servers": 2,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_002_a_doc",
+   "depcode": "002",
+   "dep_name": "หลังตรวจไข้หวัดใหญ่",
+   "room_id": "a_doc",
+   "wait_room_id": "a_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_005_1",
+   "depcode": "005",
+   "dep_name": "ห้องตรวจไข้หวัดใหญ่",
+   "room_id": "a_ex1",
+   "wait_room_id": "a_wait_s",
+   "room_hint": "1",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "R",
+   "servers": 3,
+   "avg_service_min": 6.0
+  },
+  {
+   "id": "m_005_2",
+   "depcode": "005",
+   "dep_name": "ห้องตรวจไข้หวัดใหญ่",
+   "room_id": "a_ex2",
+   "wait_room_id": "a_wait_s",
+   "room_hint": "2",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "R",
+   "servers": 3,
+   "avg_service_min": 6.0
+  },
+  {
+   "id": "m_005_3",
+   "depcode": "005",
+   "dep_name": "ห้องตรวจไข้หวัดใหญ่",
+   "room_id": "a_ex3",
+   "wait_room_id": "a_wait_s",
+   "room_hint": "3",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "R",
+   "servers": 3,
+   "avg_service_min": 6.0
+  },
+  {
+   "id": "m_007_h_wait",
+   "depcode": "007",
+   "dep_name": "คลินิกวัคซีน",
+   "room_id": null,
+   "wait_room_id": "h_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "other",
+   "priority": 50,
+   "queue_prefix": "V",
+   "servers": 1,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_010_a_pharm",
+   "depcode": "010",
+   "dep_name": "จุดรับยา ARI",
+   "room_id": "a_pharm",
+   "wait_room_id": "a_wait",
+   "room_hint": null,
+   "for_main_dep": "047",
+   "is_default": true,
+   "stage": "pharmacy",
+   "priority": 70,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 4.0
+  },
+  {
+   "id": "m_010_r_ph",
+   "depcode": "010",
+   "dep_name": "ห้องยาผู้ป่วยนอก",
+   "room_id": "r_ph",
+   "wait_room_id": "r_main_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "pharmacy",
+   "priority": 70,
+   "queue_prefix": null,
+   "servers": 3,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_011_h_wait",
+   "depcode": "011",
+   "dep_name": "หลังฉีดวัคซีน",
+   "room_id": null,
+   "wait_room_id": "h_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "other",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 30.0
+  },
+  {
+   "id": "m_019_r_lab",
+   "depcode": "019",
+   "dep_name": "LAB",
+   "room_id": "r_lab",
+   "wait_room_id": "r_labw",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "lab",
+   "priority": 10,
+   "queue_prefix": null,
+   "servers": 2,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_024_1",
+   "depcode": "024",
+   "dep_name": "คลินิกพิเศษ (ซักประวัติ)",
+   "room_id": "k_hx1",
+   "wait_room_id": "k_wait_l",
+   "room_hint": "1",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_024_2",
+   "depcode": "024",
+   "dep_name": "คลินิกพิเศษ (ซักประวัติ)",
+   "room_id": "k_hx2",
+   "wait_room_id": "k_wait_l",
+   "room_hint": "2",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_024_3",
+   "depcode": "024",
+   "dep_name": "คลินิกพิเศษ (ซักประวัติ)",
+   "room_id": "k_hx3",
+   "wait_room_id": "k_wait_l",
+   "room_hint": "3",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_024_4",
+   "depcode": "024",
+   "dep_name": "คลินิกพิเศษ (ซักประวัติ)",
+   "room_id": "k_hx4",
+   "wait_room_id": "k_wait_l",
+   "room_hint": "4",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_025_h_wait",
+   "depcode": "025",
+   "dep_name": "หลังตรวจคลินิกวัคซีน",
+   "room_id": null,
+   "wait_room_id": "h_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "other",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_028_1",
+   "depcode": "028",
+   "dep_name": "ทันตกรรม",
+   "room_id": "d_ex1",
+   "wait_room_id": "d_wait_r",
+   "room_hint": "1",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "D",
+   "servers": 4,
+   "avg_service_min": 20.0
+  },
+  {
+   "id": "m_028_2",
+   "depcode": "028",
+   "dep_name": "ทันตกรรม",
+   "room_id": "d_ex2",
+   "wait_room_id": "d_wait_r",
+   "room_hint": "2",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "D",
+   "servers": 4,
+   "avg_service_min": 20.0
+  },
+  {
+   "id": "m_028_3",
+   "depcode": "028",
+   "dep_name": "ทันตกรรม",
+   "room_id": "d_ex3",
+   "wait_room_id": "d_wait_r",
+   "room_hint": "3",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "D",
+   "servers": 4,
+   "avg_service_min": 20.0
+  },
+  {
+   "id": "m_028_4",
+   "depcode": "028",
+   "dep_name": "ทันตกรรม",
+   "room_id": "d_ex4",
+   "wait_room_id": "d_wait_r",
+   "room_hint": "4",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "D",
+   "servers": 4,
+   "avg_service_min": 20.0
+  },
+  {
+   "id": "m_033_1",
+   "depcode": "033",
+   "dep_name": "ส่งเสริมสุขภาพ",
+   "room_id": "h_ex1",
+   "wait_room_id": "h_wait",
+   "room_hint": "1",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "other",
+   "priority": 50,
+   "queue_prefix": "H",
+   "servers": 4,
+   "avg_service_min": 10.0
+  },
+  {
+   "id": "m_033_2",
+   "depcode": "033",
+   "dep_name": "ส่งเสริมสุขภาพ",
+   "room_id": "h_ex2",
+   "wait_room_id": "h_wait",
+   "room_hint": "2",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "other",
+   "priority": 50,
+   "queue_prefix": "H",
+   "servers": 4,
+   "avg_service_min": 10.0
+  },
+  {
+   "id": "m_033_3",
+   "depcode": "033",
+   "dep_name": "ส่งเสริมสุขภาพ",
+   "room_id": "h_ex3",
+   "wait_room_id": "h_wait",
+   "room_hint": "3",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "other",
+   "priority": 50,
+   "queue_prefix": "H",
+   "servers": 4,
+   "avg_service_min": 10.0
+  },
+  {
+   "id": "m_033_4",
+   "depcode": "033",
+   "dep_name": "ส่งเสริมสุขภาพ",
+   "room_id": "h_ex4",
+   "wait_room_id": "h_wait",
+   "room_hint": "4",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "other",
+   "priority": 50,
+   "queue_prefix": "H",
+   "servers": 4,
+   "avg_service_min": 10.0
+  },
+  {
+   "id": "m_034_a_xray",
+   "depcode": "034",
+   "dep_name": "X-RAY (ARI)",
+   "room_id": "a_xray",
+   "wait_room_id": "a_wait",
+   "room_hint": null,
+   "for_main_dep": "047",
+   "is_default": true,
+   "stage": "xray",
+   "priority": 20,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 6.0
+  },
+  {
+   "id": "m_034_d_xray",
+   "depcode": "034",
+   "dep_name": "X-ray ทันตกรรม",
+   "room_id": "d_xray",
+   "wait_room_id": "d_wait_r",
+   "room_hint": null,
+   "for_main_dep": "190,028",
+   "is_default": true,
+   "stage": "xray",
+   "priority": 20,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_034_r_xray",
+   "depcode": "034",
+   "dep_name": "เอกซ์เรย์",
+   "room_id": "r_xray",
+   "wait_room_id": "r_main_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "xray",
+   "priority": 20,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 6.0
+  },
+  {
+   "id": "m_035_beds",
+   "depcode": "035",
+   "dep_name": "แพทย์แผนไทย",
+   "room_id": "t_beds",
+   "wait_room_id": "t_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "other",
+   "priority": 40,
+   "queue_prefix": "T",
+   "servers": 6,
+   "avg_service_min": 60.0
+  },
+  {
+   "id": "m_036_1",
+   "depcode": "036",
+   "dep_name": "ห้องตรวจคลินิกพิเศษ",
+   "room_id": "k_ex1",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "1",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 8.0
+  },
+  {
+   "id": "m_036_2",
+   "depcode": "036",
+   "dep_name": "ห้องตรวจคลินิกพิเศษ",
+   "room_id": "k_ex2",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "2",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 8.0
+  },
+  {
+   "id": "m_036_3",
+   "depcode": "036",
+   "dep_name": "ห้องตรวจคลินิกพิเศษ",
+   "room_id": "k_ex3",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "3",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 8.0
+  },
+  {
+   "id": "m_036_4",
+   "depcode": "036",
+   "dep_name": "ห้องตรวจคลินิกพิเศษ",
+   "room_id": "k_ex4",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "4",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "S",
+   "servers": 4,
+   "avg_service_min": 8.0
+  },
+  {
+   "id": "m_039_k_pharm",
+   "depcode": "039",
+   "dep_name": "รับยาและชำระเงิน (คลินิกพิเศษ)",
+   "room_id": "k_pharm",
+   "wait_room_id": "k_wait_r",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "pharmacy",
+   "priority": 70,
+   "queue_prefix": null,
+   "servers": 2,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_046_beds",
+   "depcode": "046",
+   "dep_name": "กายภาพบำบัด",
+   "room_id": "p_beds",
+   "wait_room_id": "p_wait_s",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "other",
+   "priority": 30,
+   "queue_prefix": "P",
+   "servers": 4,
+   "avg_service_min": 12.0
+  },
+  {
+   "id": "m_047_a_scr",
+   "depcode": "047",
+   "dep_name": "คลินิกไข้หวัดใหญ่ (ARI)",
+   "room_id": "a_scr",
+   "wait_room_id": "a_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "R",
+   "servers": 2,
+   "avg_service_min": 4.0
+  },
+  {
+   "id": "m_110_r_er",
+   "depcode": "110",
+   "dep_name": "ห้องฉุกเฉิน",
+   "room_id": "r_er",
+   "wait_room_id": "r_er_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "E",
+   "servers": 2,
+   "avg_service_min": 15.0
+  },
+  {
+   "id": "m_138_1",
+   "depcode": "138",
+   "dep_name": "ห้องตรวจอายุรกรรม",
+   "room_id": "r_ex1",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "1",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "M",
+   "servers": 4,
+   "avg_service_min": 7.0
+  },
+  {
+   "id": "m_138_2",
+   "depcode": "138",
+   "dep_name": "ห้องตรวจอายุรกรรม",
+   "room_id": "r_ex2",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "2",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "M",
+   "servers": 4,
+   "avg_service_min": 7.0
+  },
+  {
+   "id": "m_138_3",
+   "depcode": "138",
+   "dep_name": "ห้องตรวจอายุรกรรม",
+   "room_id": "r_ex3",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "3",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "M",
+   "servers": 4,
+   "avg_service_min": 7.0
+  },
+  {
+   "id": "m_138_4",
+   "depcode": "138",
+   "dep_name": "ห้องตรวจอายุรกรรม",
+   "room_id": "r_ex4",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "4",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "M",
+   "servers": 4,
+   "avg_service_min": 7.0
+  },
+  {
+   "id": "m_138_9",
+   "depcode": "138",
+   "dep_name": "ห้องตรวจอายุรกรรม",
+   "room_id": "r_ex9",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "9",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": "M",
+   "servers": 4,
+   "avg_service_min": 7.0
+  },
+  {
+   "id": "m_144_1",
+   "depcode": "144",
+   "dep_name": "ซักประวัติ OPD",
+   "room_id": "r_hx1",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "1",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "A",
+   "servers": 3,
+   "avg_service_min": 4.0
+  },
+  {
+   "id": "m_144_2",
+   "depcode": "144",
+   "dep_name": "ซักประวัติ OPD",
+   "room_id": "r_hx2",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "2",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "A",
+   "servers": 3,
+   "avg_service_min": 4.0
+  },
+  {
+   "id": "m_144_3",
+   "depcode": "144",
+   "dep_name": "ซักประวัติ OPD",
+   "room_id": "r_hx3",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "3",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "A",
+   "servers": 3,
+   "avg_service_min": 4.0
+  },
+  {
+   "id": "m_145_4",
+   "depcode": "145",
+   "dep_name": "หลังตรวจ OPD",
+   "room_id": "r_post4",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "4",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 3,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_145_5",
+   "depcode": "145",
+   "dep_name": "หลังตรวจ OPD",
+   "room_id": "r_post5",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "5",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 3,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_145_6",
+   "depcode": "145",
+   "dep_name": "หลังตรวจ OPD",
+   "room_id": "r_post6",
+   "wait_room_id": "r_main_wait",
+   "room_hint": "6",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 3,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_188_5",
+   "depcode": "188",
+   "dep_name": "หลังตรวจคลินิกพิเศษ",
+   "room_id": "k_post5",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "5",
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 5,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_188_6",
+   "depcode": "188",
+   "dep_name": "หลังตรวจคลินิกพิเศษ",
+   "room_id": "k_post6",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "6",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 5,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_188_7",
+   "depcode": "188",
+   "dep_name": "หลังตรวจคลินิกพิเศษ",
+   "room_id": "k_post7",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "7",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 5,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_188_8",
+   "depcode": "188",
+   "dep_name": "หลังตรวจคลินิกพิเศษ",
+   "room_id": "k_post8",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "8",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 5,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_188_9",
+   "depcode": "188",
+   "dep_name": "หลังตรวจคลินิกพิเศษ",
+   "room_id": "k_post9",
+   "wait_room_id": "k_wait_m",
+   "room_hint": "9",
+   "for_main_dep": null,
+   "is_default": false,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 5,
+   "avg_service_min": 3.0
+  },
+  {
+   "id": "m_189_r_er_wait",
+   "depcode": "189",
+   "dep_name": "หลังตรวจ ER",
+   "room_id": "r_er_wait",
+   "wait_room_id": "r_er_wait",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "doctor",
+   "priority": 50,
+   "queue_prefix": null,
+   "servers": 1,
+   "avg_service_min": 5.0
+  },
+  {
+   "id": "m_190_d_hx1",
+   "depcode": "190",
+   "dep_name": "จุดซักประวัติทันตกรรม",
+   "room_id": "d_hx1",
+   "wait_room_id": "d_wait_b",
+   "room_hint": null,
+   "for_main_dep": null,
+   "is_default": true,
+   "stage": "screening",
+   "priority": 50,
+   "queue_prefix": "D",
+   "servers": 1,
+   "avg_service_min": 4.0
+  }
+ ]
+}

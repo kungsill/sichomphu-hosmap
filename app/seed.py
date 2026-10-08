@@ -788,7 +788,13 @@ def ensure_seed() -> None:
     with db.engine.begin() as conn:
         has_map = conn.execute(sa.select(sa.func.count()).select_from(db.buildings)).scalar()
         if not has_map:
-            mapdata.save_draft(conn, demo_document() if config.IS_DEMO else sichomphu_document())
+            if config.IS_DEMO:
+                doc = demo_document()
+            else:
+                # ใช้แผนที่ล่าสุดที่ส่งออกไว้ใน Git (maps/sichomphu_map.json) ถ้ามี ไม่งั้นใช้แผนที่ในโค้ด
+                from .mapio import MAP_FILE, load_file
+                doc = load_file(MAP_FILE) if MAP_FILE.exists() else sichomphu_document()
+            mapdata.save_draft(conn, doc)
         has_version = conn.execute(sa.select(sa.func.count()).select_from(db.map_versions)).scalar()
         if not has_version:
             mapdata.publish(conn, "แผนที่ตัวอย่างเริ่มต้น")
