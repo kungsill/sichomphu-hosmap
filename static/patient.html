@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#e0479e">
+  <title>ใบนำทาง — โรงพยาบาลสีชมพู</title>
+  <link rel="icon" href="/static/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<div class="patient-page" id="page">
+  <div class="mapwrap">
+    <canvas id="map" aria-label="แผนที่เส้นทางไปยังจุดบริการ"></canvas>
+    <div class="ptop">
+      <div class="brand glass"><div class="logo"><img src="/static/img/logo.png" alt=""></div><div style="min-width:0"><b id="hospital">โรงพยาบาลสีชมพู</b><small>ใบนำทางผู้ป่วย · <span id="clock">--:--</span> <span class="dot" id="dot"></span></small></div></div>
+      <div class="q glass"><small>คิวของคุณ</small><b id="queue">----</b></div>
+    </div>
+    <div class="controls glass" role="toolbar" aria-label="ควบคุมแผนที่">
+      <button id="zin" aria-label="ขยาย"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button id="zout" aria-label="ย่อ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+      <button id="rotr" aria-label="หมุนแผนที่"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+      <button id="home" aria-label="มุมมองเริ่มต้น"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg></button>
+    </div>
+    <div class="floorhint floor-tabs glass" id="floorTabs"></div>
+  </div>
+  <section class="sheet" id="sheet" aria-live="polite">
+    <div class="grab"></div>
+    <div class="notice muted">กำลังโหลดข้อมูล...</div>
+  </section>
+</div>
+<script type="module" src="/static/js/patient.js"></script>
+</body>
+</html>

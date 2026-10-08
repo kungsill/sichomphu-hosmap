@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Map Builder — โรงพยาบาลสีชมพู</title>
+  <link rel="icon" href="/static/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<div class="builder">
+  <header class="bhead">
+    <img src="/static/img/logo.png" alt="">
+    <div class="t">Map Builder<small>ระบบจัดการแผนที่ · <span id="hospital">โรงพยาบาลสีชมพู</span></small></div>
+    <select id="bSel" aria-label="อาคาร"></select>
+    <select id="fSel" aria-label="ชั้น"></select>
+    <span class="sp"></span>
+    <span class="kbd" id="dirtyMark"></span>
+    <button class="btn" id="saveBtn">บันทึกร่าง</button>
+    <button class="btn primary" id="pubBtn">เผยแพร่แผนที่</button>
+    <a class="btn ghost" href="/">กลับหน้าแผนที่</a>
+    <a class="btn ghost" href="/logout" title="ออกจากระบบ">ออกจากระบบ</a>
+  </header>
+
+  <nav class="tools" aria-label="เครื่องมือ">
+    <button data-tool="select" title="เลือก / ย้าย (V)" class="active"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 8-6 1.5L10 19z"/></svg></button>
+    <button data-tool="rect" title="วาดห้องสี่เหลี่ยม (R)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="1"/></svg></button>
+    <button data-tool="poly" title="วาดห้องหลายเหลี่ยม (P) — ดับเบิลคลิกเพื่อจบ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8l7-4 9 5-3 11H6z"/></svg></button>
+    <hr>
+    <button data-tool="node" title="ปักจุดนำทาง / วาดทางเดิน (N)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8 16l8-8"/></svg></button>
+    <button data-tool="edge" title="เชื่อมจุด (E): คลิกจุดแรก แล้วคลิกจุดที่สอง"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20 20 4"/><path d="M14 4h6v6"/></svg></button>
+    <button data-tool="door" title="กำหนดประตูห้อง (D): เลือกห้อง แล้วคลิกจุด"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 21V4h10v17"/><path d="M15 6l4 2v13"/><circle cx="12" cy="13" r="1" fill="currentColor"/></svg></button>
+    <hr>
+    <button id="delBtn" title="ลบที่เลือก (Delete)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
+    <button id="fitBtn" title="พอดีจอ (F)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </nav>
+
+  <main class="stage tool-select" id="stage">
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="hint" id="hint">เลือกเครื่องมือทางซ้าย · ลากพื้นที่ว่างเพื่อเลื่อน · ล้อเมาส์เพื่อซูม</div>
+    <div class="coords" id="coords">0, 0 ม.</div>
+  </main>
+
+  <aside class="panel">
+    <div class="tabs" role="tablist">
+      <button data-tab="props" class="active">คุณสมบัติ</button>
+      <button data-tab="mapping">จับคู่ HOSxP</button>
+      <button data-tab="route">ทดสอบเส้นทาง</button>
+      <button data-tab="floor">อาคาร/ชั้น</button>
+    </div>
+    <div class="pbody" id="pbody"></div>
+  </aside>
+</div>
+<input type="file" id="planFile" accept=".png,.jpg,.jpeg,.svg,.webp" hidden>
+<script type="module" src="/static/js/builder.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ใบนำทาง {{QUEUE}}</title>
+  <style>
+    @page { size: 80mm auto; margin: 3mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif; color: #000; background: #eef4f2; }
+    .slip { width: 74mm; margin: 12px auto; background: #fff; padding: 4mm; text-align: center; }
+    .logo { width: 30mm; }
+    h1 { font-size: 16px; margin: 2px 0 0; }
+    .sub { font-size: 12px; }
+    .q { font-size: 44px; font-weight: 800; letter-spacing: 1px; margin: 6px 0 0; line-height: 1.1; }
+    .meta { font-size: 13px; }
+    .qr { width: 46mm; margin: 6px auto 2px; }
+    .qr svg { width: 100%; height: auto; display: block; }
+    .hint { font-size: 13px; font-weight: 700; }
+    .url { font-size: 8px; word-break: break-all; color: #444; margin-top: 4px; }
+    hr { border: 0; border-top: 1px dashed #000; margin: 8px 0; }
+    .steps { text-align: left; font-size: 12px; margin: 0; padding-left: 16px; }
+    .bar { text-align: center; margin: 10px; }
+    .bar button { font: inherit; font-size: 15px; padding: 8px 18px; border: 0; border-radius: 10px; background: #e0479e; color: #fff; font-weight: 700; cursor: pointer; }
+    @media print { body { background: #fff; } .slip { margin: 0 auto; } .bar { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="bar"><button onclick="window.print()">พิมพ์ใบนำทาง</button></div>
+  <div class="slip">
+    <img class="logo" src="/static/img/logo.png" alt="">
+    <h1>{{HOSPITAL}}</h1>
+    <div class="sub">ใบนำทางผู้ป่วยนอก</div>
+    <div class="q">{{QUEUE}}</div>
+    <div class="meta">HN {{HN}} · {{DATE}}</div>
+    <hr>
+    <div class="qr">{{QR}}</div>
+    <div class="hint">สแกนเพื่อดูเส้นทางและสถานะคิว</div>
+    <div class="url">{{URL}}</div>
+    <hr>
+    <ol class="steps">
+      <li>สแกน QR Code ด้วยกล้องมือถือ</li>
+      <li>แผนที่จะบอกห้องที่ต้องไปและเส้นทางเดิน</li>
+      <li>เมื่อเจ้าหน้าที่ส่งต่อ ปลายทางจะเปลี่ยนให้อัตโนมัติ</li>
+    </ol>
+    <div class="sub" style="margin-top:6px">กรุณาเก็บใบนี้ไว้จนเสร็จสิ้นการรับบริการ</div>
+  </div>
+  <script>if (location.hash === '#print') window.print();</script>
+</body>
+</html>
