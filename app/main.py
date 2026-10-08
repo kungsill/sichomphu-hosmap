@@ -179,6 +179,55 @@ def patient_page(token: str):
     return page("patient.html")
 
 
+@app.get("/q", include_in_schema=False)
+def lookup_page():
+    """ผู้ป่วยสแกน QR ที่จุดบริการ แล้วกรอกเลขคิวบนใบคิว (neoQ) เพื่อเปิดใบนำทางของตนเอง"""
+    return page("lookup.html")
+
+
+@app.post("/api/lookup")
+async def api_lookup(request: Request):
+    ip = request.client.host if request.client else "?"
+    wait = auth.locked_for(ip)
+    if wait:
+        raise HTTPException(429, f"ลองหลายครั้งเกินไป กรุณารอ {wait} วินาที")
+    body = await request.json()
+    queue = "".join(str(body.get("queue") or "").split()).upper()
+    vn = "".join(ch for ch in str(body.get("vn") or "") if ch.isdigit())  # จากลิงก์ของ neoQ (patient_status.aspx?vn=)
+    hn4 = "".join(ch for ch in str(body.get("hn4") or "") if ch.isdigit())
+    if (not queue and not vn) or len(hn4) != 4:
+        raise HTTPException(400, "กรุณากรอกเลขคิว และเลข HN 4 ตัวท้าย")
+    with db.engine.begin() as conn:
+        cond = (db.patient_visits.c.vn == vn) if vn else (sa.func.upper(db.patient_visits.c.queue_no) == queue)
+        rows = conn.execute(sa.select(db.patient_visits.c.vn, db.patient_visits.c.hn).where(
+            cond & (db.patient_visits.c.vstdate == clock.today()))).fetchall()
+        match = [r for r in rows if str(r.hn or "").endswith(hn4)]
+        if len(match) != 1:
+            auth.record_fail(ip)
+            raise HTTPException(404, "ไม่พบคิวนี้ของวันนี้ กรุณาตรวจเลขคิวและเลข HN อีกครั้ง หรือสอบถามเจ้าหน้าที่")
+        token = get_or_create_token(conn, match[0].vn)
+    auth.clear_fails(ip)
+    return {"url": f"/t/{token}"}
+
+
+@app.get("/poster", response_class=HTMLResponse, include_in_schema=False)
+def poster(request: Request, zone: str = ""):
+    """ป้าย QR (A4) ติดที่จุดบริการ ให้ผู้ป่วยสแกนเปิดใบนำทางด้วยใบคิว neoQ"""
+    if not auth.has_role(request, "staff"):
+        return to_login(request)
+    base = config.PUBLIC_BASE_URL or str(request.base_url).rstrip("/")
+    url = f"{base}/q"
+    img = qrcode.make(url, image_factory=qrcode.image.svg.SvgPathImage, box_size=12, border=1)
+    buf = io.BytesIO()
+    img.save(buf)
+    svg = buf.getvalue().decode("utf-8")
+    svg = svg[svg.find("<svg"):]
+    tpl = (config.STATIC_DIR / "poster.html").read_text(encoding="utf-8")
+    for k, v in {"HOSPITAL": html.escape(config.HOSPITAL_NAME), "ZONE": html.escape(zone), "QR": svg, "URL": html.escape(url)}.items():
+        tpl = tpl.replace("{{" + k + "}}", v)
+    return HTMLResponse(tpl)
+
+
 @app.get("/favicon.ico", include_in_schema=False)
 def favicon():
     return FileResponse(config.STATIC_DIR / "img" / "logo.png")
@@ -220,6 +269,7 @@ def api_patient(token: str, accessible: bool = False):
     if not view:
         raise HTTPException(404, "ไม่พบข้อมูลการรับบริการ")
     view.pop("vn", None)
+    view.pop("vitals", None)  # หน้าผู้ป่วยเปิดผ่านลิงก์ จึงไม่ส่งข้อมูลสุขภาพ
     return view
 
 
@@ -239,6 +289,7 @@ async def api_patient_stream(token: str, request: Request, accessible: bool = Fa
                 view = await asyncio.to_thread(patient_view, state["builder"], vn, accessible)
                 if view:
                     view.pop("vn", None)
+                    view.pop("vitals", None)
                     payload = _sse(view)
                     if payload != last:
                         last = payload

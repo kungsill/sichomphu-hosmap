@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#e0479e">
+  <title>ค้นหาใบนำทาง — โรงพยาบาลสีชมพู</title>
+  <link rel="icon" href="/static/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <style>
+    body { min-height: 100dvh; background: linear-gradient(160deg, #fdeef6 0%, #eef7f5 45%, #dcefea 100%); }
+    .wrap { max-width: 440px; margin: 0 auto; padding: 28px 18px 40px; display: flex; flex-direction: column; gap: 16px; }
+    .hero { text-align: center; padding: 8px 0 4px; }
+    .hero .logo { width: 84px; height: 84px; margin: 0 auto 12px; border-radius: 26px; background: #fff; display: grid; place-items: center; box-shadow: var(--shadow-lg); }
+    .hero .logo img { width: 70px; height: 70px; object-fit: contain; }
+    .hero h1 { font-size: 24px; margin: 0; letter-spacing: -0.2px; }
+    .hero p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+    .form { padding: 22px 20px; }
+    .lbl { display: block; font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+    .hint { font-size: 13px; color: var(--muted); margin: -2px 0 8px; }
+    .big { width: 100%; border: 2px solid rgba(23,38,44,0.1); background: #fff; border-radius: 16px; padding: 14px 16px; font-size: 26px; font-weight: 700; letter-spacing: 3px; text-align: center; text-transform: uppercase; outline: 0; transition: border-color 0.2s, box-shadow 0.2s; }
+    .big:focus { border-color: var(--brand); box-shadow: 0 0 0 5px rgba(224,71,158,0.14); }
+    .row { margin-bottom: 18px; }
+    .go { width: 100%; border: 0; border-radius: 16px; padding: 16px; font-size: 18px; font-weight: 700; color: #fff; background: var(--brand-grad); box-shadow: 0 10px 24px rgba(224,71,158,0.32); display: flex; justify-content: center; align-items: center; gap: 10px; transition: transform 0.15s var(--spring); }
+    .go:active { transform: scale(0.97); }
+    .go:disabled { opacity: 0.7; }
+    .spin { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.45); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+    .loading .spin { display: block; }
+    .err { display: none; background: #fdecea; color: #b33a2c; border-radius: 12px; padding: 11px 13px; font-size: 14px; margin-bottom: 14px; }
+    .err.show { display: block; animation: pop .3s var(--ease); }
+    .slip { display: flex; gap: 12px; align-items: center; padding: 14px 16px; font-size: 14px; color: var(--ink-2); }
+    .slip .ic { width: 42px; height: 42px; border-radius: 13px; background: var(--teal-soft); color: var(--teal); display: grid; place-items: center; flex: none; }
+    body { background: radial-gradient(circle at 50% -12%, #ffe3f0, transparent 45%), linear-gradient(165deg, #f8fbf9 20%, #e9f4f0 100%); }
+    .wrap { max-width: 470px; gap: 18px; padding: clamp(27px, 6vh, 58px) 20px 44px; }
+    .hero { padding-bottom: 7px; }
+    .hero .logo { width: 88px; height: 88px; border-radius: 25px; margin-bottom: 17px; box-shadow: 0 4px 10px rgba(19,57,62,.04), 0 16px 35px rgba(19,57,62,.11); }
+    .hero .logo img { width: 74px; height: 74px; }
+    .hero h1 { font-size: 28px; letter-spacing: -.05em; color: var(--ink); }
+    .hero p { font-size: 14px; margin-top: 4px; }
+    .form { padding: 27px 25px 24px; border: 1px solid #fff; box-shadow: 0 5px 12px rgba(19,57,62,.04), 0 25px 55px rgba(19,57,62,.11); }
+    .lbl { font-size: 15px; color: var(--ink); }
+    .hint { margin-bottom: 10px; }
+    .big { border: 1.5px solid #dbe7e3; background: #f9fcfb; min-height: 65px; font-size: 27px; letter-spacing: .1em; }
+    .big:focus { background: #fff; border-color: var(--brand); box-shadow: 0 0 0 4px rgba(217,76,145,.12); }
+    .row { margin-bottom: 20px; }
+    .go { min-height: 58px; background: var(--brand-grad); box-shadow: 0 7px 18px rgba(188,52,121,.23); }
+    .go:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(188,52,121,.28); }
+    .slip { border: 1px solid #fff; padding: 17px 18px; line-height: 1.55; }
+    .slip .ic { width: 45px; height: 45px; background: #e9f7f3; }
+    @media (max-width: 380px) { .form { padding: 22px 18px; } .hero h1 { font-size: 25px; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="hero anim">
+      <div class="logo"><img src="/static/img/logo.png" alt=""></div>
+      <h1>ใบนำทางผู้ป่วย</h1>
+      <p id="hname">โรงพยาบาลสีชมพู</p>
+    </div>
+    <form class="form glass anim d1" id="form" novalidate>
+      <div class="err" id="err" role="alert"></div>
+      <div class="row">
+        <label class="lbl" for="queue">เลขคิวบนใบคิว</label>
+        <div class="hint">เช่น G113, C26, F19</div>
+        <input class="big" id="queue" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10" inputmode="text" required>
+      </div>
+      <div class="row">
+        <label class="lbl" for="hn4">เลข HN 4 ตัวท้าย</label>
+        <div class="hint">ดูได้จากบัตรผู้ป่วยหรือใบคิว</div>
+        <input class="big" id="hn4" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" required>
+      </div>
+      <button class="go" id="go" type="submit"><span class="spin"></span><span id="goText">ดูเส้นทางและสถานะคิว</span></button>
+    </form>
+    <div class="slip glass anim d2">
+      <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/><path d="M12 8v4l3 2"/></svg></span>
+      <span>หน้านี้จะบอกห้องที่ต้องไป เส้นทางเดิน และลำดับคิว และอัปเดตเองเมื่อเจ้าหน้าที่ส่งต่อ</span>
+    </div>
+  </main>
+<script type="module">
+  const $ = (s) => document.querySelector(s);
+  fetch('/api/config').then((r) => r.json()).then((c) => { $('#hname').textContent = c.hospital; }).catch(() => {});
+  const params = new URLSearchParams(location.search);
+  const q = params.get('q');
+  const vn = (params.get('vn') || '').replace(/\D/g, '');
+  if (q) $('#queue').value = q;
+  if (vn) {
+    // มาจากหน้าสถานะคิวของ neoQ: รู้ VN แล้ว ขอแค่ HN 4 ตัวท้ายเพื่อยืนยันตัวตน
+    $('#queue').closest('.row').classList.add('hidden');
+    $('#hn4').closest('.row').querySelector('.hint').textContent = 'ดูได้จากบรรทัด HN บนใบคิว เพื่อยืนยันว่าเป็นคิวของคุณ';
+  }
+  ($('#queue').value ? $('#hn4') : $('#queue')).focus();
+  $('#hn4').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); });
+  $('#form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const err = $('#err');
+    err.classList.remove('show');
+    const queue = $('#queue').value.trim(), hn4 = $('#hn4').value.trim();
+    if ((!queue && !vn) || hn4.length !== 4) { err.textContent = 'กรุณากรอกเลขคิว และเลข HN 4 ตัวท้าย'; err.classList.add('show'); return; }
+    const btn = $('#go');
+    btn.disabled = true; btn.classList.add('loading'); $('#goText').textContent = 'กำลังค้นหา...';
+    try {
+      const res = await fetch('/api/lookup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ queue, vn, hn4 }) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.detail || 'ไม่พบข้อมูล');
+      location.replace(data.url);
+    } catch (ex) {
+      err.textContent = ex.message; err.classList.add('show');
+      btn.disabled = false; btn.classList.remove('loading'); $('#goText').textContent = 'ดูเส้นทางและสถานะคิว';
+    }
+  });
+</script>
+</body>
+</html>

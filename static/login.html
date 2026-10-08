@@ -78,6 +78,43 @@
       .mobile-brand span { opacity: .88; font-size: 14px; }
       .form-card { padding: 28px 22px 22px; border-radius: 24px; }
     }
+    /* Calmer entry screen with a clearer reading path. */
+    body { background: #f1f6f3; }
+    .login { grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); }
+    .brand-side { padding: clamp(32px, 4vw, 68px); background: linear-gradient(155deg, #b93478 0%, #cf478a 44%, #0e817b 100%); }
+    .brand-side::before { opacity: .075; }
+    .brand-side::after { content: ""; position: absolute; width: 520px; height: 520px; right: -230px; top: 12%; border: 1px solid rgba(255,255,255,.22); border-radius: 50%; box-shadow: 0 0 0 80px rgba(255,255,255,.035), 0 0 0 170px rgba(255,255,255,.025); pointer-events: none; }
+    .logo-wrap { gap: 18px; }
+    .logo-wrap .lg { width: 70px; height: 70px; border-radius: 20px; box-shadow: 0 8px 28px rgba(50,21,48,.16); }
+    .logo-wrap .lg img { width: 60px; height: 60px; }
+    .logo-wrap b { font-size: 24px; letter-spacing: -.04em; }
+    .logo-wrap span { display: block; margin-top: 3px; font-size: 13px; opacity: .86; }
+    .hero { max-width: 590px; }
+    .hero h1 { font-size: clamp(36px, 3.6vw, 58px); line-height: 1.18; letter-spacing: -.055em; margin-bottom: 21px; }
+    .hero p { font-size: 16px; line-height: 1.8; max-width: 480px; }
+    .features { gap: 10px; max-width: 490px; }
+    .features li { padding: 13px 15px; background: rgba(255,255,255,.105); border-color: rgba(255,255,255,.2); }
+    .features .ic { border-radius: 11px; color: #ba3678; }
+    .form-side { position: relative; background: radial-gradient(circle at 85% 10%, rgba(217,76,145,.085), transparent 36%), radial-gradient(circle at 8% 85%, rgba(8,127,121,.09), transparent 36%); }
+    .form-card { max-width: 430px; padding: 42px 38px 34px; border: 1px solid rgba(255,255,255,.95); border-radius: 28px; box-shadow: 0 3px 8px rgba(19,57,62,.035), 0 30px 75px rgba(19,57,62,.105); }
+    .badge-role { padding: 7px 12px; background: #e9f7f3; color: #087f79; }
+    .form-card h2 { font-size: 32px; letter-spacing: -.05em; margin-top: 18px; }
+    .form-card .lead { margin-bottom: 30px; }
+    .inp { margin-bottom: 19px; }
+    .inp .box { min-height: 52px; background: #f8fbfa; border-color: #dce8e4; }
+    .inp .box:focus-within { border-color: #d94c91; box-shadow: 0 0 0 4px rgba(217,76,145,.11); }
+    .submit { min-height: 54px; background: linear-gradient(135deg, #e85b9f, #bc3479); box-shadow: 0 8px 19px rgba(188,52,121,.24); }
+    .submit:hover { box-shadow: 0 12px 24px rgba(188,52,121,.3); }
+    .back { color: #087f79; }
+    @media (max-width: 900px) {
+      .login { grid-template-columns: 1fr; }
+      .form-side { display: block; padding: 0 20px 36px; }
+      .mobile-brand { position: relative; overflow: hidden; padding: 42px 20px 78px; background: linear-gradient(145deg, #bc367c, #d95292 57%, #10857e); }
+      .mobile-brand::after { content: ""; position: absolute; width: 290px; height: 290px; top: -160px; right: -110px; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; pointer-events: none; }
+      .mobile-brand .lg, .mobile-brand b, .mobile-brand span { position: relative; z-index: 1; }
+      .form-card { position: relative; max-width: 460px; margin: 0 auto; padding: 31px 25px 25px; }
+    }
+    @media (max-width: 380px) { .form-card { padding: 27px 20px 23px; } }
   </style>
 </head>
 <body>

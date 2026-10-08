@@ -201,6 +201,7 @@ class Worker:
                 age = v.get("age")
                 conn.execute(db.patient_visits.insert().values(
                     vn=vn, hn=to_str(v.get("hn")) or "", vstdate=vstdate, vsttime=str(v.get("vsttime") or "")[:8],
+                    queue_no=to_str(v.get("queue_no")),
                     oqueue=int(v["oqueue"]) if str(v.get("oqueue") or "").isdigit() else None,
                     main_dep=to_str(v.get("main_dep")), age=int(age) if age is not None else None,
                     sex=to_str(v.get("sex")), vitals=jdump(vitals) if vitals else None, created_at=now))
@@ -233,8 +234,15 @@ class Worker:
             return
 
         # ---------------------------------------------------------- Visit เดิม: เทียบการเปลี่ยนแปลง
-        if vis is not None and vitals and jload(vis.get("vitals")) != vitals:
-            conn.execute(db.patient_visits.update().where(db.patient_visits.c.vn == vn).values(vitals=jdump(vitals)))
+        if vis is not None:
+            vis_upd = {}
+            if vitals and jload(vis.get("vitals")) != vitals:
+                vis_upd["vitals"] = jdump(vitals)
+            qno = to_str(v.get("queue_no"))
+            if qno and qno != vis.get("queue_no"):  # ใบคิวอาจออกหลังเปิด Visit
+                vis_upd["queue_no"] = qno
+            if vis_upd:
+                conn.execute(db.patient_visits.update().where(db.patient_visits.c.vn == vn).values(**vis_upd))
 
         old_pending = jload(st.get("pending"), []) or []
         st = dict(st)

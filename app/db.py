@@ -107,6 +107,7 @@ patient_visits = sa.Table(
     sa.Column("vstdate", sa.Date, nullable=False, index=True),
     sa.Column("vsttime", sa.String(8)),
     sa.Column("oqueue", sa.Integer),
+    sa.Column("queue_no", sa.String(20), index=True),  # เลขคิวที่พิมพ์บนใบคิว (เช่น neoQ: G113)
     sa.Column("main_dep", sa.String(20)),
     sa.Column("age", sa.Integer),
     sa.Column("sex", sa.String(2)),

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ป้าย QR ใบนำทาง</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4 portrait; margin: 0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "IBM Plex Sans Thai", "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif; color: #17262c; background: #e9eeed; }
+    .bar { text-align: center; padding: 12px; }
+    .bar button { font: inherit; font-size: 15px; font-weight: 700; padding: 9px 20px; border: 0; border-radius: 12px; background: #e0479e; color: #fff; cursor: pointer; }
+    .bar input { font: inherit; font-size: 15px; padding: 8px 12px; border-radius: 10px; border: 1px solid #ccd; margin-right: 8px; }
+    .page { width: 210mm; height: 297mm; margin: 0 auto 20px; background: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 18mm 16mm; }
+    .page::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 112mm; background: linear-gradient(140deg, #ef5fb0, #c93d8f 55%, #1f9e8f); }
+    .page > * { position: relative; }
+    .logo { width: 34mm; height: 34mm; border-radius: 9mm; background: #fff; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+    .logo img { width: 29mm; height: 29mm; object-fit: contain; }
+    h1 { color: #fff; font-size: 13mm; margin: 6mm 0 0; line-height: 1.15; text-align: center; }
+    .sub { color: rgba(255,255,255,.92); font-size: 6mm; margin-top: 2mm; }
+    .qr { margin-top: 14mm; width: 110mm; padding: 6mm; background: #fff; border-radius: 8mm; box-shadow: 0 8px 30px rgba(16,52,48,.18); }
+    .qr svg { width: 100%; height: auto; display: block; }
+    .scan { font-size: 9mm; font-weight: 700; margin-top: 8mm; color: #c93d8f; }
+    ol { font-size: 6mm; line-height: 1.5; margin: 6mm 0 0; padding-left: 9mm; width: 160mm; }
+    ol b { color: #1f9e8f; }
+    .url { position: absolute; bottom: 12mm; font-size: 4mm; color: #889; }
+    @media print { body { background: #fff; } .bar { display: none; } .page { margin: 0; } }
+  </style>
+</head>
+<body>
+  <div class="bar"><input id="zone" placeholder="ชื่อจุด เช่น ห้องรอพบแพทย์ OPD" value="{{ZONE}}"><button onclick="window.print()">พิมพ์ป้าย (A4)</button></div>
+  <div class="page">
+    <div class="logo"><img src="/static/img/logo.png" alt=""></div>
+    <h1>สแกนดูเส้นทาง<br>และสถานะคิวของคุณ</h1>
+    <div class="sub" id="zoneLabel">{{HOSPITAL}}</div>
+    <div class="qr">{{QR}}</div>
+    <div class="scan">สแกนด้วยกล้องมือถือ</div>
+    <ol>
+      <li>กรอก<b>เลขคิวบนใบคิว</b> และ<b>เลข HN 4 ตัวท้าย</b></li>
+      <li>แผนที่จะบอก<b>ห้องที่ต้องไป</b>และ<b>เส้นทางเดิน</b></li>
+      <li>เมื่อเจ้าหน้าที่ส่งต่อ ปลายทางจะเปลี่ยนให้อัตโนมัติ</li>
+    </ol>
+    <div class="url">{{URL}}</div>
+  </div>
+  <script>
+    const z = document.getElementById('zone'), l = document.getElementById('zoneLabel'), h = l.textContent;
+    const upd = () => { l.textContent = z.value ? `${h} · ${z.value}` : h; };
+    z.addEventListener('input', upd); upd();
+  </script>
+</body>
+</html>

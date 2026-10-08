@@ -322,3 +322,149 @@ button { cursor: pointer; }
   .builder { grid-template-columns: 52px 1fr; grid-template-rows: auto 1fr 45vh; }
   .panel { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
 }
+
+/* ---------- Visual refinement: quiet, high-contrast hospital interface ---------- */
+:root {
+  --brand: #d94c91;
+  --brand-2: #c4377d;
+  --brand-dark: #91295f;
+  --brand-soft: #fff0f6;
+  --brand-grad: linear-gradient(135deg, #e85b9f, #bc3479);
+  --teal: #087f79;
+  --teal-2: #159c92;
+  --teal-soft: #e9f7f3;
+  --teal-grad: linear-gradient(135deg, #149b91, #087b77);
+  --ink: #18313a;
+  --ink-2: #405760;
+  --muted: #647981;
+  --line: rgba(24, 49, 58, .11);
+  --glass: rgba(255, 255, 255, .94);
+  --glass-strong: #fff;
+  --glass-border: rgba(255, 255, 255, .9);
+  --bg: #edf4f2;
+  --radius: 22px;
+  --shadow: 0 2px 5px rgba(19, 57, 62, .035), 0 14px 36px rgba(19, 57, 62, .095);
+  --shadow-lg: 0 8px 15px rgba(19, 57, 62, .055), 0 28px 70px rgba(19, 57, 62, .18);
+}
+body { letter-spacing: -.01em; }
+button, a, input, select { touch-action: manipulation; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(217, 76, 145, .55);
+  outline-offset: 3px;
+}
+.glass { border-color: var(--glass-border); box-shadow: var(--shadow); }
+.app::before, .patient-page .mapwrap::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: linear-gradient(90deg, rgba(238, 247, 244, .42), transparent 33%),
+    linear-gradient(0deg, rgba(238, 247, 244, .3), transparent 26%);
+}
+.app #map, .patient-page #map { background: #e9f3ef; }
+.side, .dock { gap: 12px; }
+.brand { min-height: 76px; padding: 12px 15px 12px 12px; border: 1px solid rgba(255,255,255,.96); }
+.brand .logo { width: 52px; height: 52px; border-radius: 16px; box-shadow: 0 5px 14px rgba(217,76,145,.13); }
+.brand .logo img { width: 46px; height: 46px; }
+.brand .title { font-size: 19px; letter-spacing: -.035em; }
+.brand .sub { margin-top: 3px; font-size: 12px; letter-spacing: .01em; }
+.live { background: #e8f6f1; color: #08776f; border: 1px solid rgba(8,127,121,.1); font-size: 14px; padding: 8px 11px; }
+.search { height: 56px; padding: 0 17px; gap: 12px; border: 1px solid rgba(255,255,255,.98); }
+.search svg { color: var(--brand); width: 20px; height: 20px; }
+.search input { font-size: 14px; font-weight: 500; }
+.search input::placeholder { color: #809098; opacity: 1; }
+.search kbd { border-color: rgba(24,49,58,.1); color: #8d9da2; box-shadow: 0 1px 2px rgba(24,49,58,.06); }
+.results { top: 63px; border: 1px solid var(--line); }
+.kpis { gap: 9px; }
+.kpi { min-height: 91px; padding: 14px 13px 11px; border: 1px solid rgba(255,255,255,.98); }
+.kpi::before { content: ""; position: absolute; left: 14px; top: 0; width: 35px; height: 3px; border-radius: 0 0 4px 4px; background: var(--brand); }
+.kpi:nth-child(2)::before { background: #d4a13e; }
+.kpi:nth-child(3)::before { background: var(--teal); }
+.kpi .k { font-size: 12px; font-weight: 600; }
+.kpi .v { margin-top: 5px; font-size: 27px; letter-spacing: -.055em; }
+.kpi .v small { font-size: 12px; letter-spacing: 0; }
+.kpi .ic { right: 11px; top: 11px; width: 27px; height: 27px; border-radius: 9px; }
+.kpi .ic svg { width: 14px; height: 14px; }
+.level { font-size: 11px; padding: 2px 7px; }
+.zones { padding: 6px; border: 1px solid rgba(255,255,255,.98); }
+.zone { padding: 9px 12px; border-radius: 13px; font-size: 13px; }
+.zone.active { box-shadow: 0 4px 12px rgba(8,127,121,.18); }
+.controls { gap: 3px; padding: 7px; }
+.controls button { width: 42px; height: 42px; border-radius: 12px; }
+.controls hr { margin: 4px 9px; }
+.pcard { padding: 19px 18px 17px; border: 1px solid rgba(255,255,255,.98); max-height: min(55vh, 510px); overflow-y: auto; }
+.qbadge { border-radius: 15px; }
+.pcard .name { font-size: 20px; letter-spacing: -.03em; }
+.info { background: #f2f7f5; padding: 10px 11px; }
+.services { padding: 16px; border: 1px solid rgba(255,255,255,.98); }
+.services .hdr { margin-bottom: 12px; }
+.services .hdr b { font-size: 17px; letter-spacing: -.02em; }
+.svc-list { gap: 9px; padding-bottom: 5px; }
+.svc { background: #f8fbfa; border-color: rgba(24,49,58,.08); padding: 11px 12px; }
+.svc .t { color: var(--ink); }
+.svc .m { margin-top: 5px; }
+.bar { height: 5px; background: #e6eeeb; margin-top: 9px; }
+.legend { padding: 14px 17px; font-size: 13px; border: 1px solid rgba(255,255,255,.98); }
+.legend b { font-size: 14px; }
+.legend .keys { gap: 12px; padding-top: 2px; border-top: 1px solid var(--line); }
+.btn { border-radius: 11px; }
+.btn.primary { box-shadow: 0 5px 14px rgba(188,52,121,.21); }
+.patient-page .sheet { background: #fff; border: 1px solid rgba(255,255,255,.9); padding: 6px 22px max(22px, env(safe-area-inset-bottom)); }
+.patient-page .mapwrap { background: #e9f3ef; }
+.ptop { top: 16px; left: 16px; right: 16px; }
+.ptop .brand { min-height: 0; }
+.ptop .q { min-width: 90px; padding: 8px 13px; }
+.ptop .q b { font-size: 23px; letter-spacing: -.03em; }
+.dest .nm { letter-spacing: -.035em; }
+.bigstatus { border: 1px solid rgba(8,127,121,.1); }
+.steps-text li { min-height: 49px; }
+.floorhint { left: 16px; bottom: 16px; }
+.floor-tabs button.active { box-shadow: 0 3px 9px rgba(8,127,121,.18); }
+.builder { background: #eaf2ef; }
+.bhead { min-height: 68px; padding: 10px 16px; box-shadow: 0 3px 14px rgba(19,57,62,.04); z-index: 2; }
+.bhead .t { letter-spacing: -.025em; }
+.bhead select { border-color: var(--line); background: #f8fbfa; min-height: 37px; }
+.tools { padding-top: 13px; gap: 6px; }
+.tools button.active { box-shadow: 0 5px 12px rgba(188,52,121,.2); }
+.stage svg { background: #edf4f1; }
+.panel { background: #fcfefd; }
+.tabs { background: #fcfefd; }
+.tabs button { min-height: 48px; }
+.pbody { padding: 18px 17px 30px; }
+.field input, .field select, .field textarea { min-height: 37px; background: #fff; }
+
+@media (min-width: 900px) {
+  .side, .dock { width: 410px; left: 22px; }
+  .side { top: 22px; }
+  .dock { bottom: 22px; }
+  .controls { right: 22px; }
+}
+@media (max-width: 899px) {
+  .side { top: max(10px, env(safe-area-inset-top)); }
+  .dock { bottom: max(10px, env(safe-area-inset-bottom)); }
+  .side, .dock { left: 10px; right: 10px; gap: 8px; }
+  .brand { min-height: 62px; padding: 7px 10px 7px 7px; }
+  .brand .logo { width: 44px; height: 44px; border-radius: 13px; }
+  .brand .logo img { width: 39px; height: 39px; }
+  .brand .title { font-size: 16px; }
+  .brand .sub { font-size: 11px; }
+  .search { height: 48px; }
+  .results { top: 54px; }
+  .kpi { min-height: 72px; padding: 11px 10px 8px; }
+  .kpi .v { font-size: 21px; margin-top: 2px; }
+  .kpi .k { font-size: 11px; }
+  .zones { padding: 4px; }
+  .zone { padding: 7px 10px; }
+  .services { padding: 11px 12px; }
+  .services .hdr { margin-bottom: 8px; }
+  .svc { width: 145px; padding: 8px 10px; }
+  .pcard { max-height: 44vh; }
+  .controls { right: 10px; }
+  .controls button { width: 39px; height: 39px; }
+}
+@media (max-width: 400px) {
+  .live { font-size: 12px; padding: 6px 8px; }
+  .search kbd { display: none; }
+  .level { display: none; }
+  .kpi .v small { font-size: 11px; }
+  .ptop { left: 10px; right: 10px; top: 10px; }
+  .ptop .q { min-width: 75px; padding: 6px 9px; }
+  .ptop .brand b { font-size: 13px; }
+}

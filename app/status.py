@@ -18,6 +18,8 @@ STATE_LABEL = {"waiting": "รอรับบริการ", "in_service": "�
 
 
 def queue_code(hmap, visit) -> str:
+    if visit.get("queue_no"):  # เลขคิวจริงจากใบคิว (neoQ)
+        return str(visit["queue_no"])
     prefix = (hmap.dep_info(visit.get("main_dep")).get("queue_prefix") if hmap else None) or "Q"
     q = visit.get("oqueue")
     return f"{prefix}{q:03d}" if isinstance(q, int) else prefix + str(visit.get("vn"))[-3:]
@@ -73,7 +75,7 @@ class SnapshotBuilder:
         hmap = mapdata.published()
         with db.engine.connect() as conn:
             data = rows(conn.execute(
-                sa.select(db.patient_status, db.patient_visits.c.hn, db.patient_visits.c.oqueue,
+                sa.select(db.patient_status, db.patient_visits.c.hn, db.patient_visits.c.oqueue, db.patient_visits.c.queue_no,
                           db.patient_visits.c.main_dep, db.patient_visits.c.age, db.patient_visits.c.sex,
                           db.patient_visits.c.vsttime, db.patient_visits.c.vstdate, db.patient_visits.c.vitals)
                 .join(db.patient_visits, db.patient_visits.c.vn == db.patient_status.c.vn)
