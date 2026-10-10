@@ -16,7 +16,8 @@ def load_queries(mode: str) -> dict:
     if mode not in parser:
         raise RuntimeError(f"ไม่พบหมวด [{mode}] ใน {config.HOSXP_QUERY_FILE}")
     section = parser[mode]
-    return {"visits": section.get("visits", "").strip(), "orders": section.get("orders", "").strip()}
+    return {"visits": section.get("visits", "").strip(), "orders": section.get("orders", "").strip(),
+            "report_queue": section.get("report_queue", "").strip()}
 
 
 class HosxpSource:

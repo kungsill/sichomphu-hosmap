@@ -368,6 +368,36 @@ async def api_tv_stream(floor_id: str, request: Request):
     return StreamingResponse(gen(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
+# ---------------------------------------------------------------- รายงานผู้บริหาร
+@app.get("/reports", include_in_schema=False)
+def reports_page(request: Request):
+    if not auth.has_role(request, "staff"):
+        return to_login(request)
+    return page("reports.html")
+
+
+@app.get("/api/reports")
+def api_reports(days: int = 1, _=Depends(staff)):
+    from .reports import build
+    return build(state["worker"], days)
+
+
+@app.get("/api/reports.csv", include_in_schema=False)
+def api_reports_csv(days: int = 1, _=Depends(staff)):
+    import csv
+    from .reports import build
+    r = build(state["worker"], days)
+    buf = io.StringIO()
+    buf.write("\ufeff")  # ให้ Excel อ่านภาษาไทยได้
+    w = csv.writer(buf)
+    w.writerow(["รหัสหน่วยบริการ", "หน่วยบริการ", "จำนวนครั้ง", "รอ (ค่ากลาง นาที)", "รอ (P90 นาที)", "ให้บริการ (ค่ากลาง นาที)"])
+    for s in r["services"]:
+        w.writerow([s["depcode"], s["name"], s["n"], s["median_wait"], s["p90_wait"], s["median_service"]])
+    name = f"hosmap_report_{r['from']}_{r['to']}.csv"
+    return StreamingResponse(iter([buf.getvalue()]), media_type="text/csv; charset=utf-8",
+                             headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
 # ---------------------------------------------------------------- staff API
 @app.get("/api/live")
 def api_live(_=Depends(staff)):

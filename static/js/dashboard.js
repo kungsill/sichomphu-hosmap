@@ -404,6 +404,7 @@ $('#rotl').onclick = () => iso.rotate(-1);
 $('#rotr').onclick = () => iso.rotate(1);
 $('#home').onclick = () => iso.resetView();
 $('#builderLink').onclick = () => { location.href = '/builder'; };
+$('#reportLink').onclick = () => { location.href = '/reports'; };
 $('#posterLink').onclick = () => window.open('/poster', '_blank', 'noopener');
 $('#tvLink').onclick = () => window.open(isCampus() ? '/tv' : `/tv?f=${encodeURIComponent(iso.floorId)}`, '_blank', 'noopener');
 $('#rush').onchange = async (e) => {

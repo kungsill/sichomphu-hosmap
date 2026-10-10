@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>รายงานผู้บริหาร — โรงพยาบาลสีชมพู</title>
+  <link rel="icon" href="/static/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <style>
+    .viz-root {
+      --surface-1: #ffffff;
+      --text-primary: #17262c;
+      --text-secondary: #52646c;
+      --text-muted: #7b8a91;
+      --grid: rgba(23, 38, 44, 0.08);
+      --series-1: #1f9e8f;           /* ผ่าน validator: lightness / chroma / contrast */
+      --heat-0: #eef6f4; --heat-1: #c7e8e1; --heat-2: #8fd2c4; --heat-3: #4fb5a4; --heat-4: #1f9e8f; --heat-5: #146e64;
+    }
+    body { background: linear-gradient(160deg, #f7fbfa, #e6f2ef); min-height: 100vh; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 18px 18px 40px; }
+    .top { display: flex; align-items: center; gap: 12px; padding: 10px 14px; margin-bottom: 14px; flex-wrap: wrap; }
+    .top img { width: 44px; height: 44px; object-fit: contain; border-radius: 13px; background: #fff; }
+    .top .t { flex: 1; min-width: 200px; }
+    .top b { font-size: 20px; display: block; }
+    .top span { color: var(--muted); font-size: 13px; }
+    .seg { display: inline-flex; background: rgba(23,38,44,0.06); border-radius: 12px; padding: 3px; }
+    .seg button { border: 0; background: transparent; padding: 7px 14px; border-radius: 9px; font-weight: 600; color: var(--ink-2); }
+    .seg button.on { background: #fff; color: var(--teal); box-shadow: 0 2px 6px rgba(16,52,48,.12); }
+    .kpis4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+    .kpi4 { padding: 14px 16px; }
+    .kpi4 .k { color: var(--text-secondary); font-size: 13px; }
+    .kpi4 .v { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.15; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .kpi4 .v small { font-size: 15px; font-weight: 500; color: var(--text-muted); }
+    .kpi4 .s { font-size: 13px; color: var(--text-muted); }
+    .grid2c { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .card2 { padding: 16px 18px; min-width: 0; }
+    .card2 h3 { margin: 0; font-size: 16px; }
+    .card2 .sub { color: var(--text-muted); font-size: 13px; margin: 2px 0 10px; }
+    .chart { position: relative; }
+    .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .chart text { font-family: var(--font); fill: var(--text-secondary); font-size: 12px; }
+    .chart .val { fill: var(--text-primary); font-weight: 600; }
+    .bar { fill: var(--series-1); transition: opacity .15s; }
+    .bar.dim { opacity: .45; }
+    .tip { position: absolute; pointer-events: none; background: rgba(23,38,44,.94); color: #fff; font-size: 13px; padding: 7px 10px; border-radius: 9px; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); z-index: 5; display: none; }
+    .tip b { font-variant-numeric: tabular-nums; }
+    .full { grid-column: 1 / -1; }
+    table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .tbl th, .tbl td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+    .tbl th:nth-child(-n+2), .tbl td:nth-child(-n+2) { text-align: left; }
+    .tbl th { color: var(--text-secondary); font-weight: 600; font-size: 13px; cursor: pointer; user-select: none; }
+    .tbl tbody tr:hover { background: rgba(31,158,143,.06); }
+    .legend-ramp { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+    .legend-ramp i { width: 22px; height: 10px; border-radius: 3px; display: inline-block; }
+    .note { font-size: 13px; color: var(--text-muted); margin-top: 10px; }
+    .loading { opacity: .5; transition: opacity .2s; }
+    @media (max-width: 900px) { .kpis4 { grid-template-columns: 1fr 1fr; } .grid2c { grid-template-columns: 1fr; } }
+    @media print { .seg, .actions-r { display: none; } body { background: #fff; } .glass { box-shadow: none; border: 1px solid #ddd; } }
+  </style>
+</head>
+<body>
+<div class="wrap viz-root">
+  <header class="top glass anim">
+    <img src="/static/img/logo.png" alt="">
+    <div class="t"><b>รายงานการให้บริการผู้ป่วยนอก</b><span id="range">—</span></div>
+    <div class="seg" role="tablist" aria-label="ช่วงเวลา">
+      <button data-d="1" class="on">วันนี้</button><button data-d="7">7 วัน</button><button data-d="30">30 วัน</button>
+    </div>
+    <div class="actions-r" style="display:flex;gap:8px">
+      <a class="btn" id="csv" href="/api/reports.csv?days=1">ดาวน์โหลด CSV</a>
+      <button class="btn ghost" onclick="window.print()">พิมพ์</button>
+      <a class="btn ghost" href="/">กลับแผนที่</a>
+    </div>
+  </header>
+
+  <section class="kpis4" id="kpis"></section>
+
+  <section class="grid2c">
+    <article class="card2 glass anim d1">
+      <h3>ผู้ป่วยมาถึงรายชั่วโมง</h3>
+      <div class="sub">ค่าเฉลี่ยต่อวัน (นับจากเวลาเปิด Visit)</div>
+      <div class="chart" id="hourly"></div>
+    </article>
+    <article class="card2 glass anim d2">
+      <h3>จำนวนผู้ป่วยแต่ละโซน</h3>
+      <div class="sub">ตามแผนกหลักของ Visit</div>
+      <div class="chart" id="zones"></div>
+    </article>
+    <article class="card2 glass anim d3 full" id="heatCard">
+      <h3>ช่วงเวลาที่ผู้ป่วยมามาก (วัน × ชั่วโมง)</h3>
+      <div class="sub">สีเข้ม = ผู้ป่วยมาถึงมาก</div>
+      <div class="chart" id="heat"></div>
+      <div class="legend-ramp" id="heatLegend"></div>
+    </article>
+    <article class="card2 glass anim d4 full">
+      <h3>เวลารอรับบริการแต่ละจุด</h3>
+      <div class="sub">ค่ากลาง (นาที) ตั้งแต่ถูกส่งเข้าคิวจนเจ้าหน้าที่รับ · เรียงจากรอนานที่สุด · ชี้เพื่อดู P90 และจำนวนครั้ง</div>
+      <div class="chart" id="waits"></div>
+    </article>
+    <article class="card2 glass anim d5 full">
+      <h3>ตารางสรุปจุดบริการ</h3>
+      <div class="sub">คลิกหัวตารางเพื่อเรียง</div>
+      <div style="overflow:auto"><table class="tbl" id="tbl"></table></div>
+      <div class="note" id="note"></div>
+    </article>
+  </section>
+</div>
+<script type="module" src="/static/js/reports.js"></script>
+</body>
+</html>
