@@ -544,3 +544,19 @@ body.bigtext .tile small { font-size: 13px; }
 .patient-page.sheet-hidden .sheet { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; overflow: hidden; box-shadow: none; }
 .patient-page .sheet .grab { cursor: pointer; }
 body.bigtext .sheet-fab small { font-size: 12px; }
+
+/* ---------- ใบนำทางบนจอกว้าง: แผงรายละเอียดเลื่อนออกด้านขวา ข้างปุ่ม (แผนที่ยังเต็มจอ) ---------- */
+@media (min-width: 900px) {
+  .patient-page .sheet {
+    position: absolute; top: 12px; bottom: 12px; right: 96px; width: min(440px, calc(100vw - 140px)); max-width: none; margin: 0;
+    max-height: none; border-radius: 26px; padding: 6px 22px 22px; z-index: 3;
+    box-shadow: 0 18px 50px rgba(16,52,48,.20); animation: none;
+    transform: none; opacity: 1;
+    transition: transform .38s var(--ease), opacity .25s;
+  }
+  .patient-page.sheet-hidden .sheet {
+    max-height: none; padding: 6px 22px 22px; box-shadow: none;
+    transform: translateX(calc(100% + 120px)); opacity: 0; pointer-events: none;
+  }
+  .patient-page .sheet .grab { width: 44px; margin-left: auto; margin-right: auto; }
+}
