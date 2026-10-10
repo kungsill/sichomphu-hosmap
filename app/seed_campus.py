@@ -46,7 +46,7 @@ class Zone:
                                   "name": name, "link_group": link})
         return nid
 
-    def edge(self, a, b, kind="walk"):
+    def edge(self, a, b, kind="walk"):  # kind: walk / ramp / stairs / road (ถนนหลัก วาดกว้าง)
         self.doc["edges"].append({"id": f"e_{a}_{b}", "node_a": a, "node_b": b, "kind": kind, "accessible": True})
 
     def chain(self, ids):
@@ -80,6 +80,11 @@ def campus_document() -> dict:
 
     # ---- ถนน / ทางเดินนอกอาคาร (พิกัดพิกเซลของภาพผัง)
     gate = z.node("gate", 928, 900, "gate", "ประตูทางเข้าโรงพยาบาล")
+    # ถนนหลักหน้าโรงพยาบาล (ไป สีชมพู ↔ ไป ชุมแพ) ทางเข้าโรงพยาบาลแยกที่ x≈935
+    main_j = z.node("main_j", 935, 930, "junction", "ปากทางเข้าโรงพยาบาล")
+    z.edge(z.node("main_w", 0, 930, "corridor", "ถนนหลัก (ไป สีชมพู)"), main_j, "road")
+    z.edge(main_j, z.node("main_e", 1518, 930, "corridor", "ถนนหลัก (ไป ชุมแพ)"), "road")
+    z.edge(gate, main_j)
     z.chain([gate, z.node("r830", 928, 830, "junction"), z.node("r690", 928, 690, "junction")])
     row = {x: z.node(f"y690_{x}", x, 690, "junction") for x in (785, 814, 890, 1010, 1093, 1130)}
     z.chain([row[785], row[814], row[890], "c_r690", row[1010], row[1093], row[1130]])

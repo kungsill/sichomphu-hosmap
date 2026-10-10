@@ -5319,6 +5319,33 @@
    "link_group": null
   },
   {
+   "id": "c_main_e",
+   "floor_id": "flr_campus",
+   "kind": "corridor",
+   "x": 303.6,
+   "y": 186.0,
+   "name": "ถนนหลัก (ไป ชุมแพ)",
+   "link_group": null
+  },
+  {
+   "id": "c_main_j",
+   "floor_id": "flr_campus",
+   "kind": "junction",
+   "x": 187.0,
+   "y": 186.0,
+   "name": "ปากทางเข้าโรงพยาบาล",
+   "link_group": null
+  },
+  {
+   "id": "c_main_w",
+   "floor_id": "flr_campus",
+   "kind": "corridor",
+   "x": 0.0,
+   "y": 186.0,
+   "name": "ถนนหลัก (ไป สีชมพู)",
+   "link_group": null
+  },
+  {
    "id": "c_q500",
    "floor_id": "flr_campus",
    "kind": "corridor",
@@ -8309,10 +8336,31 @@
    "accessible": true
   },
   {
+   "id": "e_c_gate_c_main_j",
+   "node_a": "c_gate",
+   "node_b": "c_main_j",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
    "id": "e_c_gate_c_r830",
    "node_a": "c_gate",
    "node_b": "c_r830",
    "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_main_j_c_main_e",
+   "node_a": "c_main_j",
+   "node_b": "c_main_e",
+   "kind": "road",
+   "accessible": true
+  },
+  {
+   "id": "e_c_main_w_c_main_j",
+   "node_a": "c_main_w",
+   "node_b": "c_main_j",
+   "kind": "road",
    "accessible": true
   },
   {

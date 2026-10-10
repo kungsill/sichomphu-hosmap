@@ -367,13 +367,13 @@ export class IsoMap {
   // ถนน / ทางเดินนอกอาคารบนแผนที่ภาพรวม วาดจากเส้นทางนำทางจริง (ทับภาพผัง ให้เห็นว่าระบบพาเดินทางไหน)
   _drawCampusRoads(ctx, f) {
     const nodes = new Map(this.doc.nodes.filter((n) => n.floor_id === f.id).map((n) => [n.id, n]));
-    const roads = [], walks = [];
+    const roads = [], walks = [], mains = [];
     for (const e of this.doc.edges) {
       const a = nodes.get(e.node_a), b = nodes.get(e.node_b);
       if (!a || !b) continue;
-      (a.kind === 'portal' || b.kind === 'portal' ? walks : roads).push([a, b]);
+      (e.kind === 'road' ? mains : a.kind === 'portal' || b.kind === 'portal' ? walks : roads).push([a, b]);
     }
-    if (!roads.length && !walks.length) return;
+    if (!roads.length && !walks.length && !mains.length) return;
     // พิกเซลต่อเมตรบนจอ (เฉลี่ยแกน x/y เพราะมุมมองไอโซเมตริกบีบแกนหนึ่ง)
     const o = this.project(0, 0), ux = this.project(1, 0), uy = this.project(0, 1);
     const ppm = (Math.hypot(ux[0] - o[0], ux[1] - o[1]) + Math.hypot(uy[0] - o[0], uy[1] - o[1])) / 2;
@@ -393,6 +393,25 @@ export class IsoMap {
     };
     ctx.save();
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    // ถนนหลัก: กว้าง ~14 ม. ขอบขาว เส้นแบ่งเลนประ และเส้นคู่กลางถนน
+    if (mains.length) {
+      ctx.lineCap = 'butt';
+      stroke(mains, 15.5, 'rgba(255,255,255,0.9)');
+      stroke(mains, 14, 'rgba(62,72,77,0.9)');
+      stroke(mains, 12.6, 'rgba(255,255,255,0.7)');            // เส้นขอบทาง
+      stroke(mains, 12.2, 'rgba(62,72,77,1)');
+      if (ppm > 0.9) {
+        for (const off of [-3.4, 3.4]) {                         // เส้นแบ่งเลน
+          stroke(mains.map(([a, b]) => {
+            const len = Math.hypot(b.x - a.x, b.y - a.y) || 1, nx = (-(b.y - a.y) / len) * off, ny = ((b.x - a.x) / len) * off;
+            return [{ x: a.x + nx, y: a.y + ny }, { x: b.x + nx, y: b.y + ny }];
+          }), 0.3, 'rgba(255,255,255,0.8)', [3, 3]);
+        }
+      }
+      stroke(mains, 0.9, 'rgba(242,201,76,0.95)');              // เส้นกลางถนนสีเหลือง
+      stroke(mains, 0.35, 'rgba(62,72,77,1)');
+      ctx.lineCap = 'round';
+    }
     stroke(walks, 3.2, 'rgba(255,255,255,0.9)');                 // ทางเดินเท้าเข้าตึก
     stroke(walks, 2.2, 'rgba(226,214,188,0.95)');
     stroke(roads, 7.4, 'rgba(255,255,255,0.85)');                // ขอบถนน

@@ -471,7 +471,7 @@ function propsHtml() {
     const len = a && b ? Math.hypot(a.x - b.x, a.y - b.y).toFixed(1) : '-';
     h += `<div class="ptitle">ทางเดิน <button class="btn ghost" data-act="del">ลบ</button></div>
       <div class="muted" style="margin-bottom:10px">ระยะ ${len} เมตร</div>
-      <label class="field"><span>ชนิด</span><select data-edge="kind">${opt('walk', 'ทางเดินปกติ', e.kind)}${opt('ramp', 'ทางลาด', e.kind)}${opt('stairs', 'ขั้นบันได', e.kind)}</select></label>
+      <label class="field"><span>ชนิด</span><select data-edge="kind">${opt('walk', 'ทางเดินปกติ', e.kind)}${opt('ramp', 'ทางลาด', e.kind)}${opt('stairs', 'ขั้นบันได', e.kind)}${opt('road', 'ถนนหลัก (แผนที่ภาพรวม)', e.kind)}</select></label>
       <label class="check"><input type="checkbox" data-edge="accessible" ${e.accessible !== false && e.kind !== 'stairs' ? 'checked' : ''} ${e.kind === 'stairs' ? 'disabled' : ''}> รถเข็นผ่านได้</label>`;
   } else {
     const f = floor();
