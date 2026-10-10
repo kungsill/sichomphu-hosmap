@@ -508,3 +508,19 @@ body.bigtext .mood small { font-size: 13px; }
 .moodbox .mlist { list-style: none; margin: 6px 0 0; padding: 0; max-height: 140px; overflow: auto; }
 .moodbox .mlist li { display: flex; gap: 8px; font-size: 13px; padding: 4px 0; border-top: 1px dashed rgba(0,0,0,.08); }
 .moodbox .mlist time { color: var(--muted); flex: none; font-variant-numeric: tabular-nums; }
+
+/* ---------- ปุ่มรายละเอียดในใบนำทาง ---------- */
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.tile { border: 1.5px solid var(--line); background: #fff; border-radius: 16px; padding: 10px 6px 9px; cursor: pointer; font: inherit;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--ink); transition: transform .15s, border-color .15s, background .15s, box-shadow .15s; }
+.tile .ic { font-size: 24px; line-height: 1.15; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
+.tile b { font-size: 14px; }
+.tile small { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.tile:hover { border-color: rgba(31,158,143,.45); }
+.tile:active { transform: scale(.96); }
+.tile.on { border-color: var(--teal); background: rgba(31,158,143,.08); box-shadow: 0 0 0 3px rgba(31,158,143,.14); }
+.tile.on small { color: var(--teal); }
+.panel:not(:empty) { margin-top: 10px; animation: panelIn .22s ease; }
+@keyframes panelIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+body.bigtext .tile b { font-size: 16px; }
+body.bigtext .tile small { font-size: 13px; }

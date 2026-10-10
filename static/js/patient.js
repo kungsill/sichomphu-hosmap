@@ -7,7 +7,7 @@ let doc = null;
 let view = null;
 let stop = null;
 let lastRouteKey = '';
-let showHistory = false;
+let panel = null;   // ปุ่มรายละเอียดที่เปิดอยู่: 'route' | 'mood' | 'history' | null
 
 // ------------------------------------------------------------------ การตั้งค่าที่จำไว้ในเครื่อง
 const pref = (k, d) => { try { return localStorage.getItem(k) ?? d; } catch { return d; } };
@@ -28,6 +28,8 @@ const T = {
     loadErr: 'ไม่สามารถโหลดข้อมูลได้ กรุณาลองใหม่อีกครั้ง', badToken: 'ใบนำทางไม่ถูกต้องหรือหมดอายุ',
     contact: 'กรุณาติดต่อเจ้าหน้าที่ประชาสัมพันธ์ หรือสแกน QR Code ใหม่อีกครั้ง', campus: 'ภาพรวม รพ.', big: 'ตัวอักษรใหญ่',
     notOnMap: 'จุดบริการนี้ยังไม่มีในแผนที่ กรุณาสอบถามเจ้าหน้าที่ใกล้ตัวท่าน',
+    tRoute: 'เส้นทาง', tMood: 'ความรู้สึก', tHist: 'ประวัติวันนี้', tellUs: 'บอกเรา', items: (n) => `${n} รายการ`,
+    short: (m, min) => `~${m} ม. · ${min} นาที`, noRoute: 'ไม่มีเส้นทาง',
     moodQ: 'ตอนนี้คุณรู้สึกอย่างไร', moodQDone: 'การรับบริการวันนี้เป็นอย่างไร',
     moods: { great: 'พอใจมาก', good: 'พอใจ', meh: 'เฉย ๆ', worried: 'กังวล', angry: 'ไม่พอใจ' },
     notePh: 'พิมพ์ความรู้สึกหรือข้อเสนอแนะ (ไม่บังคับ)', send: 'ส่ง', sent: 'ขอบคุณครับ เจ้าหน้าที่ได้รับแล้ว',
@@ -44,6 +46,8 @@ const T = {
     loadErr: 'Could not load data. Please try again.', badToken: 'This link is invalid or has expired.',
     contact: 'Please ask the information desk, or scan the QR code again.', campus: 'Hospital campus', big: 'Large text',
     notOnMap: 'This service point is not on the map yet. Please ask a nearby staff member.',
+    tRoute: 'Route', tMood: 'Feedback', tHist: 'History', tellUs: 'Tell us', items: (n) => `${n} items`,
+    short: (m, min) => `~${m} m · ${min} min`, noRoute: 'No route',
     moodQ: 'How are you feeling right now?', moodQDone: 'How was your visit today?',
     moods: { great: 'Very happy', good: 'Happy', meh: 'Okay', worried: 'Worried', angry: 'Unhappy' },
     notePh: 'Tell us how you feel or any suggestion (optional)', send: 'Send', sent: 'Thank you — our staff has received it.',
@@ -229,6 +233,11 @@ async function sendMood(mood, comment) {
   } finally {
     btns.forEach((b) => { b.disabled = false; });
     updateMood();
+    const tile = document.querySelector('[data-panel="mood"]');
+    if (tile && myMood) {
+      tile.querySelector('.ic').textContent = MOODS.find(([k]) => k === myMood)[1];
+      tile.querySelector('small').textContent = t().moods[myMood];
+    }
   }
 }
 moodEl.querySelectorAll('.mood').forEach((b) => { b.onclick = () => sendMood(b.dataset.mood, null); });
@@ -240,6 +249,7 @@ mq('send').onclick = () => {
 function renderSheet() {
   const v = view;
   if (!v) return;
+  if (v.my_mood !== undefined && !moodMsg) myMood = v.my_mood;
   // จำว่ากำลังพิมพ์อยู่ไหม ก่อนแผงถูกวาดใหม่ (วาดใหม่แล้วโฟกัสจะหลุด)
   const ta = mq('ph'), typing = document.activeElement === ta, sel = [ta.selectionStart, ta.selectionEnd];
   const L = t();
@@ -272,20 +282,28 @@ function renderSheet() {
     ${!v.room && v.state !== 'finished' ? `<div class="notice-inline">${esc(L.notOnMap)}</div>` : ''}
     ${stepper(v.stages)}
     ${pend.length ? `<div class="section-title">${L.next}</div><div class="pending">${pend.map((p) => `<span class="${p.status}">${esc(p.name)} · ${p.status === 'received' ? L.examining : L.pendingExam}</span>`).join('')}</div>` : ''}
-    ${route ? `<div class="section-title"><span>${L.route(route.distance, route.minutes)}</span>
+    <div class="tiles" role="tablist">
+      <button class="tile ${panel === 'route' ? 'on' : ''}" data-panel="route" aria-expanded="${panel === 'route'}">
+        <span class="ic">🧭</span><b>${L.tRoute}</b><small>${route ? L.short(route.distance, route.minutes) : L.noRoute}</small></button>
+      <button class="tile ${panel === 'mood' ? 'on' : ''}" data-panel="mood" aria-expanded="${panel === 'mood'}">
+        <span class="ic">${(MOODS.find(([k]) => k === myMood) || [0, '😊'])[1]}</span><b>${L.tMood}</b><small>${myMood ? L.moods[myMood] : L.tellUs}</small></button>
+      <button class="tile ${panel === 'history' ? 'on' : ''}" data-panel="history" aria-expanded="${panel === 'history'}">
+        <span class="ic">🕘</span><b>${L.tHist}</b><small>${L.items((v.events || []).length)}</small></button>
+    </div>
+    <div class="panel">${panel === 'route' ? (route ? `<div class="section-title"><span>${L.route(route.distance, route.minutes)}</span>
       <label class="toggle"><input type="checkbox" id="acc" ${accessible ? 'checked' : ''}><span class="sw"></span>${L.wheel}</label></div>
       <ol class="steps-text">${steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`
-      : (v.route && !v.route.ok ? `<div class="section-title">${L.routeTitle}</div><div class="muted">${esc(v.route.reason)}</div>
-      <label class="toggle" style="margin-top:8px"><input type="checkbox" id="acc" ${accessible ? 'checked' : ''}><span class="sw"></span>${L.wheelRoute}</label>` : '')}
-    <div id="moodSlot"></div>
-    <div class="section-title"><span>${L.history}</span><button class="btn ghost" id="hist">${showHistory ? L.hide : L.show}</button></div>
-    <ul class="timeline ${showHistory ? '' : 'hidden'}">${(v.events || []).slice().reverse().map((e) => `<li><time>${esc(e.time)}</time><span>${esc(e.text)}</span></li>`).join('')}</ul>
+      : (v.route && !v.route.ok ? `<div class="muted">${esc(v.route.reason)}</div>
+      <label class="toggle" style="margin-top:8px"><input type="checkbox" id="acc" ${accessible ? 'checked' : ''}><span class="sw"></span>${L.wheelRoute}</label>` : `<div class="muted">${L.noRoute}</div>`))
+    : panel === 'mood' ? '<div id="moodSlot"></div>'
+    : panel === 'history' ? `<ul class="timeline">${(v.events || []).slice().reverse().map((e) => `<li><time>${esc(e.time)}</time><span>${esc(e.text)}</span></li>`).join('')}</ul>` : ''}</div>
     <p class="muted" style="font-size:12px;margin-top:14px">HN ${esc(v.hn_masked)} · ${L.foot}<br>${L.approx}</p>`;
   // ย้ายการ์ดความรู้สึกเข้าที่ (ไม่สร้างใหม่ ข้อความที่กำลังพิมพ์จึงไม่หาย)
-  if (v.my_mood !== undefined && !moodMsg) myMood = v.my_mood;
   updateMood();
-  $('#moodSlot').replaceWith(moodEl);
-  if (typing) { ta.focus(); ta.setSelectionRange(...sel); }
+  if ($('#moodSlot')) {
+    $('#moodSlot').replaceWith(moodEl);
+    if (typing) { ta.focus(); ta.setSelectionRange(...sel); }
+  }
   const acc = $('#acc');
   if (acc) acc.onchange = (e) => {
     accessible = e.target.checked;
@@ -293,7 +311,13 @@ function renderSheet() {
     lastRouteKey = '';
     connect();
   };
-  $('#hist').onclick = () => { showHistory = !showHistory; renderSheet(); };
+  document.querySelectorAll('[data-panel]').forEach((b) => {
+    b.onclick = () => {
+      panel = panel === b.dataset.panel ? null : b.dataset.panel;
+      renderSheet();
+      if (panel) setTimeout(() => $('.panel')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 30);
+    };
+  });
   document.querySelectorAll('[data-lang]').forEach((b) => {
     b.onclick = () => { lang = b.dataset.lang; setPref('nav.lang', lang); applyPrefs(); onView(view); };
   });
