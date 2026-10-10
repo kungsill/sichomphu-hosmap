@@ -392,33 +392,29 @@ export class IsoMap {
       ctx.stroke();
     };
     ctx.save();
+    this._polyPath(ctx, [[0, 0], [f.width, 0], [f.width, f.height], [0, f.height]], 0);
+    ctx.clip();                                               // ไม่ให้ปลายถนนล้นขอบแผนที่
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    // ถนนหลัก: กว้าง ~14 ม. ขอบขาว เส้นแบ่งเลนประ และเส้นคู่กลางถนน
-    if (mains.length) {
-      ctx.lineCap = 'butt';
-      stroke(mains, 15.5, 'rgba(255,255,255,0.9)');
-      stroke(mains, 14, 'rgba(62,72,77,0.9)');
-      stroke(mains, 12.6, 'rgba(255,255,255,0.7)');            // เส้นขอบทาง
-      stroke(mains, 12.2, 'rgba(62,72,77,1)');
-      if (ppm > 0.9) {
-        for (const off of [-3.4, 3.4]) {                         // เส้นแบ่งเลน
-          stroke(mains.map(([a, b]) => {
-            const len = Math.hypot(b.x - a.x, b.y - a.y) || 1, nx = (-(b.y - a.y) / len) * off, ny = ((b.x - a.x) / len) * off;
-            return [{ x: a.x + nx, y: a.y + ny }, { x: b.x + nx, y: b.y + ny }];
-          }), 0.3, 'rgba(255,255,255,0.8)', [3, 3]);
-        }
-      }
-      stroke(mains, 0.9, 'rgba(242,201,76,0.95)');              // เส้นกลางถนนสีเหลือง
-      stroke(mains, 0.35, 'rgba(62,72,77,1)');
-      ctx.lineCap = 'round';
-    }
+    // ถนนทุกเส้นใช้แบบเดียวกัน (ตามภาพผัง): ทางเท้า → ขอบคันหิน → ผิวถนน → เส้นขอบทางขาว → เส้นประกลางขาว
+    // ต่างกันแค่ความกว้าง: ถนนหลัก 14 ม. (มีเส้นแบ่งเลน) · ถนนในโรงพยาบาล 6.2 ม.
+    const offset = (segs, off) => segs.map(([a, b]) => {
+      const len = Math.hypot(b.x - a.x, b.y - a.y) || 1, nx = (-(b.y - a.y) / len) * off, ny = ((b.x - a.x) / len) * off;
+      return [{ x: a.x + nx, y: a.y + ny }, { x: b.x + nx, y: b.y + ny }];
+    });
+    const ROAD = [[mains, 14], [roads, 6.2]].filter(([segs]) => segs.length);
+    const layer = (fn) => { for (const [segs, w] of ROAD) fn(segs, w); };
     stroke(walks, 3.2, 'rgba(255,255,255,0.9)');                 // ทางเดินเท้าเข้าตึก
     stroke(walks, 2.2, 'rgba(226,214,188,0.95)');
-    stroke(roads, 9.6, 'rgba(60,70,60,0.10)');                   // เงาจาง ๆ ใต้ทางเท้า
-    stroke(roads, 9.0, 'rgba(236,230,214,0.95)');               // ทางเท้า
-    stroke(roads, 7.0, 'rgba(255,255,255,0.95)');               // ขอบคันหิน
-    stroke(roads, 6.2, 'rgba(84,97,102,0.92)');                  // ผิวถนน
-    if (ppm > 1.2) stroke(roads, 0.35, 'rgba(255,255,255,0.75)', [2.4, 2.4]);  // เส้นประกลางถนน
+    layer((segs, w) => stroke(segs, w + 3.4, 'rgba(60,70,60,0.10)'));    // เงาจาง ๆ
+    layer((segs, w) => stroke(segs, w + 2.8, 'rgba(236,230,214,0.95)'));  // ทางเท้า
+    layer((segs, w) => stroke(segs, w + 0.8, 'rgba(255,255,255,0.95)'));  // ขอบคันหิน
+    layer((segs, w) => stroke(segs, w, '#57636a'));                       // ผิวถนน
+    if (ppm > 0.9) {
+      layer((segs, w) => stroke(segs, w - 1.0, 'rgba(255,255,255,0.8)'));  // เส้นขอบทาง
+      layer((segs, w) => stroke(segs, w - 1.5, '#57636a'));
+      layer((segs) => stroke(segs, 0.35, 'rgba(255,255,255,0.85)', [2.4, 2.4]));  // เส้นประกลางถนน
+      if (mains.length) for (const off of [-3.4, 3.4]) stroke(offset(mains, off), 0.3, 'rgba(255,255,255,0.7)', [2.4, 2.4]);  // แบ่งเลน
+    }
     ctx.setLineDash([]);
     // จุดหน้าประตูตึก
     for (const n of nodes.values()) {
