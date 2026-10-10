@@ -186,7 +186,8 @@ class SnapshotBuilder:
 
         active = [p for p in patients if p["state"] not in FINAL]
         # รอ: นับเฉพาะผู้ป่วยที่อยู่บนแผนที่ และใช้ค่ากลาง (median) เพื่อไม่ให้ Visit ที่ค้างในระบบนาน ๆ ดึงค่าเพี้ยน
-        waits = sorted(p["since"] for p in active if p["state"] == "waiting" and p["room"])
+        waits = sorted(p["since"] for p in active
+                       if p["state"] == "waiting" and p["room"] and p["since"] <= config.STALE_WAIT_MINUTES)
         cap_total = sum((r.get("capacity") or 0) for r in (hmap.rooms.values() if hmap else []) if r.get("kind") != "corridor")
         located = sum(c for rid, c in room_count.items() if hmap and hmap.rooms.get(rid, {}).get("kind") != "corridor")
         density = round(100 * located / cap_total) if cap_total else 0

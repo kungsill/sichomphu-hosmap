@@ -45,6 +45,8 @@ MISSING_POLLS_BEFORE_CANCEL = int(os.environ.get("MISSING_POLLS_BEFORE_CANCEL", 
 WALKING_MINUTES = float(os.environ.get("WALKING_MINUTES", "2"))
 # แสดงผู้ป่วยที่จบ Visit แล้วบนแผนที่ต่ออีกกี่นาที (สถานะ "กำลังกลับบ้าน")
 SHOW_FINISHED_MINUTES = float(os.environ.get("SHOW_FINISHED_MINUTES", "6"))
+# รอนานเกินกี่นาทีถือว่า "ค้างในระบบ" (ไม่นำไปคิดเวลารอเฉลี่ย) — เช่น Visit ที่ไม่ได้ปิดใน HOSxP
+STALE_WAIT_MINUTES = float(os.environ.get("STALE_WAIT_MINUTES", "240"))
 
 # โหมดสาธิต: ความเร็วนาฬิกาจำลอง (นาทีจำลองต่อ 1 นาทีจริง)
 DEMO_SPEED = float(os.environ.get("DEMO_SPEED", "12"))

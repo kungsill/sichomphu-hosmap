@@ -321,6 +321,9 @@ class Worker:
                     # ถูกส่งกลับเข้าคิวหน่วยเดิมอีกครั้ง (เช่น กลับมาพบแพทย์หลังได้ผล LAB)
                     events.append(("sent", cur_dep, dep_name(cur_dep), dep_time))
                     upd.update(cur_dep_time=dep_time, state="waiting")
+                elif dep_time != st.get("cur_dep_time") and st["state"] == "waiting" and v.get("cur_dep_time"):
+                    # HOSxP ให้เวลาเข้าคิวที่แม่นกว่า (เช่น ถูกส่งเข้าคิวหน่วยเดิมซ้ำ) → ปรับเวลาเริ่มรอ
+                    upd["cur_dep_time"] = dep_time
             if hint != st.get("room_hint"):
                 upd["room_hint"] = hint
 
