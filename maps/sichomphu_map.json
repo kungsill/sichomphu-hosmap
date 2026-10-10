@@ -1059,20 +1059,20 @@
    "kind": "building",
    "polygon": [
     [
-     94.0,
-     252.4
+     85.6,
+     196.0
     ],
     [
-     144.0,
-     252.4
+     178.0,
+     196.0
     ],
     [
-     144.0,
-     300.0
+     178.0,
+     311.2
     ],
     [
-     94.0,
-     300.0
+     85.6,
+     311.2
     ]
    ],
    "door_node_id": null,
@@ -5247,15 +5247,6 @@
    "link_group": null
   },
   {
-   "id": "c_amphoe_in",
-   "floor_id": "flr_campus",
-   "kind": "corridor",
-   "x": 144.4,
-   "y": 276.4,
-   "name": "ทางเข้าลานจอดรถอำเภอสีชมพู",
-   "link_group": null
-  },
-  {
    "id": "c_c690",
    "floor_id": "flr_campus",
    "kind": "junction",
@@ -8638,13 +8629,6 @@
    "id": "e_c_s850_c_psy_r",
    "node_a": "c_s850",
    "node_b": "c_psy_r",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_south_j_c_amphoe_in",
-   "node_a": "c_south_j",
-   "node_b": "c_amphoe_in",
    "kind": "walk",
    "accessible": true
   },

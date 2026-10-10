@@ -92,7 +92,6 @@ def campus_document() -> dict:
     z.chain([main_j, z.node("south_m", 924, 1150), south_j, z.node("south_e", 928, CAMPUS_H, "corridor", "ถนนทางใต้")])
     for e in z.doc["edges"][-6:]:
         e["kind"] = "road"
-    z.edge(south_j, z.node("amphoe_in", 722, 1382, "corridor", "ทางเข้าลานจอดรถอำเภอสีชมพู"))
     z.edge(gate, main_j)
 
     # ถนนทแยงสายยาว: จากแนวกำแพงด้านบน ลงมาสามแยกหน้าตึก ER แล้วต่อถึงประตูโรงพยาบาล
@@ -175,7 +174,7 @@ def campus_document() -> dict:
         z.doc["rooms"][-1]["decor"] = decor
     # ลานจอดรถ / สนามฟุตบอล (วาดบนพื้น มีรถจอด · เส้นสนาม)
     for rid, name, box, decor in (("park_dial", "ลานจอดรถ (ไตเทียม · แผนไทย)", (405, 455, 497, 528), "parking"),
-                                  ("park_amphoe", "ลานจอดรถ อำเภอสีชมพู", (470, 1262, 720, 1500), "parking"),
+                                  ("park_amphoe", "ลานจอดรถ อำเภอสีชมพู", (428, 980, 890, 1556), "parking"),
                                   ("field", "สนามฟุตบอลกลาง", (110, 1262, 430, 1492), "field")):
         bld(rid, name, name, box, "#b0bec5")
         z.doc["rooms"][-1]["decor"] = decor

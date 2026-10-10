@@ -683,7 +683,7 @@ export class IsoMap {
           const COLORS = ['#e8edf0', '#c0392b', '#2c3e50', '#95a5a6', '#2e86de', '#f5f6fa', '#7f8c8d', '#d35400'];
           const rnd = rand(hash(r.id));
           for (const s of parkingStalls(b)) {
-            if (!s.car || rnd() > 0.62) continue;
+            if (!s.car || rnd() > 0.5) continue;
             const c = s.car, col = COLORS[Math.floor(rnd() * COLORS.length)];
             const [cx, cy] = s.horiz ? [c.l, c.d] : [c.d, c.l];
             const poly = s.horiz ? this._rect(cx - 0.9, cy - 2.1, 1.8, 4.2) : this._rect(cx - 2.1, cy - 0.9, 4.2, 1.8);
