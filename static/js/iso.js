@@ -99,6 +99,83 @@ function segDist(x, y, a, b) {
   return Math.hypot(x - (a.x + t * dx), y - (a.y + t * dy));
 }
 
+// รถวิ่งบนถนนของแผนที่ภาพรวม: สุ่มเลี้ยวที่ทางแยก ขับชิดซ้าย ชะลอเมื่อมีคันหน้า
+// ถนนนอกรั้ว (road) วิ่งเร็ว ถนนในโรงพยาบาลวิ่งช้า · สุดถนนที่ขอบแผนที่ = ออกไปแล้วมีคันใหม่เข้ามา
+class Traffic {
+  constructor(doc, f) {
+    const nodes = new Map(doc.nodes.filter((n) => n.floor_id === f.id).map((n) => [n.id, n]));
+    this.nodes = nodes;
+    this.adj = new Map();
+    this.f = f;
+    for (const e of doc.edges) {
+      const a = nodes.get(e.node_a), b = nodes.get(e.node_b);
+      if (!a || !b || e.kind === 'path' || a.kind === 'portal' || b.kind === 'portal') continue;
+      const len = Math.hypot(b.x - a.x, b.y - a.y);
+      if (len < 0.5) continue;
+      for (const [p, q] of [[a, b], [b, a]]) {
+        if (!this.adj.has(p.id)) this.adj.set(p.id, []);
+        this.adj.get(p.id).push({ to: q.id, len, road: e.kind === 'road' });
+      }
+    }
+    const edgeOf = (n) => n.x < 1 || n.y < 1 || n.x > f.width - 1 || n.y > f.height - 1;
+    this.entries = [...this.adj.keys()].filter((id) => this.adj.get(id).length === 1 && edgeOf(nodes.get(id)));
+    this.rnd = rand(hash(f.id + 'traffic'));
+    const all = [...this.adj.entries()].flatMap(([from, list]) => list.map((x) => ({ from, ...x })));
+    this.cars = [];
+    if (!all.length) return;
+    const COLORS = ['#f5f6fa', '#c0392b', '#2c3e50', '#2e86de', '#95a5a6', '#e1b12c', '#27ae60', '#e8edf0', '#8e44ad'];
+    const N = Math.min(26, Math.round(all.length * 0.3));
+    for (let i = 0; i < N; i++) {
+      const e = all[Math.floor(this.rnd() * all.length)];
+      this.cars.push({ a: e.from, b: e.to, len: e.len, road: e.road, t: this.rnd() * e.len,
+        lane: e.road ? (this.rnd() < 0.5 ? 1.8 : 5.0) : 1.5, v: 0,
+        color: COLORS[Math.floor(this.rnd() * COLORS.length)], big: this.rnd() < 0.12 });
+    }
+  }
+
+  _next(c) {
+    const opts = this.adj.get(c.b) || [];
+    if (opts.length === 1 && this.entries.includes(c.b) && this.entries.length > 1) {   // ออกจากแผนที่ → คันใหม่เข้ามาจากขอบอื่น
+      const start = this.entries[Math.floor(this.rnd() * this.entries.length)];
+      const e = this.adj.get(start)[0];
+      Object.assign(c, { a: start, b: e.to, len: e.len, road: e.road, t: 0, lane: e.road ? (this.rnd() < 0.5 ? 1.8 : 5.0) : 1.5 });
+      return;
+    }
+    let cand = opts.filter((o) => o.to !== c.a);
+    if (!cand.length) cand = opts;                                   // ทางตัน → กลับรถ
+    if (c.road) { const same = cand.filter((o) => o.road); if (same.length && this.rnd() < 0.85) cand = same; }  // รถบนถนนใหญ่ส่วนมากวิ่งตรงไป
+    const o = cand[Math.floor(this.rnd() * cand.length)];
+    const was = c.road;
+    Object.assign(c, { a: c.b, b: o.to, len: o.len, road: o.road, t: 0 });
+    if (was !== o.road) c.lane = o.road ? 1.8 : 1.5;
+  }
+
+  step(dt) {
+    for (const c of this.cars) {
+      const target = c.road ? 9 : 4.2;
+      // คันหน้าในเลนเดียวกัน → ชะลอ
+      let gap = Infinity;
+      for (const o of this.cars) {
+        if (o === c || o.a !== c.a || o.b !== c.b || Math.abs(o.lane - c.lane) > 1) continue;
+        const d = o.t - c.t;
+        if (d > 0 && d < gap) gap = d;
+      }
+      const want = gap < 7 ? 0 : gap < 16 ? target * (gap - 7) / 9 : target;
+      c.v += (want - c.v) * Math.min(1, dt * 2.5);
+      c.t += c.v * dt;
+      let guard = 0;
+      while (c.t >= c.len && guard++ < 4) { const over = c.t - c.len; this._next(c); c.t = over; }
+    }
+  }
+
+  pose(c) {
+    const a = this.nodes.get(c.a), b = this.nodes.get(c.b);
+    const k = c.len ? Math.min(1, c.t / c.len) : 0;
+    const dx = (b.x - a.x) / (c.len || 1), dy = (b.y - a.y) / (c.len || 1);
+    return { x: a.x + (b.x - a.x) * k + dy * c.lane, y: a.y + (b.y - a.y) * k - dx * c.lane, dx, dy };   // ชิดซ้าย
+  }
+}
+
 // ช่องจอดรถในลาน: แถวคู่ (ลึก 5 ม. กว้าง 2.6 ม.) คั่นด้วยทางวิ่ง 6 ม. — คืนค่าเส้นแบ่งช่องและตำแหน่งรถ
 function parkingStalls(b) {
   const horiz = b.x2 - b.x1 >= b.y2 - b.y1;
@@ -678,6 +755,34 @@ export class IsoMap {
         items.push({ type: 'sign', poly, horiz, mid, t, L, z0: 1.4, z1: 4.4, text: r.short_name || r.name, cx: c[0], cy: c[1] + 0.01 });
         continue;
       }
+      if (r.decor === 'carport') {
+        const horiz = b.x2 - b.x1 >= b.y2 - b.y1;
+        const L1 = horiz ? b.x1 : b.y1, L2 = horiz ? b.x2 : b.y2, D1 = horiz ? b.y1 : b.x1, D2 = horiz ? b.y2 : b.x2;
+        const pt = (l, d) => (horiz ? [l, d] : [d, l]);
+        const rect = (l1, l2, d1, d2) => { const a = pt(l1, d1), c = pt(l2, d2); return this._rect(Math.min(a[0], c[0]), Math.min(a[1], c[1]), Math.abs(c[0] - a[0]), Math.abs(c[1] - a[1])); };
+        const COLORS = ['#e8edf0', '#c0392b', '#2c3e50', '#95a5a6', '#2e86de', '#f5f6fa', '#7f8c8d'];
+        const rnd = rand(hash(r.id));
+        const n = Math.floor((L2 - L1 - 1) / 2.7);
+        for (let i = 0; i < n; i++) {                       // รถจอดเรียงแถวเดียวใต้หลังคา
+          if (rnd() > 0.7) continue;
+          const l = L1 + 1 + i * 2.7 + 1.35, d = (D1 + D2) / 2, col = COLORS[Math.floor(rnd() * COLORS.length)];
+          const poly = rect(l - 0.9, l + 0.9, d - 2.1, d + 2.1), cab = rect(l - 0.8, l + 0.8, d - 1.0, d + 1.1), c = centroid(poly);
+          items.push({ type: 'prism', poly, z0: 0, z1: 0.75, color: col, top: col, cx: c[0], cy: c[1] });
+          items.push({ type: 'prism', poly: cab, z0: 0.75, z1: 1.35, color: '#5d7480', top: col, cx: c[0], cy: c[1] + 0.01 });
+        }
+        for (let l = L1 + 0.3; l <= L2 - 0.3; l += Math.max(5, (L2 - L1 - 0.6) / Math.round((L2 - L1) / 7))) {  // เสาเหล็ก
+          for (const d of [D1 + 0.4, D2 - 0.4]) {
+            const poly = rect(l - 0.15, l + 0.15, d - 0.15, d + 0.15), c = centroid(poly);
+            items.push({ type: 'prism', poly, z0: 0, z1: 2.8, color: '#7d8a90', top: '#9aa5a8', cx: c[0], cy: c[1] });
+          }
+        }
+        const segN = Math.max(1, Math.ceil((L2 - L1) / 12));  // หลังคาแบ่งช่วง ให้เรียงความลึกถูกต้อง
+        for (let i = 0; i < segN; i++) {
+          const poly = rect(L1 + ((L2 - L1) * i) / segN, L1 + ((L2 - L1) * (i + 1)) / segN, D1, D2), c = centroid(poly);
+          items.push({ type: 'prism', poly, z0: 2.8, z1: 3.05, color: '#9fb0b8', top: i % 2 ? '#dfe6ea' : '#d7e0e5', cx: c[0], cy: c[1] + 0.5 });
+        }
+        continue;
+      }
       if (r.decor === 'parking' || r.decor === 'field') {
         if (r.decor === 'parking') {
           const COLORS = ['#e8edf0', '#c0392b', '#2c3e50', '#95a5a6', '#2e86de', '#f5f6fa', '#7f8c8d', '#d35400'];
@@ -1082,7 +1187,12 @@ export class IsoMap {
     }
     if (this.route) { this._dash = (this._dash + dt * 14) % 1000; animating = true; }
     if (this.selected || this.hoverVn || this.crowdedPulse) animating = true;
-    if (this._animFloors?.has(this.floorId) && t - (this._decorT || 0) > 40) { this._decorT = t; animating = true; }
+    const fl = this.floors?.[this.floorId];
+    if (fl?.style === 'campus' && this.opts.traffic !== false) {
+      if (!this.traffic || this.traffic.f !== fl || this.traffic.doc !== this.doc) { this.traffic = new Traffic(this.doc, fl); this.traffic.doc = this.doc; }
+      this.traffic.step(dt);
+    }
+    if ((this._animFloors?.has(this.floorId) || fl?.style === 'campus') && t - (this._decorT || 0) > 33) { this._decorT = t; animating = true; }
     if (animating || this.dirty) this.render();
     this.dirty = false;
     requestAnimationFrame((tt) => this._frame(tt));
@@ -1134,12 +1244,16 @@ export class IsoMap {
       if (p.floor !== f.id) continue;
       draw.push({ d: this.depth(p.x, p.y) + 0.3, it: { type: 'person', p } });
     }
+    if (f.style === 'campus' && this.traffic?.f === f) {
+      for (const c of this.traffic.cars) { const q = this.traffic.pose(c); draw.push({ d: this.depth(q.x, q.y) + 0.2, it: { type: 'car', p: q, c } }); }
+    }
     for (const c of this.crowd) if (c.floor === f.id) draw.push({ d: this.depth(c.x, c.y) + 0.3, it: { type: 'crowd', c } });
     draw.sort((a, b) => a.d - b.d);
     const campusDots = [];
     for (const { it } of draw) {
       if (it.type === 'prism') this._prism(ctx, it.poly, it.z0, it.z1, it.color, it.top);
       else if (it.type === 'sign') this._sign(ctx, it);
+      else if (it.type === 'car') this._car(ctx, it.p, it.c);
       else if (it.type === 'buddha') this._buddha(ctx, it);
       else if (it.type === 'flag') this._flag(ctx, it, now);
       else if (it.type === 'tree') this._tree(ctx, it, now);
@@ -1339,7 +1453,7 @@ export class IsoMap {
       if (r.kind === 'corridor' || r.decor === 'sign') continue;   // ป้ายมีชื่อบนแผ่นป้ายแล้ว
       const n = this.counts[r.id] || 0;
       const [cx, cy] = centroid(r.polygon);
-      const lz = r.decor === 'flag' ? 13 : r.decor === 'buddha' ? 5.5 : (r.decor === 'parking' || r.decor === 'field') ? 2
+      const lz = r.decor === 'flag' ? 13 : r.decor === 'buddha' ? 5.5 : (r.decor === 'parking' || r.decor === 'field') ? 2 : r.decor === 'carport' ? 4
         : r.kind === 'building' ? 7.5 : 2.6;
       const [sx, sy] = this.project(cx, cy, lz);
       const name = r.short_name || r.name;
@@ -1431,6 +1545,17 @@ export class IsoMap {
     this._polyPath(ctx, poly, z);
     ctx.fillStyle = fill;
     ctx.fill();
+  }
+
+  _car(ctx, p, c) {
+    const L = c.big ? 3.6 : 2.1, W = c.big ? 1.2 : 0.9;
+    const box = (l1, l2, w) => [[l1, -w], [l2, -w], [l2, w], [l1, w]].map(([u, v]) => [p.x + p.dx * u - p.dy * v, p.y + p.dy * u + p.dx * v]);
+    if (c.big) {                                         // รถตู้/รถบัส: กล่องสูงสีเดียว
+      this._prism(ctx, box(-L, L, W), 0, 2.2, c.color, '#f4f6f7');
+      return;
+    }
+    this._prism(ctx, box(-L, L, W), 0.15, 0.75, c.color, c.color);
+    this._prism(ctx, box(-1.0, 0.9, W * 0.85), 0.75, 1.3, '#5d7480', c.color);
   }
 
   // องค์พระประทับนั่ง (ปางสมาธิ) สีทอง มีรัศมีเรือง ๆ

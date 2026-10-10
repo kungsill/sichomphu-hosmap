@@ -622,6 +622,39 @@
    "link_floor": null
   },
   {
+   "id": "c_carport",
+   "floor_id": "flr_campus",
+   "code": "CARPORT",
+   "name": "โรงจอดรถ",
+   "short_name": "โรงจอดรถ",
+   "kind": "building",
+   "polygon": [
+    [
+     169.2,
+     143.2
+    ],
+    [
+     220.8,
+     143.2
+    ],
+    [
+     220.8,
+     151.6
+    ],
+    [
+     169.2,
+     151.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#b0bec5",
+   "decor": "carport",
+   "link_floor": null
+  },
+  {
    "id": "c_clinic",
    "floor_id": "flr_campus",
    "code": "CLINIC",

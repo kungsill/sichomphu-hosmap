@@ -374,7 +374,7 @@ iso.on('person', selectPatient);
 iso.on('room', (id) => {
   const r = id && doc.rooms.find((x) => x.id === id);
   if (r?.kind === 'building') {
-    if (['sign', 'buddha', 'flag', 'parking', 'field'].includes(r.decor)) { toast(r.name, 1200); return; }
+    if (['sign', 'buddha', 'flag', 'parking', 'field', 'carport'].includes(r.decor)) { toast(r.name, 1200); return; }
     if (r.link_floor) {
       clearSelection(); iso.setFloor(r.link_floor);
       const zones = buildingZones(r);
