@@ -364,6 +364,52 @@ export class IsoMap {
     return { x1, y1, x2: x1 + depth, y2: y1 + len, inset, depth };
   }
 
+  // ถนน / ทางเดินนอกอาคารบนแผนที่ภาพรวม วาดจากเส้นทางนำทางจริง (ทับภาพผัง ให้เห็นว่าระบบพาเดินทางไหน)
+  _drawCampusRoads(ctx, f) {
+    const nodes = new Map(this.doc.nodes.filter((n) => n.floor_id === f.id).map((n) => [n.id, n]));
+    const roads = [], walks = [];
+    for (const e of this.doc.edges) {
+      const a = nodes.get(e.node_a), b = nodes.get(e.node_b);
+      if (!a || !b) continue;
+      (a.kind === 'portal' || b.kind === 'portal' ? walks : roads).push([a, b]);
+    }
+    if (!roads.length && !walks.length) return;
+    // พิกเซลต่อเมตรบนจอ (เฉลี่ยแกน x/y เพราะมุมมองไอโซเมตริกบีบแกนหนึ่ง)
+    const o = this.project(0, 0), ux = this.project(1, 0), uy = this.project(0, 1);
+    const ppm = (Math.hypot(ux[0] - o[0], ux[1] - o[1]) + Math.hypot(uy[0] - o[0], uy[1] - o[1])) / 2;
+    const path = (segs) => {
+      ctx.beginPath();
+      for (const [a, b] of segs) {
+        const p = this.project(a.x, a.y, 0), q = this.project(b.x, b.y, 0);
+        ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]);
+      }
+    };
+    const stroke = (segs, width, color, dash) => {
+      path(segs);
+      ctx.lineWidth = Math.max(1, width * ppm);
+      ctx.strokeStyle = color;
+      ctx.setLineDash(dash ? dash.map((d) => Math.max(1, d * ppm)) : []);
+      ctx.stroke();
+    };
+    ctx.save();
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    stroke(walks, 3.2, 'rgba(255,255,255,0.9)');                 // ทางเดินเท้าเข้าตึก
+    stroke(walks, 2.2, 'rgba(226,214,188,0.95)');
+    stroke(roads, 7.4, 'rgba(255,255,255,0.85)');                // ขอบถนน
+    stroke(roads, 6.2, 'rgba(84,97,102,0.82)');                  // ผิวถนน
+    if (ppm > 1.2) stroke(roads, 0.35, 'rgba(255,255,255,0.75)', [2.4, 2.4]);  // เส้นประกลางถนน
+    ctx.setLineDash([]);
+    // จุดหน้าประตูตึก
+    for (const n of nodes.values()) {
+      if (n.kind !== 'portal' && n.kind !== 'gate') continue;
+      const [sx, sy] = this.project(n.x, n.y, 0);
+      ctx.beginPath(); ctx.ellipse(sx, sy, Math.max(2.5, 1.8 * ppm), Math.max(1.4, 1.0 * ppm), 0, 0, Math.PI * 2);
+      ctx.fillStyle = n.kind === 'gate' ? '#e05a9a' : '#1f9e8f'; ctx.fill();
+      ctx.lineWidth = 1.5; ctx.strokeStyle = '#fff'; ctx.stroke();
+    }
+    ctx.restore();
+  }
+
   _buildFloor(f) {
     if (f.style === 'campus') return this._buildCampus(f);
     const items = [];
@@ -1017,6 +1063,7 @@ export class IsoMap {
         this._polyPath(ctx, [[0, 0], [W, 0], [W, H], [0, H]], 0);
         ctx.fillStyle = 'rgba(255,255,255,0.28)'; ctx.fill();
       }
+      this._drawCampusRoads(ctx, f);
       ctx.beginPath();
       for (const s of this.shadows?.[f.id] || []) {
         const dx = s.h * 0.45 * this.zMul, dy = s.h * 0.3 * this.zMul;
