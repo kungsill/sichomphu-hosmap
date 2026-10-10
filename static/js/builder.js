@@ -444,7 +444,7 @@ function propsHtml() {
       </div>
       ${r.kind === 'building' ? `<label class="field"><span>คลิกตึกนี้แล้วเปิดโซน</span><select data-room="link_floor">${opt('', '— ไม่มีแผนที่ภายใน —', r.link_floor)}${doc.floors.filter((x) => x.style !== 'campus').map((x) => opt(x.id, `${doc.buildings.find((b) => b.id === x.building_id)?.name || ''} ${x.name}`, r.link_floor)).join('')}</select></label>` : ''}
       <label class="check"><input type="checkbox" data-room="seats" ${r.seats ? 'checked' : ''}> วาดเก้าอี้นั่งรอ</label>
-      <label class="field"><span>ของตกแต่งภายใน</span><select data-room="decor">${opt('', 'ไม่มี', r.decor)}${opt('pharmacy', 'ชั้นวางยา (ห้องยา)', r.decor)}${opt('cashier', 'ตู้เอกสาร/ตู้เซฟ (ห้องเก็บเงิน)', r.decor)}${opt('dental', 'เก้าอี้ทำฟัน (ห้องทันตกรรม)', r.decor)}${opt('beds', 'เตียงรักษา (เช่น เตียงกายภาพ)', r.decor)}</select></label>
+      <label class="field"><span>ของตกแต่งภายใน</span><select data-room="decor">${opt('', 'ไม่มี', r.decor)}${opt('pharmacy', 'ชั้นวางยา (ห้องยา)', r.decor)}${opt('cashier', 'ตู้เอกสาร/ตู้เซฟ (ห้องเก็บเงิน)', r.decor)}${opt('dental', 'เก้าอี้ทำฟัน (ห้องทันตกรรม)', r.decor)}${opt('beds', 'เตียงรักษา (เช่น เตียงกายภาพ)', r.decor)}${opt('sign', 'ป้ายชื่อ (แผนที่ภาพรวม)', r.decor)}</select></label>
       <div class="grid2">
         <label class="field"><span>สีพื้น (เว้นว่าง = อัตโนมัติ)</span><input type="color" data-room="color" value="${esc(r.color || ROOM_FILL[r.kind] || '#eeeeee')}"></label>
         <div class="field"><span>&nbsp;</span><button class="btn ghost" data-act="clearColor">ใช้สีอัตโนมัติ</button></div>

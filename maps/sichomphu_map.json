@@ -787,39 +787,6 @@
    "link_floor": "flr_promo_1"
   },
   {
-   "id": "c_guard",
-   "floor_id": "flr_campus",
-   "code": "GUARD",
-   "name": "ป้อมหน้าโรงพยาบาล",
-   "short_name": "ป้อมยาม",
-   "kind": "building",
-   "polygon": [
-    [
-     157.0,
-     167.0
-    ],
-    [
-     171.6,
-     167.0
-    ],
-    [
-     171.6,
-     174.0
-    ],
-    [
-     157.0,
-     174.0
-    ]
-   ],
-   "door_node_id": null,
-   "color": "#f07ab8",
-   "capacity": 0,
-   "seats": false,
-   "desk": null,
-   "decor": null,
-   "link_floor": null
-  },
-  {
    "id": "c_hall",
    "floor_id": "flr_campus",
    "code": "HALL",
@@ -1049,6 +1016,39 @@
    "desk": null,
    "decor": null,
    "link_floor": "flr_psych_1"
+  },
+  {
+   "id": "c_sign",
+   "floor_id": "flr_campus",
+   "code": "SIGN",
+   "name": "ป้ายโรงพยาบาลสีชมพู",
+   "short_name": "โรงพยาบาลสีชมพู",
+   "kind": "building",
+   "polygon": [
+    [
+     157.0,
+     167.0
+    ],
+    [
+     171.6,
+     167.0
+    ],
+    [
+     171.6,
+     174.0
+    ],
+    [
+     157.0,
+     174.0
+    ]
+   ],
+   "door_node_id": null,
+   "color": "#f07ab8",
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "decor": "sign",
+   "link_floor": null
   },
   {
    "id": "c_ttm",

@@ -374,6 +374,7 @@ iso.on('person', selectPatient);
 iso.on('room', (id) => {
   const r = id && doc.rooms.find((x) => x.id === id);
   if (r?.kind === 'building') {
+    if (r.decor === 'sign') return;
     if (r.link_floor) {
       clearSelection(); iso.setFloor(r.link_floor);
       const zones = buildingZones(r);

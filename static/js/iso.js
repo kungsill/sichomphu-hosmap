@@ -598,6 +598,19 @@ export class IsoMap {
     const items = [];
     for (const r of this.doc.rooms.filter((x) => x.floor_id === f.id && x.kind === 'building')) {
       const b = bbox(r.polygon);
+      if (r.decor === 'sign') {                           // ป้ายชื่อโรงพยาบาล: เสา 2 ต้น + แผ่นป้าย
+        const horiz = b.x2 - b.x1 >= b.y2 - b.y1;
+        const mid = horiz ? (b.y1 + b.y2) / 2 : (b.x1 + b.x2) / 2, t = 0.35;
+        const L = horiz ? [b.x1, b.x2] : [b.y1, b.y2];
+        const rect = (u1, u2, v1, v2) => (horiz ? this._rect(u1, v1, u2 - u1, v2 - v1) : this._rect(v1, u1, v2 - v1, u2 - u1));
+        for (const u of [L[0] + (L[1] - L[0]) * 0.18, L[1] - (L[1] - L[0]) * 0.18]) {
+          const poly = rect(u - 0.25, u + 0.25, mid - 0.25, mid + 0.25), c = centroid(poly);
+          items.push({ type: 'prism', poly, z0: 0, z1: 1.4, color: '#9aa5a8', top: '#b8c1c4', cx: c[0], cy: c[1] });
+        }
+        const poly = rect(L[0], L[1], mid - t, mid + t), c = centroid(poly);
+        items.push({ type: 'sign', poly, horiz, mid, t, L, z0: 1.4, z1: 4.4, text: r.short_name || r.name, cx: c[0], cy: c[1] + 0.01 });
+        continue;
+      }
       const h = r.link_floor ? 6 : 4;                    // ตึกที่มีแผนที่ภายในสูงกว่าเล็กน้อย
       const n = Math.max(1, Math.ceil(Math.max(b.x2 - b.x1, b.y2 - b.y1) / 12));
       const horiz = b.x2 - b.x1 >= b.y2 - b.y1;
@@ -1004,6 +1017,7 @@ export class IsoMap {
     const campusDots = [];
     for (const { it } of draw) {
       if (it.type === 'prism') this._prism(ctx, it.poly, it.z0, it.z1, it.color, it.top);
+      else if (it.type === 'sign') this._sign(ctx, it);
       else if (it.type === 'tree') this._tree(ctx, it, now);
       else if (it.type === 'staff') this._figure(ctx, it.x, it.y, it.seed, { clothes: PAL.staff, now, idle: true });
       else if (it.type === 'crowd') this._figure(ctx, it.c.x, it.c.y, it.c.seed, { seated: it.c.seated, now });
@@ -1193,7 +1207,7 @@ export class IsoMap {
   _labels(ctx, rooms) {
     const placed = [];
     for (const r of rooms) {
-      if (r.kind === 'corridor') continue;
+      if (r.kind === 'corridor' || r.decor === 'sign') continue;   // ป้ายมีชื่อบนแผ่นป้ายแล้ว
       const n = this.counts[r.id] || 0;
       const [cx, cy] = centroid(r.polygon);
       const [sx, sy] = this.project(cx, cy, r.kind === 'building' ? 7.5 : 2.6);
@@ -1286,6 +1300,30 @@ export class IsoMap {
     this._polyPath(ctx, poly, z);
     ctx.fillStyle = fill;
     ctx.fill();
+  }
+
+  // แผ่นป้าย: กล่องบางสีชมพู + ตัวอักษรบนด้านที่หันเข้าหากล้อง (กลับทิศให้อ่านจากซ้ายไปขวาเสมอ)
+  _sign(ctx, it) {
+    const { horiz, mid, t, L, z0, z1 } = it;
+    const pt = (u, v) => (horiz ? [u, v] : [v, u]);
+    const poly = [pt(L[0], mid - t), pt(L[1], mid - t), pt(L[1], mid + t), pt(L[0], mid + t)];
+    this._prism(ctx, poly, z0, z1, '#d94f8f', '#f48fbf');
+    const c = Math.cos(this.angle), s = Math.sin(this.angle);
+    for (const side of [-1, 1]) {
+      const n = horiz ? [0, side] : [side, 0];
+      if (n[0] * c - n[1] * s + (n[0] * s + n[1] * c) <= 0.0001) continue;  // ด้านนี้หันหนีกล้อง
+      const v = mid + side * t * 1.02;
+      let a = this.project(...pt(L[0], v), z1), b = this.project(...pt(L[1], v), z1), d = this.project(...pt(L[0], v), z0);
+      if (b[0] < a[0]) { a = this.project(...pt(L[1], v), z1); b = this.project(...pt(L[0], v), z1); d = this.project(...pt(L[1], v), z0); }
+      const W = 200, H = 50;
+      ctx.save();
+      ctx.transform((b[0] - a[0]) / W, (b[1] - a[1]) / W, (d[0] - a[0]) / H, (d[1] - a[1]) / H, a[0], a[1]);
+      ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.fillRect(6, 6, W - 12, H - 12);
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = `700 22px ${getComputedStyle(document.body).fontFamily || 'sans-serif'}`;
+      ctx.fillText(it.text, W / 2, H / 2 + 1, W - 20);
+      ctx.restore();
+    }
   }
 
   _prism(ctx, poly, z0, z1, side, top) {
