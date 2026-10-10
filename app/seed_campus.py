@@ -78,29 +78,41 @@ def campus_document() -> dict:
     def bld(rid, name, short, box, color, link=None, door=None, cap=0):
         return z.room(rid, rid.upper(), name, short, "building", box, door, capacity=cap, color=color, link_floor=link)
 
-    # ---- ถนน / ทางเดินนอกอาคาร (พิกัดพิกเซลของภาพผัง)
-    gate = z.node("gate", 928, 900, "gate", "ประตูทางเข้าโรงพยาบาล")
-    # ถนนหลักหน้าโรงพยาบาล (ไป สีชมพู ↔ ไป ชุมแพ) ทางเข้าโรงพยาบาลแยกที่ x≈935
-    main_j = z.node("main_j", 935, 930, "junction", "ปากทางเข้าโรงพยาบาล")
-    z.edge(z.node("main_w", 0, 930, "corridor", "ถนนหลัก (ไป สีชมพู)"), main_j, "road")
-    z.edge(main_j, z.node("main_e", 1518, 930, "corridor", "ถนนหลัก (ไป ชุมแพ)"), "road")
+    # ---- ถนน / ทางเดินนอกอาคาร (พิกัดพิกเซลของภาพผัง ไล่ตามแนวถนนจริงในภาพ)
+    # ถนนหลักหน้าโรงพยาบาล (ไป สีชมพู ↔ ไป ชุมแพ): ทางเข้าหลัก x≈915 · ทางเข้าฝั่งตะวันตก x≈568
+    gate = z.node("gate", 915, 888, "gate", "ประตูทางเข้าโรงพยาบาล")
+    main_j = z.node("main_j", 915, 930, "junction", "ปากทางเข้าโรงพยาบาล")
+    main_wj = z.node("main_wj", 568, 930, "junction", "ปากทางเข้าฝั่งตะวันตก")
+    z.chain([z.node("main_w", 0, 930, "corridor", "ถนนหลัก (ไป สีชมพู)"), main_wj, main_j,
+             z.node("main_e", 1518, 930, "corridor", "ถนนหลัก (ไป ชุมแพ)")])
+    for e in z.doc["edges"][-3:]:
+        e["kind"] = "road"
     z.edge(gate, main_j)
-    z.chain([gate, z.node("r830", 928, 830, "junction"), z.node("r690", 928, 690, "junction")])
-    row = {x: z.node(f"y690_{x}", x, 690, "junction") for x in (785, 814, 890, 1010, 1093, 1130)}
-    z.chain([row[785], row[814], row[890], "c_r690", row[1010], row[1093], row[1130]])
-    west_col = [row[785], z.node("x785_450", 785, 450), z.node("x785_380", 785, 380, "junction")]
-    z.chain(west_col)
-    east_col = [row[1130], z.node("x1130_450", 1130, 450), z.node("x1130_380", 1130, 380, "junction")]
-    z.chain(east_col)
-    diag = ["c_r830", z.node("q845", 845, 770), z.node("q760", 760, 700, "junction"), z.node("q660", 660, 610),
-            z.node("q580", 580, 545, "junction"), z.node("q540", 540, 470), z.node("q500", 500, 420)]
-    z.chain(diag)
-    z.edge("c_q760", row[785])
-    wroad = ["c_q580", z.node("w545", 545, 545, "junction"), z.node("w490", 490, 545), z.node("w420", 420, 545),
-             z.node("w375", 375, 545), z.node("w333", 333, 545), z.node("w240", 240, 545)]
-    z.chain(wroad)
-    scol = ["c_w545", z.node("s700", 545, 700), z.node("s770", 545, 770), z.node("s850", 545, 850)]
-    z.chain(scol)
+
+    # ถนนทางเข้า: แนวทแยงจากประตูขึ้นไปสามแยกหน้า ARI / ER
+    ja = z.node("ja", 778, 698, "junction", "สามแยกหน้าตึก ER")
+    z.chain([gate, z.node("e845", 882, 845), z.node("e780", 835, 780), ja])
+    # ถนนหน้าตึก OPD (แนวนอน) → ถนนฝั่งตะวันออก (ขึ้นไปตึกผู้ป่วยในหญิง)
+    row = {x: z.node(f"y690_{x}", x, 690, "junction") for x in (814, 890, 1010, 1093, 1135)}
+    z.chain([ja, row[814], row[890], row[1010], row[1093], row[1135]])
+    z.chain([row[1135], z.node("x1130_450", 1135, 450), z.node("x1130_380", 1135, 370, "junction")])
+    # ทางเล็กข้าง ARI ขึ้นไปตึกผู้ป่วยในชาย
+    z.chain([ja, z.node("x785_600", 787, 600), z.node("x785_450", 787, 450), z.node("x785_380", 787, 380, "junction")])
+    # ถนนทแยงระหว่างหอประชุม / ห้องพักพชร จากสามแยกขึ้นไปบรรจบถนนฝั่งตะวันตก
+    wr350 = z.node("wr350", 495, 352, "junction")
+    z.chain([ja, z.node("b615", 715, 615), z.node("b530", 660, 530), z.node("b465", 610, 465), z.node("b400", 555, 400), wr350])
+
+    # ถนนฝั่งตะวันตก (เส้นโค้งยาวจากแนวกำแพงบน ลงมาถึงทางเข้าฝั่งตะวันตก)
+    wj = z.node("wj", 541, 578, "junction")
+    z.chain([z.node("wr_top", 335, 115), z.node("wr190", 400, 190, "junction"), z.node("wr280", 455, 280), wr350,
+             z.node("wr420", 510, 420), z.node("wr490", 523, 490), wj, z.node("s640", 547, 640),
+             z.node("s760", 562, 760), z.node("s850", 566, 850, "junction"), main_wj])
+    # ถนนลานจอดรถ (หน้าแผนไทย / ตึกเวชปฏิบัติ)
+    z.chain([wj, z.node("p578", 490, 578), z.node("p548", 432, 548), z.node("w375", 375, 541, "junction"),
+             z.node("w333", 333, 540, "junction"), z.node("w240", 235, 540)])
+    # ถนนในเขตบ้านพัก
+    z.chain([z.node("h300", 55, 300), z.node("h178", 55, 178, "junction"), z.node("h175", 300, 175), "c_wr190"])
+    z.chain([z.node("h325a", 85, 325), z.node("h325b", 420, 325), wr350])
 
     # ---- ตึกที่มีแผนที่ภายใน (ประตูหน้าตึก = portal เชื่อมกับประตูโซน)
     def door(nid, x, y, link, to, name):
@@ -121,11 +133,11 @@ def campus_document() -> dict:
     d = door("d_ipdf", 1070, 450, "Z_IPDF", "c_x1130_450", "หน้าตึกผู้ป่วยใน (หญิง)")
     bld("ipdf", "ตึกผู้ป่วยใน (หญิง)", "ผู้ป่วยใน หญิง", (953, 385, 1070, 512), "#f07ab8", "flr_ipdf_1", d)
     d = door("d_dent", 684, 778, "Z_DENT", z.node("dd", 700, 760), "หน้าตึกทันตกรรม")
-    z.edge("c_dd", "c_q760")
+    z.edge("c_dd", ja)
     bld("dent", "ตึกทันตกรรม · กายภาพบำบัด", "ทันตกรรม · กายภาพ", (608, 780, 760, 855), "#5cc26c", "flr_dental_1", d)
     d = door("d_ttm", 333, 512, "Z_TTM", "c_w333", "หน้าตึกแผนไทย")
     bld("ttm", "แพทย์แผนไทย", "แผนไทย", (256, 467, 410, 510), "#5cc26c", "flr_thaimed_1", d)
-    d = door("d_dial", 487, 422, "Z_DIAL", "c_q540", "หน้าศูนย์ไตเทียม")
+    d = door("d_dial", 487, 422, "Z_DIAL", "c_wr420", "หน้าศูนย์ไตเทียม")
     bld("dial", "ศูนย์ไตเทียม", "ไตเทียม", (258, 397, 485, 448), "#f2d14b", "flr_dialysis_1", d)
     d = door("d_psy", 338, 842, "Z_PSY", "c_s850", "หน้าตึกจิตเวช")
     bld("psy", "ตึกจิตเวช", "จิตเวช", (220, 820, 337, 862), "#a78bdb", "flr_psych_1", d)
@@ -138,6 +150,12 @@ def campus_document() -> dict:
 
     bld("old", "อาคารตึกเวชเก่า", "ตึกเวชเก่า", (195, 720, 517, 820), "#4a90d9")
     bld("hall", "หอประชุม", "หอประชุม", (650, 395, 775, 490), "#4a90d9")
+
+    # ---- ของตกแต่ง (วาดเป็นรูป 3 มิติ ไม่ใช่ตึก)
+    for rid, name, box, decor in (("buddha", "พระพุทธรูป", (936, 815, 976, 858), "buddha"),
+                                  ("flag", "เสาธง", (985, 772, 1041, 828), "flag")):
+        bld(rid, name, name, box, "#f2d14b")
+        z.doc["rooms"][-1]["decor"] = decor
     bld("sign", "ป้ายโรงพยาบาลสีชมพู", "โรงพยาบาลสีชมพู", (785, 835, 858, 870), "#f07ab8")
     z.doc["rooms"][-1]["decor"] = "sign"  # วาดเป็นป้ายชื่อ ไม่ใช่ตึก
     return z.doc

@@ -414,8 +414,10 @@ export class IsoMap {
     }
     stroke(walks, 3.2, 'rgba(255,255,255,0.9)');                 // ทางเดินเท้าเข้าตึก
     stroke(walks, 2.2, 'rgba(226,214,188,0.95)');
-    stroke(roads, 7.4, 'rgba(255,255,255,0.85)');                // ขอบถนน
-    stroke(roads, 6.2, 'rgba(84,97,102,0.82)');                  // ผิวถนน
+    stroke(roads, 9.6, 'rgba(60,70,60,0.10)');                   // เงาจาง ๆ ใต้ทางเท้า
+    stroke(roads, 9.0, 'rgba(236,230,214,0.95)');               // ทางเท้า
+    stroke(roads, 7.0, 'rgba(255,255,255,0.95)');               // ขอบคันหิน
+    stroke(roads, 6.2, 'rgba(84,97,102,0.92)');                  // ผิวถนน
     if (ppm > 1.2) stroke(roads, 0.35, 'rgba(255,255,255,0.75)', [2.4, 2.4]);  // เส้นประกลางถนน
     ctx.setLineDash([]);
     // จุดหน้าประตูตึก
@@ -609,6 +611,23 @@ export class IsoMap {
         }
         const poly = rect(L[0], L[1], mid - t, mid + t), c = centroid(poly);
         items.push({ type: 'sign', poly, horiz, mid, t, L, z0: 1.4, z1: 4.4, text: r.short_name || r.name, cx: c[0], cy: c[1] + 0.01 });
+        continue;
+      }
+      if (r.decor === 'buddha') {                         // พระพุทธรูป: ฐานหินอ่อน + ฐานทอง + องค์พระสีทอง
+        const cx = (b.x1 + b.x2) / 2, cy = (b.y1 + b.y2) / 2, half = Math.min(b.x2 - b.x1, b.y2 - b.y1) / 2;
+        const sq = (h) => this._rect(cx - h, cy - h, 2 * h, 2 * h);
+        items.push({ type: 'prism', poly: sq(half * 0.9), z0: 0, z1: 0.45, color: '#e9ecef', top: '#f8f9fa', cx, cy: cy - 0.02 });
+        items.push({ type: 'prism', poly: sq(half * 0.6), z0: 0.45, z1: 1.6, color: '#c9971c', top: '#e8b93a', cx, cy: cy - 0.01 });
+        items.push({ type: 'buddha', poly: sq(half * 0.6), x: cx, y: cy, z: 1.6, cx, cy });
+        continue;
+      }
+      if (r.decor === 'flag') {                           // เสาธง: ลานวงกลม + เสา + ธงชาติโบกสะบัด
+        const cx = (b.x1 + b.x2) / 2, cy = (b.y1 + b.y2) / 2, rad = Math.min(b.x2 - b.x1, b.y2 - b.y1) / 2;
+        const circle = (rr) => Array.from({ length: 28 }, (_, i) => [cx + rr * Math.cos((i / 28) * Math.PI * 2), cy + rr * Math.sin((i / 28) * Math.PI * 2)]);
+        items.push({ type: 'prism', poly: circle(rad * 0.95), z0: 0, z1: 0.18, color: '#d5dadd', top: '#f4f6f7', cx, cy: cy - 0.03 });
+        items.push({ type: 'prism', poly: circle(rad * 0.35), z0: 0.18, z1: 0.5, color: '#b9c2c6', top: '#e3e8ea', cx, cy: cy - 0.02 });
+        items.push({ type: 'flag', poly: circle(0.3), x: cx, y: cy, z: 0.5, cx, cy });
+        (this._animFloors ||= new Set()).add(f.id);
         continue;
       }
       const h = r.link_floor ? 6 : 4;                    // ตึกที่มีแผนที่ภายในสูงกว่าเล็กน้อย
@@ -961,6 +980,7 @@ export class IsoMap {
     }
     if (this.route) { this._dash = (this._dash + dt * 14) % 1000; animating = true; }
     if (this.selected || this.hoverVn || this.crowdedPulse) animating = true;
+    if (this._animFloors?.has(this.floorId) && t - (this._decorT || 0) > 40) { this._decorT = t; animating = true; }
     if (animating || this.dirty) this.render();
     this.dirty = false;
     requestAnimationFrame((tt) => this._frame(tt));
@@ -1018,6 +1038,8 @@ export class IsoMap {
     for (const { it } of draw) {
       if (it.type === 'prism') this._prism(ctx, it.poly, it.z0, it.z1, it.color, it.top);
       else if (it.type === 'sign') this._sign(ctx, it);
+      else if (it.type === 'buddha') this._buddha(ctx, it);
+      else if (it.type === 'flag') this._flag(ctx, it, now);
       else if (it.type === 'tree') this._tree(ctx, it, now);
       else if (it.type === 'staff') this._figure(ctx, it.x, it.y, it.seed, { clothes: PAL.staff, now, idle: true });
       else if (it.type === 'crowd') this._figure(ctx, it.c.x, it.c.y, it.c.seed, { seated: it.c.seated, now });
@@ -1210,7 +1232,8 @@ export class IsoMap {
       if (r.kind === 'corridor' || r.decor === 'sign') continue;   // ป้ายมีชื่อบนแผ่นป้ายแล้ว
       const n = this.counts[r.id] || 0;
       const [cx, cy] = centroid(r.polygon);
-      const [sx, sy] = this.project(cx, cy, r.kind === 'building' ? 7.5 : 2.6);
+      const lz = r.decor === 'flag' ? 13 : r.decor === 'buddha' ? 5.5 : r.kind === 'building' ? 7.5 : 2.6;
+      const [sx, sy] = this.project(cx, cy, lz);
       const name = r.short_name || r.name;
       const showCount = this.opts.labelMode !== 'names' && (r.kind === 'waiting' || r.kind === 'counter' || (r.kind === 'building' && r.link_floor));
       const ratio = n / Math.max(1, r.capacity || 20);
@@ -1300,6 +1323,83 @@ export class IsoMap {
     this._polyPath(ctx, poly, z);
     ctx.fillStyle = fill;
     ctx.fill();
+  }
+
+  // องค์พระประทับนั่ง (ปางสมาธิ) สีทอง มีรัศมีเรือง ๆ
+  _buddha(ctx, it) {
+    const S = this.scale, k = this.zMul;
+    const [bx, by] = this.project(it.x, it.y, it.z * k);
+    const u = S * 1.3;                                    // ขนาดองค์พระ ≈ 2u (≈ 2.6 ม.)
+    const gold = (y0, y1) => {
+      const g = ctx.createLinearGradient(bx - u, y0, bx + u, y1);
+      g.addColorStop(0, '#fff1b0'); g.addColorStop(0.45, '#f2c230'); g.addColorStop(1, '#b8860b');
+      return g;
+    };
+    ctx.save();
+    const glow = ctx.createRadialGradient(bx, by - 2.2 * u * k, 0, bx, by - 2.2 * u * k, 2.6 * u);
+    glow.addColorStop(0, 'rgba(255,214,90,0.55)'); glow.addColorStop(1, 'rgba(255,214,90,0)');
+    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(bx, by - 2.2 * u * k, 2.6 * u, 0, Math.PI * 2); ctx.fill();
+    // ฐานบัว
+    ctx.fillStyle = '#d9a521';
+    ctx.beginPath(); ctx.ellipse(bx, by - 0.15 * u, 1.25 * u, 0.42 * u, 0, 0, Math.PI * 2); ctx.fill();
+    for (let i = -3; i <= 3; i++) {
+      ctx.beginPath(); ctx.ellipse(bx + i * 0.36 * u, by - 0.3 * u, 0.2 * u, 0.32 * u, 0, 0, Math.PI * 2);
+      ctx.fillStyle = i % 2 ? '#f3c94e' : '#e0ae2c'; ctx.fill();
+    }
+    // ตัก + องค์ + ศีรษะ + พระเกตุมาลา
+    const lapY = by - 0.65 * u * k, bodyY = by - 1.45 * u * k, headY = by - 2.45 * u * k;
+    ctx.fillStyle = gold(lapY - u, lapY + u);
+    ctx.beginPath(); ctx.ellipse(bx, lapY, 1.05 * u, 0.42 * u, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(bx - 0.7 * u, lapY - 0.1 * u);
+    ctx.quadraticCurveTo(bx - 0.78 * u, bodyY - 0.55 * u * k, bx - 0.32 * u, headY + 0.35 * u * k);
+    ctx.lineTo(bx + 0.32 * u, headY + 0.35 * u * k);
+    ctx.quadraticCurveTo(bx + 0.78 * u, bodyY - 0.55 * u * k, bx + 0.7 * u, lapY - 0.1 * u);
+    ctx.closePath(); ctx.fillStyle = gold(bodyY - u, bodyY + u); ctx.fill();
+    ctx.strokeStyle = 'rgba(150,100,10,0.45)'; ctx.lineWidth = Math.max(0.6, 0.04 * u);
+    ctx.beginPath(); ctx.moveTo(bx - 0.25 * u, headY + 0.5 * u * k); ctx.quadraticCurveTo(bx + 0.1 * u, bodyY, bx + 0.5 * u, lapY - 0.2 * u); ctx.stroke();  // จีวรเฉียง
+    ctx.beginPath(); ctx.arc(bx, headY, 0.36 * u, 0, Math.PI * 2); ctx.fillStyle = gold(headY - u, headY + u); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(bx, headY - 0.33 * u, 0.2 * u, 0.14 * u, 0, 0, Math.PI * 2); ctx.fillStyle = '#e0ae2c'; ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(bx - 0.08 * u, headY - 0.42 * u); ctx.quadraticCurveTo(bx, headY - 0.95 * u, bx + 0.08 * u, headY - 0.42 * u);
+    ctx.fillStyle = '#f7d35c'; ctx.fill();                // พระรัศมีเปลว
+    ctx.restore();
+  }
+
+  // เสาธง + ธงชาติไทย (แดง ขาว น้ำเงิน ขาว แดง) โบกตามลม
+  _flag(ctx, it, now) {
+    const k = this.zMul, top = 11 * k, H = 1.8, L = 2.7;
+    const base = this.project(it.x, it.y, it.z), tip = this.project(it.x, it.y, top + 0.35);
+    const S = this.scale;
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#8e999e'; ctx.lineWidth = Math.max(1.6, 0.16 * S);
+    ctx.beginPath(); ctx.moveTo(base[0], base[1]); ctx.lineTo(tip[0], tip[1]); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = Math.max(0.6, 0.05 * S);
+    ctx.beginPath(); ctx.moveTo(base[0] - 0.03 * S, base[1]); ctx.lineTo(tip[0] - 0.03 * S, tip[1]); ctx.stroke();
+    ctx.fillStyle = '#e8b93a'; ctx.beginPath(); ctx.arc(tip[0], tip[1], Math.max(1.8, 0.2 * S), 0, Math.PI * 2); ctx.fill();
+    // ผืนธง: แบ่งตามความยาวเป็นช่วง ๆ ให้เป็นคลื่น
+    const N = 14, t = now / 380;
+    const at = (uu, zz) => {
+      const wave = Math.sin(t - uu * 4.2) * 0.28 * uu;
+      return this.project(it.x + uu * L, it.y + wave, zz - Math.abs(wave) * 0.15);
+    };
+    const bands = [[0, 1, '#d62839'], [1, 2, '#ffffff'], [2, 4, '#2a3f8f'], [4, 5, '#ffffff'], [5, 6, '#d62839']];
+    for (const [a, b, col] of bands) {
+      const z0 = top - (H * a) / 6, z1 = top - (H * b) / 6;
+      ctx.beginPath();
+      for (let i = 0; i <= N; i++) { const p = at(i / N, z0); i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); }
+      for (let i = N; i >= 0; i--) { const p = at(i / N, z1); ctx.lineTo(p[0], p[1]); }
+      ctx.closePath(); ctx.fillStyle = col; ctx.fill();
+    }
+    // แสงเงาตามคลื่นผ้า
+    for (let i = 0; i < N; i++) {
+      const sh = Math.cos(t - (i / N) * 4.2) * 0.12;
+      const p1 = at(i / N, top), p2 = at((i + 1) / N, top), p3 = at((i + 1) / N, top - H), p4 = at(i / N, top - H);
+      ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.lineTo(p3[0], p3[1]); ctx.lineTo(p4[0], p4[1]); ctx.closePath();
+      ctx.fillStyle = sh > 0 ? `rgba(255,255,255,${sh})` : `rgba(0,0,0,${-sh})`; ctx.fill();
+    }
+    ctx.restore();
   }
 
   // แผ่นป้าย: กล่องบางสีชมพู + ตัวอักษรบนด้านที่หันเข้าหากล้อง (กลับทิศให้อ่านจากซ้ายไปขวาเสมอ)

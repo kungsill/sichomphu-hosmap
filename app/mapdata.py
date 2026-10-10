@@ -156,7 +156,7 @@ class HospitalMap:
         self.adj: dict[str, list[tuple]] = {nid: [] for nid in self.nodes}
         for e in doc.get("edges", []):
             a, b = self.nodes.get(e["node_a"]), self.nodes.get(e["node_b"])
-            if not a or not b:
+            if not a or not b or e.get("kind") == "road":  # ถนนหลักนอกรั้ว: วาดบนแผนที่ แต่ไม่พาผู้ป่วยเดิน
                 continue
             dist = math.dist((a["x"], a["y"]), (b["x"], b["y"]))
             if e.get("kind") == "stairs":
