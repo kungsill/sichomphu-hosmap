@@ -2,6 +2,7 @@ import { IsoMap, densityText } from './iso.js';
 import { $, api, esc, liveStream, sexAge, stateClass, stepperHtml, toast } from './common.js';
 
 const iso = new IsoMap($('#map'), { padTop: 0, padBottom: 0, dimOthers: false });
+window.hosmap = { iso };   // สำหรับตรวจสอบใน Console (F12)
 let doc = null;
 let snap = null;
 let first = true;

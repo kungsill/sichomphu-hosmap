@@ -1,5 +1,4 @@
-"""แผนที่ตัวอย่าง (จำลอง) สำหรับเริ่มต้นใช้งาน — ไม่ใช่แผนผังจริงของโรงพยาบาล
-ให้แก้ไข/วาดใหม่ผ่าน Map Builder หลังสำรวจอาคารจริง"""
+"""แผนที่ รพ.สีชมพู ที่วาดจากผังร่างของหน้างาน (ตั้งต้นเมื่อยังไม่มี maps/sichomphu_map.json)"""
 import sqlalchemy as sa
 
 from . import config, db, mapdata
@@ -7,135 +6,6 @@ from . import config, db, mapdata
 
 def rect(x1, y1, x2, y2):
     return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
-
-
-def demo_document() -> dict:
-    B = "bld_opd"
-    F1, F2 = "flr_opd_1", "flr_opd_2"
-    doc = {
-        "buildings": [{"id": B, "code": "OPD", "name": "อาคารผู้ป่วยนอก", "sort": 1}],
-        "floors": [
-            {"id": F1, "building_id": B, "level": 1, "name": "ชั้น 1", "width": 64, "height": 44, "plan_image": None, "plan_opacity": 0.5},
-            {"id": F2, "building_id": B, "level": 2, "name": "ชั้น 2", "width": 64, "height": 44, "plan_image": None, "plan_opacity": 0.5},
-        ],
-        "rooms": [], "nodes": [], "edges": [], "mapping": [],
-    }
-    nodes, edges, rooms = doc["nodes"], doc["edges"], doc["rooms"]
-
-    def node(nid, floor, x, y, kind="corridor", name=None, link=None):
-        nodes.append({"id": nid, "floor_id": floor, "kind": kind, "x": x, "y": y, "name": name, "link_group": link})
-        return nid
-
-    def edge(a, b, kind="walk"):
-        edges.append({"id": f"e_{a}_{b}", "node_a": a, "node_b": b, "kind": kind, "accessible": kind != "stairs"})
-
-    def room(rid, floor, code, name, short, kind, poly, door, capacity=20, seats=False, desk=None, color=None):
-        rooms.append({"id": rid, "floor_id": floor, "code": code, "name": name, "short_name": short, "kind": kind,
-                      "polygon": poly, "door_node_id": door, "capacity": capacity, "seats": seats, "desk": desk,
-                      "color": color})
-
-    def chain(ids):
-        for a, b in zip(ids, ids[1:]):
-            edge(a, b)
-
-    # ------------------------------------------------------------------ ชั้น 1
-    exam_x = [31.4, 38.2, 45.0, 51.8, 58.6]
-    spine = {}
-    for x in sorted({4, 8, 9, 21, 22, 34, 46, 57, 60} | set(exam_x)):
-        spine[x] = node(f"n1_c{str(x).replace('.', '_')}", F1, x, 21.5, "junction" if x in (9, 22, 34, 45.0, 46, 57) else "corridor")
-    chain([spine[x] for x in sorted(spine)])
-
-    # เวชระเบียน / คัดกรอง
-    node("n1_reg_w", F1, 9, 19, "door", "ทางเข้าจุดรอเวชระเบียน"); edge(spine[9], "n1_reg_w")
-    node("n1_reg_c", F1, 9, 11, "door"); edge("n1_reg_w", "n1_reg_c")
-    node("n1_scr_w", F1, 22, 19, "door", "ทางเข้าจุดรอคัดกรอง"); edge(spine[22], "n1_scr_w")
-    node("n1_scr_c", F1, 22, 10, "door"); edge("n1_scr_w", "n1_scr_c")
-    room("r_reg", F1, "REG", "เวชระเบียน", "เวชระเบียน", "counter", rect(2, 2, 16, 10), "n1_reg_c", 6, desk="n")
-    room("r_reg_wait", F1, "REG-W", "จุดรอเวชระเบียน", "รอเวชระเบียน", "waiting", rect(2, 10, 16, 19), "n1_reg_w", 30, seats=True)
-    room("r_scr", F1, "SCR", "จุดคัดกรอง", "คัดกรอง", "counter", rect(17, 2, 27, 9), "n1_scr_c", 4, desk="n")
-    room("r_scr_wait", F1, "SCR-W", "จุดรอคัดกรอง", "รอคัดกรอง", "waiting", rect(17, 9, 27, 19), "n1_scr_w", 24, seats=True)
-
-    # ห้องตรวจแพทย์ 1–5 + พื้นที่นั่งรอหน้าห้องตรวจ
-    node("n1_exw", F1, 45, 19, "door", "ทางเข้าจุดรอหน้าห้องตรวจ"); edge(spine[45.0], "n1_exw")
-    aisle = []
-    for i, x in enumerate(exam_x, start=1):
-        a = node(f"n1_ea{i}", F1, x, 11.6, "corridor")
-        aisle.append(a)
-        d = node(f"n1_ex{i}", F1, x, 10, "door", f"หน้าห้องตรวจ {i}")
-        edge(a, d)
-        room(f"r_exam{i}", F1, f"EX{i}", f"ห้องตรวจ {i}", f"ห้องตรวจ {i}", "service",
-             rect(28 + (i - 1) * 6.8, 2, 28 + i * 6.8, 10), d, 4, desk="n")
-    chain(aisle)
-    edge("n1_ea3", "n1_exw")
-    room("r_exam_wait", F1, "EX-W", "จุดรอหน้าห้องตรวจ", "รอพบแพทย์", "waiting", rect(28, 10, 62, 19), "n1_exw", 70, seats=True)
-
-    # LAB / X-ray
-    node("n1_lab_w", F1, 8, 24, "door", "ทางเข้าจุดรอ LAB"); edge(spine[8], "n1_lab_w")
-    node("n1_lab", F1, 8, 31, "door", "หน้าห้อง LAB"); edge("n1_lab_w", "n1_lab")
-    room("r_lab_wait", F1, "LAB-W", "จุดรอห้องปฏิบัติการ", "รอ LAB", "waiting", rect(2, 24, 14, 31), "n1_lab_w", 20, seats=True)
-    room("r_lab", F1, "LAB", "ห้องปฏิบัติการ (LAB)", "LAB", "service", rect(2, 31, 14, 42), "n1_lab", 6, desk="s")
-    node("n1_xr_w", F1, 21, 24, "door", "ทางเข้าจุดรอ X-ray"); edge(spine[21], "n1_xr_w")
-    node("n1_xr", F1, 21, 31, "door", "หน้าห้อง X-ray"); edge("n1_xr_w", "n1_xr")
-    room("r_xray_wait", F1, "XR-W", "จุดรอรังสีวิทยา", "รอ X-ray", "waiting", rect(15, 24, 27, 31), "n1_xr_w", 16, seats=True)
-    room("r_xray", F1, "XRAY", "รังสีวิทยา (X-ray)", "X-ray", "service", rect(15, 31, 27, 42), "n1_xr", 3, desk="s")
-
-    # โถงทางเข้า ลิฟต์ บันได
-    node("n1_ent", F1, 34, 42, "entrance", "ประตูทางเข้าหลัก")
-    node("n1_lobby_s", F1, 34, 35, "junction", "โถงทางเข้า")
-    node("n1_lobby_n", F1, 34, 27.5, "junction", "หน้าลิฟต์")
-    node("n1_lift", F1, 30, 27.5, "elevator", "ลิฟต์", "LIFT_A")
-    node("n1_stair", F1, 38.5, 27.5, "stairs", "บันได", "STAIR_A")
-    chain(["n1_ent", "n1_lobby_s", "n1_lobby_n", spine[34]])
-    edge("n1_lobby_n", "n1_lift")
-    edge("n1_lobby_n", "n1_stair")
-    room("r_lobby", F1, "LOBBY", "โถงทางเข้า", "โถง", "corridor", rect(28, 24, 40, 42), "n1_lobby_s", 40)
-    room("r_corr1", F1, "CORR1", "ทางเดินหลัก", "ทางเดิน", "corridor", rect(2, 19, 62, 24), spine[34], 60)
-
-    # การเงิน / ห้องยา
-    node("n1_fin_w", F1, 46, 24, "door", "ทางเข้าจุดรอการเงิน"); edge(spine[46], "n1_fin_w")
-    node("n1_fin", F1, 46, 33.5, "door"); edge("n1_fin_w", "n1_fin")
-    room("r_fin_wait", F1, "FIN-W", "จุดรอการเงิน", "รอการเงิน", "waiting", rect(41, 24, 51, 34), "n1_fin_w", 24, seats=True)
-    room("r_fin", F1, "FIN", "การเงิน", "การเงิน", "counter", rect(41, 34, 51, 42), "n1_fin", 4, desk="s")
-    node("n1_ph_w", F1, 57, 24, "door", "ทางเข้าจุดรอรับยา"); edge(spine[57], "n1_ph_w")
-    node("n1_ph", F1, 57, 33.5, "door"); edge("n1_ph_w", "n1_ph")
-    room("r_ph_wait", F1, "PH-W", "จุดรอรับยา", "รอรับยา", "waiting", rect(52, 24, 62, 34), "n1_ph_w", 30, seats=True)
-    room("r_ph", F1, "PHARM", "ห้องยา", "ห้องยา", "counter", rect(52, 34, 62, 42), "n1_ph", 6, desk="s")
-
-    # ------------------------------------------------------------------ ชั้น 2
-    s2 = {x: node(f"n2_c{x}", F2, x, 21.5, "junction" if x in (11, 34, 51) else "corridor") for x in (4, 11, 22, 34, 45, 51, 60)}
-    chain([s2[x] for x in sorted(s2)])
-    node("n2_lobby_n", F2, 34, 27.5, "junction", "หน้าลิฟต์ ชั้น 2"); edge(s2[34], "n2_lobby_n")
-    node("n2_lift", F2, 30, 27.5, "elevator", "ลิฟต์", "LIFT_A"); edge("n2_lobby_n", "n2_lift")
-    node("n2_stair", F2, 38.5, 27.5, "stairs", "บันได", "STAIR_A"); edge("n2_lobby_n", "n2_stair")
-    room("r2_lobby", F2, "LOBBY2", "โถงลิฟต์ ชั้น 2", "โถงลิฟต์", "corridor", rect(28, 24, 40, 34), "n2_lobby_n", 20)
-    room("r2_corr", F2, "CORR2", "ทางเดิน ชั้น 2", "ทางเดิน", "corridor", rect(2, 19, 62, 24), s2[34], 40)
-    node("n2_pt", F2, 11, 19, "door", "หน้าห้องกายภาพบำบัด"); edge(s2[11], "n2_pt")
-    room("r2_pt", F2, "PT", "กายภาพบำบัด", "กายภาพ", "service", rect(2, 2, 20, 19), "n2_pt", 10, desk="n")
-    node("n2_den_w", F2, 51, 19, "door", "ทางเข้าจุดรอทันตกรรม"); edge(s2[51], "n2_den_w")
-    node("n2_den", F2, 51, 12, "door", "หน้าห้องทันตกรรม"); edge("n2_den_w", "n2_den")
-    room("r2_den_wait", F2, "DEN-W", "จุดรอทันตกรรม", "รอทันตกรรม", "waiting", rect(40, 12, 62, 19), "n2_den_w", 20, seats=True)
-    room("r2_den", F2, "DENT", "ทันตกรรม", "ทันตกรรม", "service", rect(40, 2, 62, 12), "n2_den", 4, desk="n")
-
-    # ------------------------------------------------------------------ จับคู่รหัส HOSxP (รหัสสมมติ ต้องแทนด้วยรหัสจริง)
-    def mp(dep, name, room_id, wait, stage, prefix=None, servers=1, avg=5, priority=50, hint=None, default=True):
-        doc["mapping"].append({"id": f"m_{dep}_{hint or 0}", "depcode": dep, "dep_name": name, "room_id": room_id,
-                               "wait_room_id": wait, "room_hint": hint, "is_default": default, "stage": stage,
-                               "priority": priority, "queue_prefix": prefix, "servers": servers, "avg_service_min": avg})
-
-    mp("001", "เวชระเบียน", "r_reg", "r_reg_wait", "register", servers=3, avg=3)
-    mp("002", "คัดกรอง", "r_scr", "r_scr_wait", "screening", servers=3, avg=3)
-    mp("010", "อายุรกรรม", "r_exam1", "r_exam_wait", "doctor", "A", servers=2, avg=7, hint="1")
-    mp("010", "อายุรกรรม", "r_exam2", "r_exam_wait", "doctor", "A", servers=2, avg=7, hint="2", default=False)
-    mp("012", "กุมารเวชกรรม", "r_exam3", "r_exam_wait", "doctor", "K", avg=6)
-    mp("013", "ศัลยกรรม", "r_exam4", "r_exam_wait", "doctor", "S", avg=8)
-    mp("014", "ศัลยกรรมกระดูกและข้อ", "r_exam5", "r_exam_wait", "doctor", "O", avg=8)
-    mp("020", "ห้องปฏิบัติการ (LAB)", "r_lab", "r_lab_wait", "lab", servers=2, avg=4, priority=10)
-    mp("021", "รังสีวิทยา (X-ray)", "r_xray", "r_xray_wait", "xray", avg=5, priority=20)
-    mp("030", "การเงิน", "r_fin", "r_fin_wait", "finance", servers=2, avg=3, priority=60)
-    mp("031", "ห้องยา", "r_ph", "r_ph_wait", "pharmacy", servers=3, avg=4, priority=70)
-    mp("040", "ทันตกรรม", "r2_den", "r2_den_wait", "doctor", "D", avg=12)
-    mp("041", "กายภาพบำบัด", "r2_pt", "r2_pt", "other", "P", servers=2, avg=15, priority=30)
-    return doc
 
 
 def sichomphu_opd_document() -> dict:
@@ -789,12 +659,9 @@ def ensure_seed() -> None:
     with db.engine.begin() as conn:
         has_map = conn.execute(sa.select(sa.func.count()).select_from(db.buildings)).scalar()
         if not has_map:
-            if config.IS_DEMO:
-                doc = demo_document()
-            else:
-                # ใช้แผนที่ล่าสุดที่ส่งออกไว้ใน Git (maps/sichomphu_map.json) ถ้ามี ไม่งั้นใช้แผนที่ในโค้ด
-                from .mapio import MAP_FILE, load_file
-                doc = load_file(MAP_FILE) if MAP_FILE.exists() else sichomphu_document()
+            # ทั้งโหมดสาธิตและใช้งานจริงใช้แผนที่จริง: ไฟล์ที่ส่งออกไว้ใน Git ถ้ามี ไม่งั้นใช้แผนที่ในโค้ด
+            from .mapio import MAP_FILE, load_file
+            doc = load_file(MAP_FILE) if MAP_FILE.exists() else sichomphu_document()
             mapdata.save_draft(conn, doc)
         has_version = conn.execute(sa.select(sa.func.count()).select_from(db.map_versions)).scalar()
         if not has_version:

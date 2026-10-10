@@ -125,6 +125,15 @@ export class IsoMap {
     this._pointers = new Map();
     this._bindEvents();
     new ResizeObserver(() => this.resize()).observe(canvas);
+    // แท็บถูกซ่อนนาน (เบราว์เซอร์หยุดแอนิเมชัน) → กลับมาแล้วให้คนที่เดินค้างอยู่ไปถึงปลายทางทันที
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { this._hiddenAt = performance.now(); return; }
+      if (this._hiddenAt && performance.now() - this._hiddenAt > 20000) {
+        for (const pr of this.persons.values()) if (pr.path) pr.travel = 1e9;
+      }
+      this._hiddenAt = null;
+      this._last = performance.now();
+    });
     this.resize();
     requestAnimationFrame((t) => this._frame(t));
   }
@@ -245,7 +254,10 @@ export class IsoMap {
       person.leaving = p.state === 'finished';
     }
     for (const [vn, person] of this.persons) {
-      if (!seen.has(vn)) { this._release(person); this.persons.delete(vn); }
+      if (seen.has(vn)) continue;
+      if (person.path && person.leaving) continue;   // กำลังเดินออกจากโรงพยาบาล: ให้เดินจนถึงประตูก่อน
+      this._release(person);
+      this.persons.delete(vn);
     }
     this.dirty = true;
   }
@@ -924,6 +936,7 @@ export class IsoMap {
     }
     for (const c of this.crowd) if (c.floor === f.id) draw.push({ d: this.depth(c.x, c.y) + 0.3, it: { type: 'crowd', c } });
     draw.sort((a, b) => a.d - b.d);
+    const campusDots = [];
     for (const { it } of draw) {
       if (it.type === 'prism') this._prism(ctx, it.poly, it.z0, it.z1, it.color, it.top);
       else if (it.type === 'tree') this._tree(ctx, it, now);
@@ -934,6 +947,7 @@ export class IsoMap {
         const seated = !p.path && p.seat;
         const sel = this.selected === p.vn;
         p.alpha = Math.min(1, (p.alpha ?? 0) + 0.06);
+        if (f.style === 'campus') { campusDots.push({ p, sel }); continue; }  // วาดทับภายหลัง ไม่ให้ตึกบัง
         this._figure(ctx, p.x, p.y, p.seed, {
           seated, selected: sel, hover: this.hoverVn === p.vn, me: p.me, now,
           walk: p.path ? p.travel || 0 : null, alpha: p.alpha * (this.selected && !sel && this.opts.dimOthers ? 0.45 : 1),
@@ -941,6 +955,20 @@ export class IsoMap {
         const [sx, sy] = this.project(p.x, p.y, seated ? 1.1 : 1.5);
         hits.push({ vn: p.vn, sx, sy });
       }
+    }
+    // แผนที่ภาพรวม: คนเล็กเกินจะมองเห็น → วาดเป็นจุดสีทับบนสุด (ชมพู = เลือกอยู่, เขียว = กำลังกลับบ้าน)
+    for (const { p, sel } of campusDots) {
+      const [sx, sy] = this.project(p.x, p.y, 0);
+      const r = Math.max(4.5, S * 0.7) * (sel ? 1.4 : 1);
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.shadowColor = 'rgba(0,0,0,0.35)'; ctx.shadowBlur = 5;
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(sx, sy - r, r + 2, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = sel || p.me ? PAL.route : (p.leaving ? '#2a9d5c' : '#2f6fca');
+      ctx.beginPath(); ctx.arc(sx, sy - r, r, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      hits.push({ vn: p.vn, sx, sy: sy - r });
     }
     this._hits = hits;
 
