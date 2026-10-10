@@ -21,11 +21,17 @@
       <div class="brand glass"><div class="logo"><img src="/static/img/logo.png" alt=""></div><div style="min-width:0"><b id="hospital">โรงพยาบาลสีชมพู</b><small><span id="guideLbl">ใบนำทางผู้ป่วย</span> · <span id="clock">--:--</span> <span class="dot" id="dot"></span></small></div></div>
       <div class="q glass"><small id="queueLbl">คิวของคุณ</small><b id="queue">----</b></div>
     </div>
+    <div class="sidecol">
     <div class="controls glass" role="toolbar" aria-label="ควบคุมแผนที่">
       <button id="zin" aria-label="ขยาย"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
       <button id="zout" aria-label="ย่อ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
       <button id="rotr" aria-label="หมุนแผนที่"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
       <button id="home" aria-label="มุมมองเริ่มต้น"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg></button>
+    </div>
+    <button class="sheet-fab glass" id="sheetBtn" aria-controls="sheet" aria-expanded="false" aria-label="รายละเอียด">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+      <small id="sheetLbl">รายละเอียด</small><i class="ping" id="sheetPing"></i>
+    </button>
     </div>
     <div class="floorhint floor-tabs glass" id="floorTabs"></div>
   </div>

@@ -7,6 +7,8 @@ let doc = null;
 let view = null;
 let stop = null;
 let lastRouteKey = '';
+let sheetOpen = false;       // แผงรายละเอียด: ซ่อนไว้เป็นปุ่ม เปิดเมื่อกด
+let lastKeyState = '';      // ปลายทาง/สถานะเปลี่ยน → เปิดแผงให้อัตโนมัติ
 let panel = null;   // ปุ่มรายละเอียดที่เปิดอยู่: 'route' | 'mood' | 'history' | null
 
 // ------------------------------------------------------------------ การตั้งค่าที่จำไว้ในเครื่อง
@@ -30,6 +32,7 @@ const T = {
     notOnMap: 'จุดบริการนี้ยังไม่มีในแผนที่ กรุณาสอบถามเจ้าหน้าที่ใกล้ตัวท่าน',
     tRoute: 'เส้นทาง', tMood: 'ความรู้สึก', tHist: 'ประวัติวันนี้', tellUs: 'บอกเรา', items: (n) => `${n} รายการ`,
     short: (m, min) => `~${m} ม. · ${min} นาที`, noRoute: 'ไม่มีเส้นทาง',
+    details: 'รายละเอียด', hideD: 'ซ่อน',
     moodQ: 'ตอนนี้คุณรู้สึกอย่างไร', moodQDone: 'การรับบริการวันนี้เป็นอย่างไร',
     moods: { great: 'พอใจมาก', good: 'พอใจ', meh: 'เฉย ๆ', worried: 'กังวล', angry: 'ไม่พอใจ' },
     notePh: 'พิมพ์ความรู้สึกหรือข้อเสนอแนะ (ไม่บังคับ)', send: 'ส่ง', sent: 'ขอบคุณครับ เจ้าหน้าที่ได้รับแล้ว',
@@ -48,6 +51,7 @@ const T = {
     notOnMap: 'This service point is not on the map yet. Please ask a nearby staff member.',
     tRoute: 'Route', tMood: 'Feedback', tHist: 'History', tellUs: 'Tell us', items: (n) => `${n} items`,
     short: (m, min) => `~${m} m · ${min} min`, noRoute: 'No route',
+    details: 'Details', hideD: 'Hide',
     moodQ: 'How are you feeling right now?', moodQDone: 'How was your visit today?',
     moods: { great: 'Very happy', good: 'Happy', meh: 'Okay', worried: 'Worried', angry: 'Unhappy' },
     notePh: 'Tell us how you feel or any suggestion (optional)', send: 'Send', sent: 'Thank you — our staff has received it.',
@@ -121,6 +125,7 @@ function connect() {
 function fail(msg) {
   $('#sheet').innerHTML = `<div class="grab"></div><div class="notice"><img src="/static/img/logo.png" alt=""><h2>${esc(msg)}</h2>
     <p class="muted">${esc(t().contact)}</p></div>`;
+  setSheet(true);   // ข้อความแจ้งปัญหาต้องเห็นทันที
 }
 
 function onView(v) {
@@ -149,6 +154,20 @@ function onView(v) {
   }
   renderFloors(route);
   renderSheet();
+  // ถูกส่งต่อ / ถึงคิว / เสร็จสิ้น → เปิดแผงให้เห็นทันที (ครั้งแรกที่เปิดหน้าไม่เปิดเอง)
+  const ks = `${v.state}|${v.dest}|${v.room}`;
+  if (lastKeyState && ks !== lastKeyState) setSheet(true);
+  else if (lastKeyState && !sheetOpen) $('#sheetPing').classList.add('on');
+  lastKeyState = ks;
+}
+
+function setSheet(open) {
+  sheetOpen = open;
+  $('#page').classList.toggle('sheet-hidden', !open);
+  $('#sheetBtn').setAttribute('aria-expanded', String(open));
+  $('#sheetBtn').classList.toggle('on', open);
+  $('#sheetLbl').textContent = open ? t().hideD : t().details;
+  if (open) $('#sheetPing').classList.remove('on');
 }
 
 function hashKey(points) {
@@ -319,11 +338,15 @@ function renderSheet() {
     };
   });
   document.querySelectorAll('[data-lang]').forEach((b) => {
-    b.onclick = () => { lang = b.dataset.lang; setPref('nav.lang', lang); applyPrefs(); onView(view); };
+    b.onclick = () => { lang = b.dataset.lang; setPref('nav.lang', lang); applyPrefs(); onView(view); setSheet(sheetOpen); };
   });
   $('#bigBtn').onclick = () => { bigText = !bigText; setPref('nav.big', bigText ? '1' : '0'); applyPrefs(); renderSheet(); iso.dirty = true; };
 }
 
+$('#sheetBtn').onclick = () => setSheet(!sheetOpen);
+$('#sheet').addEventListener('click', (e) => { if (e.target.closest('.grab')) setSheet(false); });
+setSheet(false);
+$('#sheetPing').classList.add('on');   // เปิดหน้าครั้งแรก: ปุ่มกะพริบชวนให้กด
 $('#zin').onclick = () => iso.zoomSmooth(1.35);
 $('#zout').onclick = () => iso.zoomSmooth(1 / 1.35);
 $('#rotr').onclick = () => iso.rotate(1);
