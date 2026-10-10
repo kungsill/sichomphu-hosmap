@@ -1,0 +1,15 @@
+# systemd unit (Linux) — คัดลอกไป /etc/systemd/system/hosmap.service แล้ว systemctl enable --now hosmap
+[Unit]
+Description=Smart Hospital Navigation (Sichomphu)
+After=network-online.target mysql.service
+
+[Service]
+WorkingDirectory=/opt/hosmap
+Environment=PYTHONIOENCODING=utf-8
+ExecStart=/opt/hosmap/.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8090 --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=always
+RestartSec=5
+User=hosmap
+
+[Install]
+WantedBy=multi-user.target

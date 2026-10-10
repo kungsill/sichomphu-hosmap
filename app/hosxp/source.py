@@ -41,6 +41,12 @@ class HosxpSource:
                 cur.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED")
                 cur.close()
 
+    def departments(self) -> dict[str, str]:
+        with self.engine.connect() as conn:
+            rows = conn.execute(sa.text("SELECT depcode, department FROM kskdepartment")).fetchall()
+            conn.rollback()
+        return {str(r[0]): str(r[1] or "").strip() for r in rows}
+
     def fetch(self, today: date) -> tuple[list[dict], list[dict] | None]:
         with self.engine.connect() as conn:
             visits = [dict(r._mapping) for r in conn.execute(sa.text(self.queries["visits"]), {"today": today.isoformat()})]

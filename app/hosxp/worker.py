@@ -100,6 +100,8 @@ class Worker:
         self.health = {"ok": False, "mode": config.HOSXP_MODE, "last_sync": None, "error": None,
                        "visits": 0, "fail_count": 0}
         self.service_ema: dict[str, float] = {}
+        self.dep_names: dict[str, str] = {}
+        self._dep_names_at = 0.0
 
     # ------------------------------------------------------------ เรียนรู้เวลาให้บริการเฉลี่ยของแต่ละหน่วย
     def learn(self, dep, since, now):
@@ -111,8 +113,21 @@ class Worker:
             self.service_ema[dep] = minutes if old is None else old * 0.8 + minutes * 0.2
 
     # ------------------------------------------------------------ รอบการซิงก์
+    def refresh_dep_names(self):
+        """ชื่อหน่วยบริการจาก kskdepartment (รีเฟรชทุก 10 นาที)"""
+        import time as _t
+        if self.dep_names and _t.monotonic() - self._dep_names_at < 600:
+            return
+        try:
+            self.dep_names = self.source.departments()
+            self._dep_names_at = _t.monotonic()
+        except Exception as exc:  # ไม่มีตารางนี้ก็ใช้รหัสแทน
+            log.info("อ่านชื่อหน่วยบริการไม่ได้: %s", exc)
+            self._dep_names_at = _t.monotonic()
+
     def sync_once(self) -> bool:
         now = clock.now()
+        self.refresh_dep_names()
         today = now.date()
         try:
             visits, orders = self.source.fetch(today)

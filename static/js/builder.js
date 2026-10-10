@@ -3,10 +3,10 @@ import { $, api, esc, toast } from './common.js';
 import { centroid } from './iso.js';
 
 const svg = $('#svg');
-const KIND_LABEL = { service: 'ห้องบริการ (มีผนัง)', window: 'ห้องมีช่องบริการ (เช่น ห้องยา ห้องเก็บเงิน)', counter: 'เคาน์เตอร์บริการ (เปิดโล่ง)', waiting: 'พื้นที่นั่งรอ', corridor: 'ทางเดิน/โถง', other: 'อื่น ๆ' };
-const ROOM_FILL = { service: '#eef3f6', window: '#e9f1fb', counter: '#fde7f1', waiting: '#e3f4e6', corridor: '#f7f9fa', other: '#f2f0ea' };
-const NODE_KIND = { corridor: 'ทางเดิน', junction: 'ทางแยก', door: 'ประตู', entrance: 'ทางเข้าอาคาร', exit: 'ทางออกอาคาร', elevator: 'ลิฟต์', stairs: 'บันได', ramp: 'ทางลาด' };
-const NODE_COLOR = { corridor: '#7c8b93', junction: '#1f9e8f', door: '#e0479e', entrance: '#c0392b', exit: '#7b1fa2', elevator: '#2f74c8', stairs: '#8e5cc4', ramp: '#d08a12' };
+const KIND_LABEL = { service: 'ห้องบริการ (มีผนัง)', window: 'ห้องมีช่องบริการ (เช่น ห้องยา ห้องเก็บเงิน)', counter: 'เคาน์เตอร์บริการ (เปิดโล่ง)', building: 'ตึก (แผนที่ภาพรวม)', waiting: 'พื้นที่นั่งรอ', corridor: 'ทางเดิน/โถง', other: 'อื่น ๆ' };
+const ROOM_FILL = { service: '#eef3f6', window: '#e9f1fb', building: '#cfd8dc', counter: '#fde7f1', waiting: '#e3f4e6', corridor: '#f7f9fa', other: '#f2f0ea' };
+const NODE_KIND = { corridor: 'ทางเดิน', junction: 'ทางแยก', door: 'ประตู', entrance: 'ทางเข้าอาคาร', exit: 'ทางออกอาคาร', portal: 'หน้าตึก (เชื่อมโซน)', gate: 'ประตูใหญ่โรงพยาบาล', elevator: 'ลิฟต์', stairs: 'บันได', ramp: 'ทางลาด' };
+const NODE_COLOR = { corridor: '#7c8b93', junction: '#1f9e8f', door: '#e0479e', entrance: '#c0392b', exit: '#7b1fa2', portal: '#0f766e', gate: '#b91c1c', elevator: '#2f74c8', stairs: '#8e5cc4', ramp: '#d08a12' };
 const STAGES = { register: 'ลงทะเบียน', screening: 'คัดกรอง', doctor: 'พบแพทย์', lab: 'LAB', xray: 'X-ray', finance: 'การเงิน', pharmacy: 'รับยา', other: 'อื่น ๆ' };
 
 let doc = null;
@@ -442,6 +442,7 @@ function propsHtml() {
         <label class="field"><span>รองรับ (คน)</span><input type="number" min="1" data-room="capacity" value="${r.capacity ?? 10}"></label>
         <label class="field"><span>${r.kind === 'window' ? 'ด้านช่องบริการ' : 'โต๊ะ/เคาน์เตอร์'}</span><select data-room="desk">${opt('', 'ไม่มี', r.desk)}${opt('n', 'ด้านบน', r.desk)}${opt('s', 'ด้านล่าง', r.desk)}${opt('w', 'ด้านซ้าย', r.desk)}${opt('e', 'ด้านขวา', r.desk)}</select></label>
       </div>
+      ${r.kind === 'building' ? `<label class="field"><span>คลิกตึกนี้แล้วเปิดโซน</span><select data-room="link_floor">${opt('', '— ไม่มีแผนที่ภายใน —', r.link_floor)}${doc.floors.filter((x) => x.style !== 'campus').map((x) => opt(x.id, `${doc.buildings.find((b) => b.id === x.building_id)?.name || ''} ${x.name}`, r.link_floor)).join('')}</select></label>` : ''}
       <label class="check"><input type="checkbox" data-room="seats" ${r.seats ? 'checked' : ''}> วาดเก้าอี้นั่งรอ</label>
       <label class="field"><span>ของตกแต่งภายใน</span><select data-room="decor">${opt('', 'ไม่มี', r.decor)}${opt('pharmacy', 'ชั้นวางยา (ห้องยา)', r.decor)}${opt('cashier', 'ตู้เอกสาร/ตู้เซฟ (ห้องเก็บเงิน)', r.decor)}${opt('dental', 'เก้าอี้ทำฟัน (ห้องทันตกรรม)', r.decor)}${opt('beds', 'เตียงรักษา (เช่น เตียงกายภาพ)', r.decor)}</select></label>
       <div class="grid2">
@@ -459,7 +460,7 @@ function propsHtml() {
     h += `<div class="ptitle">จุดนำทาง <button class="btn ghost" data-act="del">ลบ</button></div>
       <label class="field"><span>ชนิด</span><select data-node="kind">${Object.entries(NODE_KIND).map(([k, v]) => opt(k, v, n.kind)).join('')}</select></label>
       <label class="field"><span>ชื่อจุด (ใช้ในคำแนะนำการเดิน เช่น "หน้าลิฟต์")</span><input data-node="name" value="${esc(n.name || '')}"></label>
-      ${['elevator', 'stairs', 'ramp'].includes(n.kind) ? `<label class="field"><span>กลุ่มเชื่อมข้ามชั้น (ตั้งชื่อเดียวกันทุกชั้น เช่น LIFT_A)</span><input data-node="link_group" value="${esc(n.link_group || '')}"></label>` : ''}
+      ${['elevator', 'stairs', 'ramp', 'entrance', 'exit', 'portal'].includes(n.kind) ? `<label class="field"><span>กลุ่มเชื่อมข้ามชั้น/โซน (ชื่อเดียวกัน = เชื่อมกัน เช่น LIFT_A, Z_OPD)</span><input data-node="link_group" value="${esc(n.link_group || '')}"></label>` : ''}
       <div class="grid2">
         <label class="field"><span>X (ม.)</span><input type="number" step="0.5" data-node="x" value="${n.x}"></label>
         <label class="field"><span>Y (ม.)</span><input type="number" step="0.5" data-node="y" value="${n.y}"></label>

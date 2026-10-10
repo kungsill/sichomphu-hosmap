@@ -6,3 +6,4 @@ data/
 *.mp4
 *.db
 *.db-*
+backups/

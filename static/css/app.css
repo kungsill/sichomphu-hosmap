@@ -468,3 +468,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .ptop .q { min-width: 75px; padding: 6px 9px; }
   .ptop .brand b { font-size: 13px; }
 }
+
+/* ---------- หน้าผู้ป่วย: ภาษา + ตัวอักษรใหญ่ */
+.prefs { display: flex; gap: 6px; justify-content: flex-end; margin: -4px 0 8px; }
+.pref { border: 1px solid var(--line); background: #fff; color: var(--ink-2); border-radius: 999px; padding: 4px 11px; font-size: 13px; font-weight: 600; transition: background 0.2s, color 0.2s; }
+.pref.on { background: var(--teal); border-color: var(--teal); color: #fff; }
+body.bigtext .patient-page .sheet { font-size: 118%; }
+body.bigtext .dest .nm { font-size: 27px; }
+body.bigtext .bigstatus { font-size: 22px; }
+body.bigtext .bigstatus .qpos b { font-size: 36px; }
+body.bigtext .steps-text li { font-size: 18px; padding: 12px 0; }
+body.bigtext .steps-text li::before { width: 32px; height: 32px; font-size: 16px; }
+body.bigtext .step { font-size: 14px; }
+body.bigtext .section-title { font-size: 18px; }
+body.bigtext .ptop .q b { font-size: 26px; }
+.notice-inline { margin-top: 10px; background: #eef6ff; color: #2b5d8f; border-radius: 12px; padding: 10px 12px; font-size: 14px; }

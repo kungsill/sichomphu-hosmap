@@ -116,7 +116,7 @@ class SnapshotBuilder:
             dest = d.get("dest_dep")
             md = d.get("main_dep")
             info = hmap.dep_info(dest, md) if (hmap and dest) else {}
-            dep_name = info.get("dep_name") or dest or ""
+            dep_name = info.get("dep_name") or (self.worker.dep_names.get(dest) if self.worker else None) or dest or ""
             since = round(((now - d["cur_dep_time"]).total_seconds() / 60)) if d.get("cur_dep_time") else 0
             reg = None
             try:

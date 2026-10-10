@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>จอแสดงคิว — โรงพยาบาลสีชมพู</title>
+  <link rel="icon" href="/static/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <style>
+    html, body { height: 100%; overflow: hidden; }
+    body { background: radial-gradient(1400px 900px at 30% 30%, #f8fcfb, #dcefea); font-size: 1.15vw; }
+    .tv { position: fixed; inset: 0; display: grid; grid-template-columns: 1fr 34vw; grid-template-rows: auto 1fr auto; gap: 1.2vw; padding: 1.4vw; }
+    .tv header { grid-column: 1 / -1; display: flex; align-items: center; gap: 1.2vw; padding: 0.8vw 1.2vw; }
+    .tv header img { width: 4vw; height: 4vw; object-fit: contain; background: #fff; border-radius: 1.1vw; padding: 0.3vw; }
+    .tv header .t { flex: 1; }
+    .tv header b { font-size: 2vw; display: block; line-height: 1.15; }
+    .tv header span { font-size: 1.2vw; color: var(--muted); }
+    .tv header .clock { font-size: 3vw; font-weight: 700; color: var(--teal); font-variant-numeric: tabular-nums; }
+    .mapbox { position: relative; border-radius: 1.4vw; overflow: hidden; }
+    .mapbox canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .tvside { display: flex; flex-direction: column; gap: 1.2vw; min-height: 0; }
+    .calling { padding: 1.2vw; }
+    .calling h2, .svcs h2 { margin: 0 0 0.8vw; font-size: 1.5vw; display: flex; align-items: center; gap: 0.6vw; }
+    .call { display: flex; align-items: center; gap: 1vw; padding: 0.7vw 0.4vw; border-bottom: 1px solid var(--line); }
+    .call:last-child { border-bottom: 0; }
+    .call .q { min-width: 7.5vw; text-align: center; font-size: 2.6vw; font-weight: 700; color: #fff; background: var(--brand-grad); border-radius: 1vw; padding: 0.3vw 0.8vw; box-shadow: 0 0.4vw 1vw rgba(224,71,158,.3); }
+    .call .w { font-size: 1.6vw; font-weight: 600; }
+    .call.new { animation: flash 1.6s ease 3; }
+    @keyframes flash { 0%, 100% { background: transparent; } 50% { background: var(--brand-soft); } }
+    .svcs { padding: 1.2vw; flex: 1; min-height: 0; overflow: hidden; }
+    .svc-row { padding: 0.8vw 0; border-bottom: 1px solid var(--line); }
+    .svc-row:last-child { border-bottom: 0; }
+    .svc-row .top { display: flex; justify-content: space-between; font-size: 1.35vw; font-weight: 700; }
+    .svc-row .top span { color: var(--muted); font-weight: 500; font-size: 1.15vw; }
+    .chips { display: flex; gap: 0.5vw; margin-top: 0.5vw; flex-wrap: wrap; }
+    .chips b { font-size: 1.3vw; padding: 0.25vw 0.8vw; border-radius: 0.8vw; background: var(--teal-soft); color: var(--teal); }
+    .chips b:first-child { background: var(--teal); color: #fff; }
+    footer { grid-column: 1 / -1; display: flex; align-items: center; gap: 1.2vw; padding: 0.7vw 1.2vw; font-size: 1.3vw; overflow: hidden; }
+    footer .ticker { flex: 1; white-space: nowrap; overflow: hidden; }
+    footer .ticker span { display: inline-block; padding-left: 100%; animation: tick 28s linear infinite; }
+    @keyframes tick { to { transform: translateX(-100%); } }
+    .empty { color: var(--muted); font-size: 1.3vw; padding: 0.6vw 0; }
+    .picker { max-width: 560px; margin: 8vh auto; padding: 24px; }
+    .picker a { display: block; padding: 12px 14px; border-radius: 12px; text-decoration: none; color: var(--ink); font-weight: 600; }
+    .picker a:hover { background: var(--teal-soft); }
+  </style>
+</head>
+<body>
+  <div class="tv hidden" id="tv">
+    <header class="glass">
+      <img src="/static/img/logo.png" alt="">
+      <div class="t"><b id="zone">—</b><span id="hosp">โรงพยาบาลสีชมพู</span></div>
+      <div class="clock" id="clock">--:--</div>
+    </header>
+    <div class="mapbox glass"><canvas id="map"></canvas></div>
+    <div class="tvside">
+      <section class="calling glass">
+        <h2><span class="dot"></span>กำลังให้บริการ</h2>
+        <div id="calling"></div>
+      </section>
+      <section class="svcs glass">
+        <h2>คิวถัดไป</h2>
+        <div id="svcs"></div>
+      </section>
+    </div>
+    <footer class="glass">
+      <img src="/static/img/logo.png" alt="" style="width:2.2vw">
+      <div class="ticker"><span id="ticker">สแกน QR Code ที่ป้ายในห้องรอ แล้วกรอกเลขคิวบนใบคิว เพื่อดูเส้นทางและสถานะคิวบนมือถือของท่าน · ผู้สูงอายุหรือผู้ใช้รถเข็นสามารถขอความช่วยเหลือจากเจ้าหน้าที่ได้ทุกจุด</span></div>
+    </footer>
+  </div>
+  <div class="picker glass hidden" id="picker"><h2>เลือกโซนสำหรับจอนี้</h2><div id="zones"></div>
+    <p class="muted">เพิ่ม <code>&voice=1</code> ท้ายลิงก์ถ้าต้องการเสียงเรียกคิว (ปิดไว้เป็นค่าเริ่มต้น เพราะ neoQ มีเสียงเรียกอยู่แล้ว)</p></div>
+  <script type="module" src="/static/js/tv.js"></script>
+</body>
+</html>

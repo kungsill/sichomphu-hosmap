@@ -1,0 +1,16 @@
+# Caddy: ออกใบรับรอง HTTPS ให้อัตโนมัติ (ต้องมี DNS ชี้มาที่เครื่องนี้ และเปิดพอร์ต 80/443)
+# รัน: caddy run --config deploy/Caddyfile
+nav.scphos.go.th {
+	encode gzip
+
+	# หน้าเจ้าหน้าที่/Map Builder: เปิดเฉพาะในเครือข่ายโรงพยาบาล (ลบบล็อกนี้ถ้าต้องการเปิดจากภายนอก)
+	@staff_outside {
+		path / /builder /poster /slip/* /api/live /api/stream /api/visits/* /api/admin/*
+		not remote_ip 192.168.0.0/16 10.0.0.0/8 172.16.0.0/12
+	}
+	respond @staff_outside "เฉพาะเครือข่ายโรงพยาบาล" 403
+
+	reverse_proxy 127.0.0.1:8090 {
+		flush_interval -1   # สำคัญ: ให้ SSE (อัปเดตสด) ส่งทันที
+	}
+}

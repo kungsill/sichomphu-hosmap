@@ -1,0 +1,25 @@
+<!--
+  ปุ่ม "ดูแผนที่และเส้นทาง" สำหรับเพิ่มในหน้า neoQ: patient_status.aspx
+  ─────────────────────────────────────────────────────────────────────
+  หน้า neoQ เปิดด้วย ?vn=<VN> อยู่แล้ว (จาก QR บนใบคิว) — ปุ่มนี้ส่ง VN เดิมต่อไปยังระบบนำทาง
+  ผู้ป่วยจะกรอกเฉพาะเลข HN 4 ตัวท้ายเพื่อยืนยันตัวตน (กันการเปิดดูคิวของผู้อื่น)
+
+  วิธีที่ 1 (ASP.NET WebForms ฝั่งเซิร์ฟเวอร์): วางในไฟล์ .aspx
+      <a class="nav-btn" href='https://nav.scphos.go.th/q?vn=<%= Server.UrlEncode(Request.QueryString["vn"]) %>'>
+        🗺️ ดูแผนที่และเส้นทาง
+      </a>
+
+  วิธีที่ 2 (ไม่ต้องแก้โค้ดฝั่งเซิร์ฟเวอร์): วางบล็อกด้านล่างนี้ในหน้า (HTML + JavaScript)
+-->
+<a class="nav-btn" id="navBtn" href="https://nav.scphos.go.th/q">🗺️ ดูแผนที่และเส้นทาง</a>
+<script>
+  (function () {
+    var vn = new URLSearchParams(location.search).get('vn');
+    if (vn) document.getElementById('navBtn').href = 'https://nav.scphos.go.th/q?vn=' + encodeURIComponent(vn);
+  })();
+</script>
+<style>
+  .nav-btn { display: block; margin: 16px auto; max-width: 360px; text-align: center; padding: 14px 18px; border-radius: 14px;
+    background: linear-gradient(135deg, #ef5fb0, #c93d8f); color: #fff; font-size: 18px; font-weight: 700; text-decoration: none;
+    box-shadow: 0 8px 20px rgba(224, 71, 158, .3); }
+</style>

@@ -404,6 +404,7 @@ $('#rotr').onclick = () => iso.rotate(1);
 $('#home').onclick = () => iso.resetView();
 $('#builderLink').onclick = () => { location.href = '/builder'; };
 $('#posterLink').onclick = () => window.open('/poster', '_blank', 'noopener');
+$('#tvLink').onclick = () => window.open(isCampus() ? '/tv' : `/tv?f=${encodeURIComponent(iso.floorId)}`, '_blank', 'noopener');
 $('#rush').onchange = async (e) => {
   try { await api('/api/demo/rush', { method: 'POST', body: JSON.stringify({ on: e.target.checked }) }); toast(e.target.checked ? 'จำลองช่วงเร่งด่วน: ผู้ป่วยมาเพิ่มขึ้น' : 'กลับสู่ปกติ'); } catch (err) { toast(err.message); }
 };

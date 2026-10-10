@@ -304,6 +304,70 @@ async def api_patient_stream(token: str, request: Request, accessible: bool = Fa
     return StreamingResponse(gen(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
+# ---------------------------------------------------------------- จอทีวีหน้าห้องรอ (สาธารณะ: เลขคิวเท่านั้น ไม่มี HN/ชื่อ)
+def tv_view(floor_id: str) -> dict:
+    snap = state["builder"].latest or {}
+    hmap = mapdata.published()
+    if not hmap or floor_id not in hmap.floors:
+        raise HTTPException(404, "ไม่พบโซน")
+    in_zone = {rid for rid, r in hmap.rooms.items() if r["floor_id"] == floor_id}
+    pts, calling = [], []
+    for p in snap.get("patients", []):
+        if p.get("room") not in in_zone or p.get("state") == "cancelled":
+            continue
+        anon = hashlib.sha1(f"{p['vn']}|{snap.get('datetime', '')[:10]}".encode()).hexdigest()[:10]
+        pts.append({"vn": anon, "q": p.get("q"), "room": p.get("room"), "service_room": p.get("service_room"),
+                    "state": p.get("state"), "walking": p.get("walking"), "route": p.get("route"),
+                    "route_id": p.get("route_id"), "label": p.get("label"), "pos": p.get("pos"),
+                    "dest": p.get("dest"), "dest_name": p.get("dest_name")})
+        if p.get("state") == "in_service":
+            room = hmap.rooms.get(p.get("service_room") or p.get("room")) or {}
+            calling.append({"q": p.get("q"), "where": room.get("name") or p.get("dest_name"), "since": p.get("since") or 0})
+    calling.sort(key=lambda c: c["since"])
+    services = []
+    for svc in snap.get("services", []):
+        if svc.get("floor") != floor_id:
+            continue
+        key_q = [p for p in pts if p["dest"] == svc["depcode"] and p["state"] == "waiting" and p.get("pos")]
+        key_q.sort(key=lambda p: p["pos"])
+        services.append({"name": svc["name"], "waiting": svc["waiting"], "serving": svc["serving"], "est": svc["est"],
+                         "next": [p["q"] for p in key_q[:6]]})
+    counts = {rid: n for rid, n in (snap.get("rooms") or {}).items() if rid in in_zone}
+    return {"hospital": config.HOSPITAL_NAME, "zone": hmap.zone_name(floor_id), "floor_id": floor_id,
+            "time": snap.get("time"), "patients": pts, "calling": calling[:8], "services": services, "rooms": counts,
+            "map_version": hmap.version}
+
+
+@app.get("/tv", include_in_schema=False)
+def tv_page():
+    return page("tv.html")
+
+
+@app.get("/api/tv/{floor_id}")
+def api_tv(floor_id: str):
+    return tv_view(floor_id)
+
+
+@app.get("/api/tv/{floor_id}/stream")
+async def api_tv_stream(floor_id: str, request: Request):
+    tv_view(floor_id)  # ตรวจว่ามีโซนนี้
+
+    async def gen():
+        q = hub.subscribe()
+        try:
+            yield _sse(await asyncio.to_thread(tv_view, floor_id))
+            while not await request.is_disconnected():
+                try:
+                    await asyncio.wait_for(q.get(), timeout=20)
+                    yield _sse(await asyncio.to_thread(tv_view, floor_id))
+                except asyncio.TimeoutError:
+                    yield ": ping\n\n"
+        finally:
+            hub.unsubscribe(q)
+
+    return StreamingResponse(gen(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
 # ---------------------------------------------------------------- staff API
 @app.get("/api/live")
 def api_live(_=Depends(staff)):

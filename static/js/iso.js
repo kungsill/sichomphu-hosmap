@@ -1128,18 +1128,21 @@ export class IsoMap {
   }
 
   _pillWidth(ctx, text) {
-    ctx.font = `600 12px ${FONT}`;
-    return ctx.measureText(text).width + 22;
+    const fs = 12 * (this.opts.labelScale || 1);
+    ctx.font = `600 ${fs}px ${FONT}`;
+    return ctx.measureText(text).width + 22 * (this.opts.labelScale || 1);
   }
 
   _pill(ctx, x, y, text, o = {}) {
     if (!text) return;
-    ctx.font = `${o.bold ? 700 : 600} 12px ${FONT}`;
+    const ls = this.opts.labelScale || 1;
+    const fs = 12 * ls;
+    ctx.font = `${o.bold ? 700 : 600} ${fs}px ${FONT}`;
     const tw = ctx.measureText(text).width;
     let cw = 0;
-    if (o.count) { ctx.font = `700 12px ${FONT}`; cw = ctx.measureText(o.count).width + 8; }
+    if (o.count) { ctx.font = `700 ${fs}px ${FONT}`; cw = ctx.measureText(o.count).width + 8; }
     const dotW = o.dot ? 12 : 0;
-    const w = tw + cw + dotW + 20, h = 25;
+    const w = tw + cw + dotW + 20 * ls, h = 25 * ls;
     const x0 = x - w / 2, y0 = y - h;
     ctx.save();
     ctx.shadowColor = o.bg ? 'rgba(224,71,158,0.35)' : 'rgba(20,50,50,0.16)';
@@ -1169,10 +1172,10 @@ export class IsoMap {
     }
     ctx.fillStyle = o.fg || (o.dark ? '#fff' : '#23323a');
     ctx.textBaseline = 'middle';
-    ctx.font = `${o.bold ? 700 : 600} 12px ${FONT}`;
+    ctx.font = `${o.bold ? 700 : 600} ${fs}px ${FONT}`;
     ctx.fillText(text, tx, y0 + h / 2 + 1);
     if (o.count) {
-      ctx.font = `700 12px ${FONT}`;
+      ctx.font = `700 ${fs}px ${FONT}`;
       ctx.fillStyle = o.countColor;
       ctx.fillText(o.count, tx + tw + 8, y0 + h / 2 + 1);
     }
