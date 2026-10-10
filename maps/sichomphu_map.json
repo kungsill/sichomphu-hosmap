@@ -952,39 +952,6 @@
    "link_floor": "flr_opd_1"
   },
   {
-   "id": "c_pool",
-   "floor_id": "flr_campus",
-   "code": "POOL",
-   "name": "สระพักน้ำบำบัด",
-   "short_name": "สระน้ำบำบัด",
-   "kind": "building",
-   "polygon": [
-    [
-     119.4,
-     56.6
-    ],
-    [
-     154.0,
-     56.6
-    ],
-    [
-     154.0,
-     79.0
-    ],
-    [
-     119.4,
-     79.0
-    ]
-   ],
-   "door_node_id": null,
-   "color": "#f07ab8",
-   "capacity": 0,
-   "seats": false,
-   "desk": null,
-   "decor": null,
-   "link_floor": null
-  },
-  {
    "id": "c_psy",
    "floor_id": "flr_campus",
    "code": "PSY",
