@@ -51,7 +51,15 @@ SESSION_SECRET=<สุ่มยาว ๆ เช่น จาก python -c "impo
 
 ## 3. รันเป็น Service (เปิดเองเมื่อเครื่องรีสตาร์ต)
 
-**Windows:** ดาวน์โหลด NSSM (https://nssm.cc) แล้วรัน `deploy\install_service.bat` ด้วยสิทธิ์ Administrator
+**Windows:** ดับเบิลคลิก `deploy\install_service.bat` (ระบบจะขอสิทธิ์ Administrator เอง) — สิ่งที่สคริปต์ทำ:
+1. ปิดเซิร์ฟเวอร์ที่เปิดค้างไว้บน port 8090 (เฉพาะ python เช่น ที่รันจาก VS Code)
+2. ถ้ามี NSSM ใน PATH → ติดตั้งเป็น Windows Service ชื่อ `hosmap` · ถ้าไม่มี → ใช้ **Task Scheduler** งานชื่อ `HospitalNavigation`
+   (เริ่มตอนเปิดเครื่องก่อนมีคนล็อกอิน, บัญชี SYSTEM, หยุดทำงานจะเปิดใหม่ทุก 1 นาที — ไม่ต้องดาวน์โหลดอะไรเพิ่ม)
+3. เพิ่มกฎ Firewall `Hospital Navigation 8090` (เฉพาะเครือข่าย Domain/Private) ให้เครื่องอื่นในโรงพยาบาลเข้าได้
+4. ตรวจ `/api/health` แล้วแสดงที่อยู่ที่เครื่องอื่นใช้เปิด
+
+ตัวรันจริงคือ `deploy\run_server.bat` (log ที่ `data\service.log`) · `HOST=0.0.0.0` = เข้าตรงจาก LAN, เปลี่ยนเป็น `127.0.0.1` เมื่อใช้คู่กับ Caddy/nginx
+ถอนการติดตั้ง: `deploy\uninstall_service.bat` (ข้อมูลใน `data\` ยังอยู่) · หยุด/เริ่มเอง: Task Scheduler → HospitalNavigation → End / Run
 **Linux:** คัดลอก `deploy/hosmap.service` ไป `/etc/systemd/system/` แล้ว `systemctl enable --now hosmap`
 
 ## 4. HTTPS + ชื่อโดเมน
@@ -88,7 +96,7 @@ SESSION_SECRET=<สุ่มยาว ๆ เช่น จาก python -c "impo
 cd C:\hosmap
 git pull
 .venv\Scripts\python -m pip install -r requirements.txt
-nssm restart hosmap            (Linux: systemctl restart hosmap)
+schtasks /End /TN HospitalNavigation & schtasks /Run /TN HospitalNavigation   (หรือ nssm restart hosmap · Linux: systemctl restart hosmap)
 .venv\Scripts\python -m app.mapio import    ← เฉพาะเมื่อมีการแก้แผนที่ใน Git
 ```
 
