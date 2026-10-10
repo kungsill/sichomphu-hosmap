@@ -2,6 +2,7 @@
 const COS30 = Math.cos(Math.PI / 6);
 const SIN30 = 0.5;
 
+export const MOOD_EMOJI = { great: '😄', good: '🙂', meh: '😐', worried: '😟', angry: '😠' };
 const PAL = {
   ground: '#eef4f2',
   slabTop: '#ffffff',
@@ -360,6 +361,7 @@ export class IsoMap {
       person.room = p.room;
       person.inService = p.state === 'in_service';
       person.leaving = p.state === 'finished';
+      person.mood = p.mood || null;
     }
     for (const [vn, person] of this.persons) {
       if (seen.has(vn)) continue;
@@ -1250,6 +1252,7 @@ export class IsoMap {
     for (const c of this.crowd) if (c.floor === f.id) draw.push({ d: this.depth(c.x, c.y) + 0.3, it: { type: 'crowd', c } });
     draw.sort((a, b) => a.d - b.d);
     const campusDots = [];
+    const moods = [];
     for (const { it } of draw) {
       if (it.type === 'prism') this._prism(ctx, it.poly, it.z0, it.z1, it.color, it.top);
       else if (it.type === 'sign') this._sign(ctx, it);
@@ -1271,7 +1274,21 @@ export class IsoMap {
         });
         const [sx, sy] = this.project(p.x, p.y, seated ? 1.1 : 1.5);
         hits.push({ vn: p.vn, sx, sy });
+        if (this.opts.showMood && p.mood && !p.leaving && MOOD_EMOJI[p.mood]) moods.push({ p, seated });
       }
+    }
+    // ความรู้สึกของผู้ป่วย (อีโมจิลอยเหนือหัว) วาดทับบนสุดให้เห็นชัด
+    for (const { p, seated } of moods) {
+      const [ex, ey] = this.project(p.x, p.y, (seated ? 1.1 : 1.5) + 1.1);
+      const size = Math.max(15, Math.min(30, S * 0.95));
+      const bob = Math.sin(now / 500 + p.seed) * size * 0.06;
+      ctx.save();
+      ctx.globalAlpha = p.alpha ?? 1;
+      ctx.font = `${size}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0,0,0,0.25)'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 1;
+      ctx.fillText(MOOD_EMOJI[p.mood], ex, ey + bob);
+      ctx.restore();
     }
     // แผนที่ภาพรวม: คนเล็กเกินจะมองเห็น → วาดเป็นจุดสีทับบนสุด (ชมพู = เลือกอยู่, เขียว = กำลังกลับบ้าน)
     for (const { p, sel } of campusDots) {

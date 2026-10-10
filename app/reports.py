@@ -13,7 +13,8 @@ from datetime import date, datetime, time as dtime, timedelta
 
 import sqlalchemy as sa
 
-from . import db, mapdata
+from . import db, feedback, mapdata
+from .status import queue_code
 from .clock import clock
 from .hosxp.source import to_datetime, to_str
 
@@ -92,6 +93,33 @@ def _rows_from_events(d1: date, d2: date):
 
 def build(worker, days: int) -> dict:
     days = max(1, min(int(days), 90))
+    result = dict(_build(worker, days))
+    result["feedback"] = _feedback(worker, days)
+    return result
+
+
+def _feedback(worker, days: int) -> dict:
+    d2 = clock.today()
+    d1 = d2 - timedelta(days=days - 1)
+    hmap = mapdata.published()
+    names = dict(worker.dep_names) if worker else {}
+    with db.engine.connect() as conn:
+        visits = {r["vn"]: dict(r) for r in conn.execute(sa.select(
+            db.patient_visits.c.vn, db.patient_visits.c.queue_no, db.patient_visits.c.oqueue, db.patient_visits.c.main_dep)
+            .where((db.patient_visits.c.vstdate >= d1) & (db.patient_visits.c.vstdate <= d2))).mappings()}
+
+    def dep_name(dep):
+        info = hmap.dep_info(dep, None) if hmap else {}
+        return info.get("dep_name") or names.get(dep) or dep
+
+    def queue_of(vn):
+        v = visits.get(vn)
+        return (queue_code(hmap, v) if hmap else v.get("queue_no")) if v else None
+
+    return feedback.summary(d1, d2, dep_name, queue_of)
+
+
+def _build(worker, days: int) -> dict:
     key = (days, clock.today())
     with _lock:
         hit = _cache.get(key)

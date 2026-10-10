@@ -28,6 +28,10 @@ const T = {
     loadErr: 'ไม่สามารถโหลดข้อมูลได้ กรุณาลองใหม่อีกครั้ง', badToken: 'ใบนำทางไม่ถูกต้องหรือหมดอายุ',
     contact: 'กรุณาติดต่อเจ้าหน้าที่ประชาสัมพันธ์ หรือสแกน QR Code ใหม่อีกครั้ง', campus: 'ภาพรวม รพ.', big: 'ตัวอักษรใหญ่',
     notOnMap: 'จุดบริการนี้ยังไม่มีในแผนที่ กรุณาสอบถามเจ้าหน้าที่ใกล้ตัวท่าน',
+    moodQ: 'ตอนนี้คุณรู้สึกอย่างไร', moodQDone: 'การรับบริการวันนี้เป็นอย่างไร',
+    moods: { great: 'พอใจมาก', good: 'พอใจ', meh: 'เฉย ๆ', worried: 'กังวล', angry: 'ไม่พอใจ' },
+    notePh: 'พิมพ์ความรู้สึกหรือข้อเสนอแนะ (ไม่บังคับ)', send: 'ส่ง', sent: 'ขอบคุณครับ เจ้าหน้าที่ได้รับแล้ว',
+    private: 'เจ้าหน้าที่โรงพยาบาลเท่านั้นที่เห็น ไม่แสดงบนจอสาธารณะ',
     stages: { register: 'ลงทะเบียน', screening: 'คัดกรอง', doctor: 'พบแพทย์', lab: 'LAB', xray: 'X-ray', other: 'รับบริการ', finance: 'การเงิน', pharmacy: 'รับยา', home: 'กลับบ้าน' },
   },
   en: {
@@ -40,6 +44,10 @@ const T = {
     loadErr: 'Could not load data. Please try again.', badToken: 'This link is invalid or has expired.',
     contact: 'Please ask the information desk, or scan the QR code again.', campus: 'Hospital campus', big: 'Large text',
     notOnMap: 'This service point is not on the map yet. Please ask a nearby staff member.',
+    moodQ: 'How are you feeling right now?', moodQDone: 'How was your visit today?',
+    moods: { great: 'Very happy', good: 'Happy', meh: 'Okay', worried: 'Worried', angry: 'Unhappy' },
+    notePh: 'Tell us how you feel or any suggestion (optional)', send: 'Send', sent: 'Thank you — our staff has received it.',
+    private: 'Only hospital staff can see this. It is never shown on public screens.',
     stages: { register: 'Register', screening: 'Screening', doctor: 'Doctor', lab: 'LAB', xray: 'X-ray', other: 'Service', finance: 'Payment', pharmacy: 'Pharmacy', home: 'Home' },
   },
 };
@@ -184,9 +192,56 @@ function renderFloors(route) {
   };
 }
 
+// ------------------------------------------------------------------ ความรู้สึกระหว่างรอ (สร้างครั้งเดียว ย้ายเข้าแผงทุกครั้งที่วาดใหม่)
+const MOODS = [['great', '😄'], ['good', '🙂'], ['meh', '😐'], ['worried', '😟'], ['angry', '😠']];
+const moodEl = document.createElement('div');
+moodEl.className = 'moodcard';
+moodEl.innerHTML = `<div class="section-title"><span data-m="q"></span></div>
+  <div class="moods" role="group">${MOODS.map(([k, e]) => `<button class="mood" data-mood="${k}" aria-pressed="false"><span>${e}</span><small></small></button>`).join('')}</div>
+  <div class="mnote"><textarea rows="2" maxlength="300" data-m="ph"></textarea><button class="btn primary" data-m="send"></button></div>
+  <div class="mmsg muted" data-m="msg"></div>`;
+let myMood = null, moodMsg = '';
+const mq = (k) => moodEl.querySelector(`[data-m="${k}"]`);
+
+function updateMood() {
+  const L = t();
+  mq('q').textContent = view?.state === 'finished' ? L.moodQDone : L.moodQ;
+  mq('ph').placeholder = L.notePh;
+  mq('send').textContent = L.send;
+  mq('msg').textContent = moodMsg || L.private;
+  moodEl.querySelectorAll('.mood').forEach((b) => {
+    b.querySelector('small').textContent = L.moods[b.dataset.mood];
+    b.classList.toggle('on', b.dataset.mood === myMood);
+    b.setAttribute('aria-pressed', String(b.dataset.mood === myMood));
+  });
+}
+
+async function sendMood(mood, comment) {
+  const btns = moodEl.querySelectorAll('button');
+  btns.forEach((b) => { b.disabled = true; });
+  try {
+    await api(`/api/t/${encodeURIComponent(token)}/feedback`, { method: 'POST', body: JSON.stringify({ mood, comment }) });
+    if (mood) myMood = mood;
+    if (comment) mq('ph').value = '';
+    moodMsg = t().sent;
+  } catch (err) {
+    moodMsg = err.message;
+  } finally {
+    btns.forEach((b) => { b.disabled = false; });
+    updateMood();
+  }
+}
+moodEl.querySelectorAll('.mood').forEach((b) => { b.onclick = () => sendMood(b.dataset.mood, null); });
+mq('send').onclick = () => {
+  const text = mq('ph').value.trim();
+  if (text) sendMood(null, text);
+};
+
 function renderSheet() {
   const v = view;
   if (!v) return;
+  // จำว่ากำลังพิมพ์อยู่ไหม ก่อนแผงถูกวาดใหม่ (วาดใหม่แล้วโฟกัสจะหลุด)
+  const ta = mq('ph'), typing = document.activeElement === ta, sel = [ta.selectionStart, ta.selectionEnd];
   const L = t();
   const cls = stateClass({ ...v, dep: v.dest });
   const dest = v.destination;
@@ -222,9 +277,15 @@ function renderSheet() {
       <ol class="steps-text">${steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`
       : (v.route && !v.route.ok ? `<div class="section-title">${L.routeTitle}</div><div class="muted">${esc(v.route.reason)}</div>
       <label class="toggle" style="margin-top:8px"><input type="checkbox" id="acc" ${accessible ? 'checked' : ''}><span class="sw"></span>${L.wheelRoute}</label>` : '')}
+    <div id="moodSlot"></div>
     <div class="section-title"><span>${L.history}</span><button class="btn ghost" id="hist">${showHistory ? L.hide : L.show}</button></div>
     <ul class="timeline ${showHistory ? '' : 'hidden'}">${(v.events || []).slice().reverse().map((e) => `<li><time>${esc(e.time)}</time><span>${esc(e.text)}</span></li>`).join('')}</ul>
     <p class="muted" style="font-size:12px;margin-top:14px">HN ${esc(v.hn_masked)} · ${L.foot}<br>${L.approx}</p>`;
+  // ย้ายการ์ดความรู้สึกเข้าที่ (ไม่สร้างใหม่ ข้อความที่กำลังพิมพ์จึงไม่หาย)
+  if (v.my_mood !== undefined && !moodMsg) myMood = v.my_mood;
+  updateMood();
+  $('#moodSlot').replaceWith(moodEl);
+  if (typing) { ta.focus(); ta.setSelectionRange(...sel); }
   const acc = $('#acc');
   if (acc) acc.onchange = (e) => {
     accessible = e.target.checked;

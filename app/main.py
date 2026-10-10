@@ -15,7 +15,7 @@ from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import auth, config, db, mapdata, seed
+from . import auth, config, db, feedback, mapdata, seed
 from .auth import admin, staff
 from .clock import clock
 from .hosxp.worker import Worker, get_or_create_token
@@ -273,6 +273,27 @@ def api_patient(token: str, accessible: bool = False):
     return view
 
 
+@app.post("/api/t/{token}/feedback")
+async def api_patient_feedback(token: str, request: Request):
+    """ผู้ป่วยกดความรู้สึก / พิมพ์ข้อความ (เจ้าหน้าที่เท่านั้นที่เห็นข้อความ)"""
+    vn = _token_vn(token)
+    try:
+        body = await request.json()
+    except ValueError:
+        raise HTTPException(400, "ข้อมูลไม่ถูกต้อง")
+    with db.engine.connect() as conn:
+        visit = conn.execute(sa.select(db.patient_visits.c.vstdate).where(db.patient_visits.c.vn == vn)).first()
+        st = conn.execute(sa.select(db.patient_status.c.cur_dep, db.patient_status.c.state)
+                          .where(db.patient_status.c.vn == vn)).first()
+    if not visit:
+        raise HTTPException(404, "ไม่พบข้อมูลการรับบริการ")
+    try:
+        return await asyncio.to_thread(feedback.add, vn, visit[0], body.get("mood"), body.get("comment"),
+                                       st[0] if st else None, st[1] if st else None)
+    except feedback.FeedbackError as exc:
+        raise HTTPException(exc.status, str(exc))
+
+
 def _sse(data) -> str:
     return f"data: {json.dumps(data, ensure_ascii=False, default=str)}\n\n"
 
@@ -427,6 +448,7 @@ def api_visit(vn: str, _=Depends(staff)):
     view = patient_view(state["builder"], vn)
     if not view:
         raise HTTPException(404, "ไม่พบ VN")
+    view["feedback"] = feedback.for_visit(vn)
     return view
 
 

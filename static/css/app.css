@@ -483,3 +483,28 @@ body.bigtext .step { font-size: 14px; }
 body.bigtext .section-title { font-size: 18px; }
 body.bigtext .ptop .q b { font-size: 26px; }
 .notice-inline { margin-top: 10px; background: #eef6ff; color: #2b5d8f; border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+
+/* ---------- ความรู้สึกของผู้ป่วย ---------- */
+.moodcard { margin-top: 6px; }
+.moods { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.mood { border: 1.5px solid var(--line); background: #fff; border-radius: 14px; padding: 8px 2px 6px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; transition: transform .15s, border-color .15s, background .15s; }
+.mood span { font-size: 28px; line-height: 1.1; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
+.mood small { font-size: 11px; color: var(--ink-2); white-space: nowrap; }
+.mood:active { transform: scale(.94); }
+.mood.on { border-color: var(--teal); background: rgba(31,158,143,.10); box-shadow: 0 0 0 3px rgba(31,158,143,.15); }
+.mood.on small { color: var(--teal); font-weight: 600; }
+.mnote { display: flex; gap: 8px; margin-top: 8px; align-items: stretch; }
+.mnote textarea { flex: 1; min-width: 0; resize: vertical; border: 1.5px solid var(--line); border-radius: 12px; padding: 8px 10px;
+  font: inherit; font-size: 14px; background: #fff; color: var(--ink); }
+.mnote textarea:focus { outline: none; border-color: var(--teal); }
+.mmsg { font-size: 12px; margin-top: 6px; }
+body.bigtext .mood span { font-size: 34px; }
+body.bigtext .mood small { font-size: 13px; }
+.moodbox { margin-top: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(255,186,73,.10); border: 1px solid rgba(240,160,40,.25); }
+.moodbox .mhead { display: flex; align-items: center; gap: 8px; }
+.moodbox .memo { font-size: 26px; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
+.moodbox small { color: var(--muted); }
+.moodbox .mlist { list-style: none; margin: 6px 0 0; padding: 0; max-height: 140px; overflow: auto; }
+.moodbox .mlist li { display: flex; gap: 8px; font-size: 13px; padding: 4px 0; border-top: 1px dashed rgba(0,0,0,.08); }
+.moodbox .mlist time { color: var(--muted); flex: none; font-variant-numeric: tabular-nums; }

@@ -4,7 +4,7 @@ from datetime import timedelta
 
 import sqlalchemy as sa
 
-from . import config, db, mapdata
+from . import feedback, config, db, mapdata
 from .clock import clock
 from .db import jload, rows
 from .hosxp.worker import FINAL, location_room
@@ -104,6 +104,7 @@ class SnapshotBuilder:
             servers = max(1, info.get("servers") or 1)
             return math.ceil(pos * avg / servers)
 
+        moods = feedback.latest_moods(today)
         patients = []
         room_count: dict[str, int] = {}
         by_vn = {}
@@ -157,6 +158,9 @@ class SnapshotBuilder:
                 "pending": [{"depcode": x["depcode"], "name": (hmap.dep_info(x["depcode"], md).get("dep_name") if hmap else x["depcode"]),
                              "status": x["status"]} for x in pending],
                 "vitals": jload(d.get("vitals")) if config.SHOW_VITALS else None,
+                # ความรู้สึกล่าสุด (เฉพาะแผนที่เจ้าหน้าที่ — จอทีวีเลือกเฉพาะฟิลด์ที่ปลอดภัย จึงไม่ติดไปด้วย)
+                "mood": (moods.get(d["vn"]) or {}).get("mood"), "mood_time": (moods.get(d["vn"]) or {}).get("time"),
+                "mood_notes": (moods.get(d["vn"]) or {}).get("notes", 0),
             }
             patients.append(p)
             by_vn[d["vn"]] = p
@@ -230,6 +234,7 @@ def patient_view(builder: SnapshotBuilder, vn: str, accessible: bool = False) ->
     view = {k: p.get(k) for k in ("vn", "q", "state", "label", "dest", "dest_name", "room", "service_room", "stages",
                                   "pending", "since", "stay", "pos", "est", "age", "route_id", "busy", "walking", "vitals")}
     view["hn_masked"] = ("*" * max(0, len(hn) - 4)) + hn[-4:] if hn else ""
+    view["my_mood"] = p.get("mood")
     view["time"] = builder.latest.get("time")
     view["health_ok"] = bool(builder.latest.get("health", {}).get("ok"))
     view["rooms"] = builder.latest.get("rooms", {})

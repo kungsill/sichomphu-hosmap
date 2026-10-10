@@ -53,9 +53,26 @@ function render() {
   barChart($('#waits'), top.map((s) => ({ label: s.name, value: s.median_wait, valueText: `${fmt(s.median_wait)} น.`,
     tip: `${esc(s.name)}<br>ค่ากลาง <b>${fmt(s.median_wait)}</b> นาที · P90 <b>${fmt(s.p90_wait)}</b> นาที · ${s.n.toLocaleString('th-TH')} ครั้ง` })), 230);
   table();
+  feedbackSection(d.feedback);
   $('#note').textContent = d.source === 'hosxp'
     ? 'เวลารอ = accept_datetime − queue_datetime, เวลาให้บริการ = finish_datetime − accept_datetime (ตัดค่าที่ติดลบหรือเกิน 10 ชั่วโมง) · จุดที่ไม่มีเวลารับ/เสร็จใน HOSxP จะไม่มีค่า'
     : `ข้อมูลจากเหตุการณ์ที่ระบบนำทางบันทึก${d.source_error ? ` (อ่าน HOSxP ไม่ได้: ${d.source_error})` : ''}`;
+}
+
+// ------------------------------------------------------------------ ความรู้สึกของผู้ป่วย
+function feedbackSection(fb) {
+  if (!fb) return;
+  barChart($('#fbMoods'), fb.moods.map((m) => ({ label: `${m.emoji} ${m.label}`, value: m.n, valueText: m.n.toLocaleString('th-TH'),
+    tip: `${m.emoji} ${esc(m.label)} · <b>${m.n.toLocaleString('th-TH')}</b> คน${fb.total ? ` (${Math.round((100 * m.n) / fb.total)}%)` : ''}` })), 130);
+  const bad = fb.by_service.filter((s) => s.unhappy > 0);
+  barChart($('#fbSvc'), bad.map((s) => ({ label: s.name, value: s.unhappy, valueText: `${s.unhappy} / ${s.n}`,
+    tip: `${esc(s.name)}<br>กังวล/ไม่พอใจ <b>${s.unhappy}</b> จาก ${s.n} คนที่กดความรู้สึก` })), 200);
+  const emo = Object.fromEntries(fb.moods.map((m) => [m.key, m]));
+  $('#fbTbl').innerHTML = fb.comments.length
+    ? `<thead><tr><th>เวลา</th><th>คิว</th><th>จุดบริการ</th><th>รู้สึก</th><th>ข้อความ</th></tr></thead><tbody>${fb.comments.map((c) => `<tr>
+        <td>${data.days > 1 ? `${esc(c.date)} ` : ''}${esc(c.time)}</td><td>${esc(c.q || '–')}</td><td>${esc(c.where || '–')}</td>
+        <td class="emo" title="${esc(emo[c.mood]?.label || '')}">${emo[c.mood]?.emoji || ''}</td><td class="msg">${esc(c.comment)}</td></tr>`).join('')}</tbody>`
+    : '<tbody><tr><td class="note">ยังไม่มีข้อความจากผู้ป่วยในช่วงนี้</td></tr></tbody>';
 }
 
 // ------------------------------------------------------------------ ตัวช่วยกราฟ

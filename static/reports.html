@@ -57,6 +57,9 @@
     .legend-ramp i { width: 22px; height: 10px; border-radius: 3px; display: inline-block; }
     .note { font-size: 13px; color: var(--text-muted); margin-top: 10px; }
     .loading { opacity: .5; transition: opacity .2s; }
+    .fbtbl th, .fbtbl td { text-align: left !important; vertical-align: top; }
+    .fbtbl td.emo { font-size: 20px; font-family: "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif; }
+    .fbtbl td.msg { white-space: pre-wrap; min-width: 240px; }
     @media (max-width: 900px) { .kpis4 { grid-template-columns: 1fr 1fr; } .grid2c { grid-template-columns: 1fr; } }
     @media print { .seg, .actions-r { display: none; } body { background: #fff; } .glass { box-shadow: none; border: 1px solid #ddd; } }
   </style>
@@ -105,6 +108,15 @@
       <div class="sub">คลิกหัวตารางเพื่อเรียง</div>
       <div style="overflow:auto"><table class="tbl" id="tbl"></table></div>
       <div class="note" id="note"></div>
+    </article>
+    <article class="card2 glass anim d5 full" id="fbCard">
+      <h3>ความรู้สึกของผู้ป่วยระหว่างรอ</h3>
+      <div class="sub">จากปุ่มความรู้สึกในใบนำทาง · นับความรู้สึกล่าสุดของแต่ละคนต่อจุดบริการ · ข้อความเห็นได้เฉพาะเจ้าหน้าที่ (ไม่มีชื่อ/HN)</div>
+      <div class="grid2c">
+        <div><div class="chart" id="fbMoods"></div></div>
+        <div><div class="chart" id="fbSvc"></div><div class="note">จุดบริการที่มีผู้ป่วย "กังวล" หรือ "ไม่พอใจ" มากที่สุด</div></div>
+      </div>
+      <div style="overflow:auto;margin-top:12px"><table class="tbl fbtbl" id="fbTbl"></table></div>
     </article>
   </section>
 </div>

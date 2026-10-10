@@ -1,7 +1,7 @@
-import { IsoMap, densityText } from './iso.js';
+import { IsoMap, MOOD_EMOJI, densityText } from './iso.js';
 import { $, api, esc, liveStream, sexAge, stateClass, stepperHtml, toast } from './common.js';
 
-const iso = new IsoMap($('#map'), { padTop: 0, padBottom: 0, dimOthers: false });
+const iso = new IsoMap($('#map'), { padTop: 0, padBottom: 0, dimOthers: false, showMood: true });
 window.hosmap = { iso };   // สำหรับตรวจสอบใน Console (F12)
 let doc = null;
 let snap = null;
@@ -269,6 +269,9 @@ function renderPatient(update) {
       <div class="info"><div class="k">อยู่ใน รพ.</div><div class="v">${p.stay}<small> นาที</small></div></div>
     </div>
     ${vit ? `<div class="vitals">${vit}</div>` : ''}
+    ${p.mood || p.mood_notes ? `<div class="moodbox"><div class="mhead">${p.mood ? `<span class="memo">${MOOD_EMOJI[p.mood] || ''}</span>
+      <span><b>${esc(MOOD_TH[p.mood] || '')}</b><small> · ความรู้สึกล่าสุด ${esc(p.mood_time || '')}</small></span>` : '<span><b>ข้อความจากผู้ป่วย</b></span>'}</div>
+      <ul class="mlist" id="pfb">${(fbCache[p.vn] || []).map(fbItem).join('')}</ul></div>` : ''}
     ${p.pending?.length ? `<div class="pending">${p.pending.map((x) => `<span class="${x.status}">${esc(x.name)} · ${x.status === 'done' ? 'เสร็จแล้ว' : x.status === 'received' ? 'กำลังตรวจ' : 'ค้างตรวจ'}</span>`).join('')}</div>` : ''}
     <div class="actions">
       <a class="btn primary" href="/slip/${encodeURIComponent(p.vn)}" target="_blank" rel="noopener">
@@ -278,6 +281,7 @@ function renderPatient(update) {
     </div>
     <ul class="timeline hidden" id="ptl"></ul>`;
   if (!update) replay(card);
+  if ((p.mood || p.mood_notes) && fbCache[p.vn]?.key !== `${p.mood_time}|${p.mood_notes}`) loadFeedback(p);
   if (keep != null) { $('#ptl').innerHTML = keep; $('#ptl').classList.remove('hidden'); }
   $('#pclose').onclick = clearSelection;
   $('#pfocus').onclick = () => focusPatient(p);
@@ -294,6 +298,21 @@ function focusPatient(p) {
   if (floor) iso.setFloor(floor);
   if (pos) iso.focus(pos.x, pos.y, 14);
   else if (room) iso.focus(...centroidOf(room), 14);
+}
+
+// ความรู้สึก/ข้อความของผู้ป่วย (เห็นเฉพาะเจ้าหน้าที่)
+const MOOD_TH = { great: 'พอใจมาก', good: 'พอใจ', meh: 'เฉย ๆ', worried: 'กังวล', angry: 'ไม่พอใจ' };
+const fbCache = {};
+const fbItem = (f) => `<li><time>${esc(f.time)}</time><span>${f.mood ? `${MOOD_EMOJI[f.mood] || ''} ` : ''}${f.comment ? esc(f.comment) : `<span class="muted">${esc(MOOD_TH[f.mood] || '')}</span>`}</span></li>`;
+async function loadFeedback(p) {
+  try {
+    const v = await api(`/api/visits/${encodeURIComponent(p.vn)}`);
+    const list = (v.feedback || []).slice().reverse();
+    list.key = `${p.mood_time}|${p.mood_notes}`;
+    fbCache[p.vn] = list;
+    const ul = $('#pfb');
+    if (ul && selected === p.vn) ul.innerHTML = list.map(fbItem).join('');
+  } catch { /* ไม่มีสิทธิ์หรือออฟไลน์: แสดงเฉพาะอีโมจิ */ }
 }
 
 async function loadHistory(vn) {

@@ -158,6 +158,19 @@ navigation_tokens = sa.Table(
     sa.Column("revoked", sa.Boolean, default=False),
 )
 
+# ความรู้สึกของผู้ป่วยระหว่างรอ (กดอารมณ์ / พิมพ์ข้อความ) — ข้อความเห็นได้เฉพาะเจ้าหน้าที่
+patient_feedback = sa.Table(
+    "patient_feedback", metadata,
+    sa.Column("id", sa.Integer, primary_key=True, autoincrement=True),
+    sa.Column("vn", sa.String(20), nullable=False, index=True),
+    sa.Column("vstdate", sa.Date, nullable=False, index=True),
+    sa.Column("mood", sa.String(10)),          # great / good / meh / worried / angry
+    sa.Column("comment", sa.String(300)),
+    sa.Column("depcode", sa.String(20)),       # จุดบริการที่อยู่ขณะส่ง
+    sa.Column("state", sa.String(20)),
+    sa.Column("created_at", sa.DateTime, nullable=False, index=True),
+)
+
 sync_state = sa.Table(
     "sync_state", metadata,
     sa.Column("key", sa.String(40), primary_key=True),
@@ -165,7 +178,7 @@ sync_state = sa.Table(
 )
 
 MAP_TABLES = (buildings, floors, rooms, map_nodes, map_edges, hosxp_room_mapping)
-PATIENT_TABLES = (patient_visits, patient_status, patient_events, navigation_tokens)
+PATIENT_TABLES = (patient_visits, patient_status, patient_events, navigation_tokens, patient_feedback)
 
 _engine_kwargs = {"pool_pre_ping": True, "future": True}
 if config.NAV_DB_URL.startswith("sqlite"):
