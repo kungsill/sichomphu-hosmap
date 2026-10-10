@@ -691,8 +691,8 @@
    "id": "c_dent",
    "floor_id": "flr_campus",
    "code": "DENT",
-   "name": "ตึกทันตกรรม",
-   "short_name": "ทันตกรรม",
+   "name": "ตึกทันตกรรม · กายภาพบำบัด",
+   "short_name": "ทันตกรรม · กายภาพ",
    "kind": "building",
    "polygon": [
     [
@@ -790,8 +790,8 @@
    "id": "c_genprac",
    "floor_id": "flr_campus",
    "code": "GENPRAC",
-   "name": "ตึกเวชปฏิบัติ",
-   "short_name": "ตึกเวชปฏิบัติ",
+   "name": "ตึกเวชปฏิบัติ · ส่งเสริมสุขภาพ",
+   "short_name": "เวชปฏิบัติ · ส่งเสริม",
    "kind": "building",
    "polygon": [
     [
@@ -811,13 +811,13 @@
      138.4
     ]
    ],
-   "door_node_id": null,
+   "door_node_id": "c_d_promo",
    "color": "#f07ab8",
    "capacity": 0,
    "seats": false,
    "desk": null,
    "decor": null,
-   "link_floor": null
+   "link_floor": "flr_promo_1"
   },
   {
    "id": "c_guard",
@@ -5274,6 +5274,15 @@
    "link_group": "Z_OPD"
   },
   {
+   "id": "c_d_promo",
+   "floor_id": "flr_campus",
+   "kind": "portal",
+   "x": 75.0,
+   "y": 118.4,
+   "name": "หน้าตึกเวชปฏิบัติ (ส่งเสริมสุขภาพ)",
+   "link_group": "Z_PROMO"
+  },
+  {
    "id": "c_d_psy",
    "floor_id": "flr_campus",
    "kind": "portal",
@@ -6279,7 +6288,7 @@
    "x": 0.0,
    "y": 3.6,
    "name": "ทางเข้า-ออก (บน)",
-   "link_group": null
+   "link_group": "Z_PROMO"
   },
   {
    "id": "h_ent2",
@@ -6288,7 +6297,7 @@
    "x": 0.0,
    "y": 37.6,
    "name": "ทางเข้า-ออก (ล่าง)",
-   "link_group": null
+   "link_group": "Z_PROMO"
   },
   {
    "id": "h_m130",
@@ -7125,7 +7134,7 @@
    "x": 32.0,
    "y": 65.6,
    "name": "ทางเข้า-ออก (ด้านล่าง)",
-   "link_group": null
+   "link_group": "Z_DENT"
   },
   {
    "id": "p_ent_w",
@@ -7134,7 +7143,7 @@
    "x": 0.0,
    "y": 45.0,
    "name": "ทางเข้า-ออก (ฝั่งตะวันตก)",
-   "link_group": null
+   "link_group": "Z_DENT"
   },
   {
    "id": "p_r387",
@@ -8268,6 +8277,13 @@
    "id": "e_c_d_opd_c_y690_1010",
    "node_a": "c_d_opd",
    "node_b": "c_y690_1010",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_d_promo_c_w375",
+   "node_a": "c_d_promo",
+   "node_b": "c_w375",
    "kind": "walk",
    "accessible": true
   },

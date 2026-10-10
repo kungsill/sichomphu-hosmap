@@ -113,8 +113,18 @@ let zoneCounts = {};
 
 function buildingCounts(roomCounts) {
   const out = { ...roomCounts };
-  for (const r of doc.rooms) if (r.kind === 'building' && r.link_floor) out[r.id] = zoneCounts[r.link_floor] || 0;
+  for (const r of doc.rooms) {
+    if (r.kind === 'building' && r.link_floor) out[r.id] = buildingZones(r).reduce((s, f) => s + (zoneCounts[f] || 0), 0);
+  }
   return out;
+}
+
+// โซนทั้งหมดในตึก: ทุกโซนที่มีประตูอยู่ในกลุ่มเดียวกับประตูหน้าตึก (เช่น ทันตกรรม + กายภาพบำบัด)
+function buildingZones(r) {
+  const group = doc.nodes.find((n) => n.id === r.door_node_id)?.link_group;
+  const floors = new Set([r.link_floor]);
+  if (group) for (const n of doc.nodes) if (n.link_group === group && n.floor_id !== r.floor_id) floors.add(n.floor_id);
+  return [...floors];
 }
 
 function updateHealth() {
@@ -364,7 +374,11 @@ iso.on('person', selectPatient);
 iso.on('room', (id) => {
   const r = id && doc.rooms.find((x) => x.id === id);
   if (r?.kind === 'building') {
-    if (r.link_floor) { clearSelection(); iso.setFloor(r.link_floor); toast(`เข้าสู่ ${r.name}`, 1500); }
+    if (r.link_floor) {
+      clearSelection(); iso.setFloor(r.link_floor);
+      const zones = buildingZones(r);
+      toast(zones.length > 1 ? `เข้าสู่ ${r.name} — ในตึกมี ${zones.length} โซน เลือกได้จากแถบโซนด้านบน` : `เข้าสู่ ${r.name}`, zones.length > 1 ? 3000 : 1500);
+    }
     else toast(`${r.name} — ยังไม่มีแผนที่ภายใน`);
     return;
   }
