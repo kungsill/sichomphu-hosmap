@@ -43,16 +43,27 @@ async function init() {
   liveStream('/api/stream', onSnapshot, (ok) => { streamOk = ok; updateHealth(); });
 }
 
+let firstDoc = true;
 function setDoc(d) {
   doc = d;
+  const bsort = Object.fromEntries(doc.buildings.map((b) => [b.id, b.sort ?? 0]));
+  doc.floors.sort((a, b) => (bsort[a.building_id] - bsort[b.building_id]) || (a.level - b.level));
   floorBuilding = Object.fromEntries(doc.floors.map((f) => [f.id, f.building_id]));
   iso.setMap(doc);
+  if (firstDoc) {
+    firstDoc = false;
+    const campus = doc.floors.find((f) => f.style === 'campus');
+    if (campus) iso.setFloor(campus.id);
+  }
   renderZones();
 }
+
+const isCampus = (id = iso.floorId) => doc?.floors.find((f) => f.id === id)?.style === 'campus';
 
 // ------------------------------------------------------------------ โซน
 function zoneName(f) {
   if (!f) return '';
+  if (f.style === 'campus') return 'ภาพรวม รพ.';
   const b = doc.buildings.find((x) => x.id === f.building_id);
   if (doc.buildings.length < 2) return f.name;
   const many = doc.floors.filter((x) => x.building_id === f.building_id).length > 1;
@@ -76,7 +87,7 @@ function onFloorChange(id) {
   const f = doc.floors.find((x) => x.id === id);
   const b = doc.buildings.find((x) => x.id === f?.building_id);
   $('#floorLabel').textContent = f ? `${b ? b.name : ''} · ${f.name}` : '';
-  $('#svcZone').textContent = b ? `· ${b.name}` : '';
+  $('#svcZone').textContent = f?.style === 'campus' ? '· ทุกโซน (แตะเพื่อเข้าไปดู)' : (b ? `· ${b.name}` : '');
   [...$('#zones').children].forEach((el) => {
     const on = el.dataset.f === id;
     el.classList.toggle('active', on);
@@ -93,7 +104,16 @@ function updateZoneCounts() {
     const fl = roomFloor[p.room];
     if (fl) counts[fl] = (counts[fl] || 0) + 1;
   }
-  document.querySelectorAll('[data-count]').forEach((el) => animateNumber(el, counts[el.dataset.count] || 0));
+  zoneCounts = counts;
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  document.querySelectorAll('[data-count]').forEach((el) => animateNumber(el, isCampus(el.dataset.count) ? total : counts[el.dataset.count] || 0));
+}
+let zoneCounts = {};
+
+function buildingCounts(roomCounts) {
+  const out = { ...roomCounts };
+  for (const r of doc.rooms) if (r.kind === 'building' && r.link_floor) out[r.id] = zoneCounts[r.link_floor] || 0;
+  return out;
 }
 
 function updateHealth() {
@@ -120,13 +140,13 @@ function onSnapshot(s) {
   lv.className = 'level ' + (s.stats.density < 35 ? 'low' : s.stats.density < 70 ? 'mid' : 'high');
   $('#rush').checked = !!s.rush;
   updateHealth();
-  iso.setCounts(s.rooms);
   iso.setPatients(s.patients, first);
+  updateZoneCounts();
+  iso.setCounts(buildingCounts(s.rooms));
   if (first) {
     first = false;
     setTimeout(() => $('#loader').classList.add('done'), 250);
   }
-  updateZoneCounts();
   renderServices();
   if (selected) renderPatient(true);
   if (selectedRoom) renderRoom();
@@ -135,6 +155,21 @@ function onSnapshot(s) {
 
 // ------------------------------------------------------------------ จุดบริการ (เฉพาะโซนที่เปิดอยู่)
 function renderServices() {
+  if (isCampus()) {
+    const box = $('#services');
+    const zones = doc.floors.filter((f) => f.style !== 'campus');
+    box.dataset.keys = '';
+    box.innerHTML = zones.map((f) => {
+      const n = zoneCounts[f.id] || 0;
+      const cap = doc.rooms.filter((r) => r.floor_id === f.id && r.kind === 'waiting').reduce((a, r) => a + (r.capacity || 0), 0) || 1;
+      const ratio = n / cap;
+      return `<button class="svc" data-floor="${esc(f.id)}" title="เปิดแผนที่ ${esc(zoneName(f))}">
+        <div class="t">${esc(zoneName(f))}</div>
+        <div class="m"><span><b>${n}</b> คน</span><span>${Math.round(ratio * 100)}%</span></div>
+        <div class="bar"><i style="width:${Math.min(100, Math.max(2, Math.round(ratio * 100)))}%;background:${densityText(ratio)}"></i></div></button>`;
+    }).join('');
+    return;
+  }
   const zone = floorBuilding[iso.floorId];
   const list = snap.services.filter((s) => !s.floor || floorBuilding[s.floor] === zone);
   const box = $('#services');
@@ -170,7 +205,9 @@ function renderServices() {
 }
 $('#services').addEventListener('click', (e) => {
   const b = e.target.closest('.svc');
-  if (b) selectRoom(b.dataset.room);
+  if (!b) return;
+  if (b.dataset.floor) iso.setFloor(b.dataset.floor);
+  else selectRoom(b.dataset.room);
 });
 
 // ------------------------------------------------------------------ ผู้ป่วยที่เลือก
@@ -323,7 +360,15 @@ function renderRoom(fresh) {
 }
 
 iso.on('person', selectPatient);
-iso.on('room', (id) => { if (id) selectRoom(id); else clearSelection(); });
+iso.on('room', (id) => {
+  const r = id && doc.rooms.find((x) => x.id === id);
+  if (r?.kind === 'building') {
+    if (r.link_floor) { clearSelection(); iso.setFloor(r.link_floor); toast(`เข้าสู่ ${r.name}`, 1500); }
+    else toast(`${r.name} — ยังไม่มีแผนที่ภายใน`);
+    return;
+  }
+  if (id) selectRoom(id); else clearSelection();
+});
 
 // ------------------------------------------------------------------ ค้นหา
 function renderResults() {

@@ -141,6 +141,8 @@ class HospitalMap:
         "stairs": {"base": 3.0, "per_floor": 9.0, "accessible": False, "label": "ใช้บันได"},
     }
 
+    PORTALS = ("entrance", "exit", "portal", "gate")
+
     def __init__(self, doc: dict):
         self.doc = doc
         self.version = doc.get("version")
@@ -164,12 +166,19 @@ class HospitalMap:
             self.adj[b["id"]].append((a["id"], dist, acc, e.get("kind") or "walk"))
         groups: dict[str, list[dict]] = {}
         for n in self.nodes.values():
-            if n.get("link_group") and n.get("kind") in self.VERTICAL:
+            if n.get("link_group") and (n.get("kind") in self.VERTICAL or n.get("kind") in self.PORTALS):
                 groups.setdefault(n["link_group"], []).append(n)
         for members in groups.values():
             for i, a in enumerate(members):
                 for b in members[i + 1:]:
                     if a["floor_id"] == b["floor_id"]:
+                        continue
+                    if a["kind"] in self.PORTALS and b["kind"] in self.PORTALS:
+                        # ประตูโซน ↔ จุดหน้าตึกบนแผนที่ภาพรวม (เดินออก/เข้าอาคาร)
+                        self.adj[a["id"]].append((b["id"], 3.0, True, "portal"))
+                        self.adj[b["id"]].append((a["id"], 3.0, True, "portal"))
+                        continue
+                    if a["kind"] not in self.VERTICAL or b["kind"] not in self.VERTICAL:
                         continue
                     spec = self.VERTICAL[a["kind"]]
                     levels = abs(self.level(a["floor_id"]) - self.level(b["floor_id"]))
@@ -237,8 +246,14 @@ class HospitalMap:
         return self._gate(("entrance",), b, near_room) or self._gate(("entrance",))
 
     def exit_node(self, near_room=None) -> str | None:
-        """ทางออกของโซนเดียวกับห้องที่ระบุ (ถ้าไม่มีจุด "ทางออก" ใช้ทางเข้าแทน)"""
+        """ทางออก: ถ้ามีแผนที่ภาพรวมและโซนนี้เชื่อมไว้ → ประตูใหญ่โรงพยาบาล ไม่งั้นทางออกของโซน"""
         b = self.building_of(near_room) if near_room else None
+        gate = self._gate(("gate",))
+        if gate and b:
+            linked = any(n.get("link_group") and n.get("kind") in self.PORTALS
+                         and self.floors.get(n["floor_id"], {}).get("building_id") == b for n in self.nodes.values())
+            if linked:
+                return gate
         return (self._gate(("exit",), b, near_room) or self._gate(("entrance",), b, near_room)
                 or self._gate(("exit", "entrance")))
 
@@ -331,6 +346,7 @@ class HospitalMap:
         if not found:
             return {"ok": False, "reason": "ไม่พบเส้นทางที่เหมาะสม" + (" สำหรับรถเข็น" if accessible else "")}
         path, total = found
+        steps_th, steps_data = self._instructions(path, from_room, to_room)
         points = []
         # ห้องแบบช่องบริการ: เริ่ม/สิ้นสุดที่หน้าช่อง ไม่เดินทะลุเคาน์เตอร์เข้าไปกลางห้อง
         if from_room and from_room in self.rooms and self.rooms[from_room].get("kind") != "window":
@@ -350,15 +366,21 @@ class HospitalMap:
             "minutes": max(1, round(total / 50)),  # ประมาณ 50 ม./นาที (เดินช้า)
             "points": points,
             "floors": list(dict.fromkeys(p[0] for p in points)),
-            "steps": self._instructions(path, from_room, to_room),
+            "steps": steps_th,
+            "steps_data": steps_data,  # ขั้นตอนแบบมีโครงสร้าง ให้หน้าเว็บแปลเป็นภาษาอื่นได้
         }
 
-    def _instructions(self, path, from_room, to_room) -> list[str]:
-        steps = []
+    def zone_name(self, floor_id) -> str:
+        f = self.floors.get(floor_id) or {}
+        b = self.buildings.get(f.get("building_id")) or {}
+        return b.get("name") or f.get("name") or ""
+
+    def _instructions(self, path, from_room, to_room) -> tuple[list[str], list[dict]]:
+        data: list[dict] = []
         if from_room in self.rooms:
-            steps.append(f"ออกจาก{self.rooms[from_room]['name']}")
+            data.append({"t": "leave", "name": self.rooms[from_room]["name"]})
         elif path and self.nodes[path[0][0]].get("name"):
-            steps.append(f"เริ่มที่{self.nodes[path[0][0]]['name']}")
+            data.append({"t": "start", "name": self.nodes[path[0][0]]["name"]})
         run = 0.0
         for i in range(1, len(path)):
             a = self.nodes[path[i - 1][0]]
@@ -366,10 +388,15 @@ class HospitalMap:
             kind = path[i - 1][1]
             if a["floor_id"] != b["floor_id"]:
                 if run >= 3:
-                    steps.append(f"เดินตรงไปประมาณ {round(run)} เมตร")
+                    data.append({"t": "walk", "m": round(run)})
                 run = 0.0
-                label = self.VERTICAL.get(kind, {}).get("label", "ขึ้น/ลง")
-                steps.append(f"{label}ไป{self.floors[b['floor_id']]['name']}")
+                if kind == "portal":
+                    if (self.floors.get(b["floor_id"]) or {}).get("style") == "campus":
+                        data.append({"t": "exit", "name": self.zone_name(a["floor_id"])})
+                    else:
+                        data.append({"t": "enter", "name": self.zone_name(b["floor_id"])})
+                else:
+                    data.append({"t": "vertical", "via": kind, "floor": self.floors[b["floor_id"]]["name"]})
                 continue
             run += math.dist((a["x"], a["y"]), (b["x"], b["y"]))
             if i + 1 < len(path):
@@ -384,17 +411,35 @@ class HospitalMap:
                 cross = (v1[0] * v2[1] - v1[1] * v2[0]) / (n1 * n2)
                 dot = (v1[0] * v2[0] + v1[1] * v2[1]) / (n1 * n2)
                 if dot < 0.7 and run >= 2:  # เลี้ยวมากกว่า ~45 องศา (ไม่บอกช่วงสั้นกว่า 2 ม.)
-                    side = "ขวา" if cross > 0 else "ซ้าย"
-                    where = f" ที่{b['name']}" if b.get("name") else ""
-                    steps.append(f"เดินตรงไปประมาณ {max(1, round(run))} เมตร แล้วเลี้ยว{side}{where}")
+                    data.append({"t": "walk", "m": max(1, round(run)), "turn": "right" if cross > 0 else "left",
+                                 "at": b.get("name")})
                     run = 0.0
         if run >= 3:
-            steps.append(f"เดินตรงไปประมาณ {round(run)} เมตร")
+            data.append({"t": "walk", "m": round(run)})
         if to_room in self.rooms:
-            steps.append(f"ถึง{self.rooms[to_room]['name']}")
+            data.append({"t": "arrive", "name": self.rooms[to_room]["name"]})
         else:
-            steps.append(f"ถึง{self.nodes[path[-1][0]].get('name') or 'ปลายทาง'}")
-        return steps
+            data.append({"t": "arrive", "name": self.nodes[path[-1][0]].get("name") or "ปลายทาง"})
+        return [self._step_th(d) for d in data], data
+
+    def _step_th(self, d: dict) -> str:
+        t = d["t"]
+        if t == "leave":
+            return f"ออกจาก{d['name']}"
+        if t == "start":
+            return f"เริ่มที่{d['name']}"
+        if t == "walk":
+            if d.get("turn"):
+                side = "ขวา" if d["turn"] == "right" else "ซ้าย"
+                return f"เดินตรงไปประมาณ {d['m']} เมตร แล้วเลี้ยว{side}" + (f" ที่{d['at']}" if d.get("at") else "")
+            return f"เดินตรงไปประมาณ {d['m']} เมตร"
+        if t == "exit":
+            return f"ออกจาก{d['name']} ไปทางเดินนอกอาคาร"
+        if t == "enter":
+            return f"เดินไปเข้า{d['name']}"
+        if t == "vertical":
+            return f"{self.VERTICAL.get(d['via'], {}).get('label', 'ขึ้น/ลง')}ไป{d['floor']}"
+        return f"ถึง{d['name']}"
 
     def public_doc(self) -> dict:
         """ข้อมูลแผนที่สำหรับฝั่งแสดงผล (ไม่รวมการตั้งค่า HOSxP)"""

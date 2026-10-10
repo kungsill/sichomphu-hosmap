@@ -781,7 +781,8 @@ def sichomphu_document() -> dict:
         for key in ("buildings", "floors", "rooms", "nodes", "edges"):
             doc[key] += zone[key]
     doc["mapping"] += clinic_mapping() + ari_mapping() + dental_mapping() + physio_mapping() + thaimed_mapping() + promotion_mapping()
-    return doc
+    from .seed_campus import merge_into  # แผนที่ภาพรวม + ตึกเพิ่มเติม (ระยะ 2)
+    return merge_into(doc)
 
 
 def ensure_seed() -> None:

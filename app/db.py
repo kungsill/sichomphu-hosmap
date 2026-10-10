@@ -30,6 +30,7 @@ floors = sa.Table(
     sa.Column("height", sa.Float, nullable=False, default=40),  # เมตร
     sa.Column("plan_image", sa.String(300)),                    # รูปแปลน PNG/SVG
     sa.Column("plan_opacity", sa.Float, default=0.5),
+    sa.Column("style", sa.String(20)),  # None = ในอาคาร, "campus" = แผนที่ภาพรวมโรงพยาบาล (มีตึกเป็นกล่อง)
 )
 
 rooms = sa.Table(
@@ -48,6 +49,7 @@ rooms = sa.Table(
     sa.Column("seats", sa.Boolean, default=False),   # วาดเก้าอี้นั่งรอ
     sa.Column("desk", sa.String(10)),                 # ตำแหน่งโต๊ะ/เคาน์เตอร์ n/s/e/w
     sa.Column("decor", sa.String(20)),                # ของตกแต่ง: pharmacy (ชั้นวางยา), cashier (ตู้เอกสาร)
+    sa.Column("link_floor", Id),                      # ตึกบนแผนที่ภาพรวม → ชั้น/โซนที่เปิดเมื่อคลิก
 )
 
 map_nodes = sa.Table(

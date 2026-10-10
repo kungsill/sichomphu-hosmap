@@ -139,7 +139,15 @@ export class IsoMap {
     this.floors = Object.fromEntries(doc.floors.map((f) => [f.id, f]));
     this.static = {};
     this.seats = {};
-    for (const f of doc.floors) this._buildFloor(f);
+    for (const f of doc.floors) {
+      this._buildFloor(f);
+      if (f.plan_image && !this.images[f.plan_image]) {
+        const img = new Image();
+        img.onload = () => { this._layerKey = null; this.dirty = true; };
+        img.src = f.plan_image;
+        this.images[f.plan_image] = img;
+      }
+    }
     if (!this.floorId || !this.floors[this.floorId]) this.setFloor(doc.floors[0]?.id);
     this.dirty = true;
   }
@@ -345,6 +353,7 @@ export class IsoMap {
   }
 
   _buildFloor(f) {
+    if (f.style === 'campus') return this._buildCampus(f);
     const items = [];
     const rooms = this.doc.rooms.filter((r) => r.floor_id === f.id);
     const nodes = this.doc.nodes.filter((n) => n.floor_id === f.id);
@@ -507,6 +516,24 @@ export class IsoMap {
   }
 
   _rect(x, y, w, h) { return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]; }
+
+  _buildCampus(f) {
+    const items = [];
+    for (const r of this.doc.rooms.filter((x) => x.floor_id === f.id && x.kind === 'building')) {
+      const b = bbox(r.polygon);
+      const h = r.link_floor ? 6 : 4;                    // ตึกที่มีแผนที่ภายในสูงกว่าเล็กน้อย
+      const n = Math.max(1, Math.ceil(Math.max(b.x2 - b.x1, b.y2 - b.y1) / 12));
+      const horiz = b.x2 - b.x1 >= b.y2 - b.y1;
+      for (let i = 0; i < n; i++) {                       // แบ่งเป็นช่วงเพื่อให้เรียงความลึกถูกต้อง
+        const seg = horiz ? this._rect(b.x1 + ((b.x2 - b.x1) * i) / n, b.y1, (b.x2 - b.x1) / n, b.y2 - b.y1)
+          : this._rect(b.x1, b.y1 + ((b.y2 - b.y1) * i) / n, b.x2 - b.x1, (b.y2 - b.y1) / n);
+        const c = centroid(seg);
+        items.push({ type: 'prism', poly: seg, z0: 0, z1: h, color: '#f4f6f6', top: r.color || '#cfd8dc', cx: c[0], cy: c[1] });
+      }
+    }
+    this.static[f.id] = items;
+    (this.shadows ||= {})[f.id] = items.map((it) => ({ poly: it.poly, h: it.z1 }));
+  }
 
   // พื้นที่เตียงรักษา (เช่น เตียงกายภาพ): เตียงเรียงเป็นแถว มีม่านกั้นระหว่างเตียง
   _buildBeds(r, items) {
@@ -869,14 +896,14 @@ export class IsoMap {
       if (r.kind === 'corridor') continue;
       const ratio = (this.counts[r.id] || 0) / Math.max(1, r.capacity || 20);
       if (r.id === this.highlightRoom || r.id === this.hoverRoom) {
-        this._polyPath(ctx, r.polygon, 0.02);
+        this._polyPath(ctx, r.polygon, r.kind === 'building' ? (r.link_floor ? 6 : 4) : 0.02);
         ctx.save();
         ctx.shadowColor = 'rgba(224,71,158,0.55)'; ctx.shadowBlur = 14;
         ctx.strokeStyle = r.id === this.highlightRoom ? 'rgba(224,71,158,0.95)' : 'rgba(224,71,158,0.55)';
         ctx.lineWidth = r.id === this.highlightRoom ? 3 : 2;
         ctx.stroke();
         ctx.restore();
-      } else if (ratio >= 0.8 && (r.kind === 'waiting' || r.kind === 'counter')) {
+      } else if (ratio >= 0.8 && (r.kind === 'waiting' || r.kind === 'counter') && f.style !== 'campus') {
         crowded = true;
         const a = 0.25 + 0.25 * Math.sin(now / 420);
         this._polyPath(ctx, r.polygon, 0.02);
@@ -918,7 +945,7 @@ export class IsoMap {
     this._hits = hits;
 
     // ป้ายชื่อห้อง (ค่อย ๆ ปรากฏตามการซูมและแอนิเมชันอาคาร)
-    const labelAlpha = Math.min(1, Math.max(0, (S - 4) / 3)) * Math.min(1, this.zMul * 1.4);
+    const labelAlpha = (f.style === 'campus' ? 1 : Math.min(1, Math.max(0, (S - 4) / 3))) * Math.min(1, this.zMul * 1.4);
     if (this.opts.showLabels && labelAlpha > 0.02) {
       ctx.save(); ctx.globalAlpha = labelAlpha; this._labels(ctx, rooms); ctx.restore();
     }
@@ -949,6 +976,31 @@ export class IsoMap {
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     const W = f.width, H = f.height;
+    const campusImg = f.style === 'campus' && this.images[f.plan_image];
+    if (campusImg) {
+      if (campusImg.complete && campusImg.naturalWidth) {
+        const o = this.project(0, 0), ex = this.project(W, 0), ey = this.project(0, H);
+        ctx.save();
+        ctx.setTransform(this.dpr * (ex[0] - o[0]) / campusImg.width, this.dpr * (ex[1] - o[1]) / campusImg.width,
+          this.dpr * (ey[0] - o[0]) / campusImg.height, this.dpr * (ey[1] - o[1]) / campusImg.height, this.dpr * o[0], this.dpr * o[1]);
+        ctx.drawImage(campusImg, 0, 0);
+        ctx.restore();
+        // ทำภาพให้อ่อนลงเล็กน้อย ตึก 3 มิติจะเด่นขึ้น
+        this._polyPath(ctx, [[0, 0], [W, 0], [W, H], [0, H]], 0);
+        ctx.fillStyle = 'rgba(255,255,255,0.28)'; ctx.fill();
+      }
+      ctx.beginPath();
+      for (const s of this.shadows?.[f.id] || []) {
+        const dx = s.h * 0.45 * this.zMul, dy = s.h * 0.3 * this.zMul;
+        const pts = [];
+        for (const q of s.poly) { pts.push([q[0], q[1]]); pts.push([q[0] + dx, q[1] + dy]); }
+        convexHull(pts).forEach((q, i) => { const [sx, sy] = this.project(q[0], q[1], 0); i ? ctx.lineTo(sx, sy) : ctx.moveTo(sx, sy); });
+        ctx.closePath();
+      }
+      ctx.fillStyle = 'rgba(20,40,40,0.18)';
+      ctx.fill('nonzero');
+      return c;
+    }
 
     // สนามหญ้า + ทางเท้ารอบอาคาร
     const M = 18;
@@ -1050,9 +1102,9 @@ export class IsoMap {
       if (r.kind === 'corridor') continue;
       const n = this.counts[r.id] || 0;
       const [cx, cy] = centroid(r.polygon);
-      const [sx, sy] = this.project(cx, cy, 2.6);
+      const [sx, sy] = this.project(cx, cy, r.kind === 'building' ? 7.5 : 2.6);
       const name = r.short_name || r.name;
-      const showCount = this.opts.labelMode !== 'names' && (r.kind === 'waiting' || r.kind === 'counter');
+      const showCount = this.opts.labelMode !== 'names' && (r.kind === 'waiting' || r.kind === 'counter' || (r.kind === 'building' && r.link_floor));
       const ratio = n / Math.max(1, r.capacity || 20);
       const w = this._pillWidth(ctx, name + (showCount ? ` ${n} คน` : '')) + (showCount ? 12 : 0);
       // ห้องเล็กที่อยู่ติดกัน: ขยับป้ายขึ้น/ลงหลบกันแทนการซ่อน
