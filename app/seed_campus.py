@@ -75,7 +75,7 @@ class Zone:
 # ---------------------------------------------------------------------------- แผนที่ภาพรวม
 def campus_document() -> dict:
     z = Zone("c", CAMPUS_B, CAMPUS_F, "ภาพรวมโรงพยาบาล", "CAMPUS", 1518, CAMPUS_H, 0, scale=K, style="campus",
-             plan="/static/img/campus.jpg")
+             plan=None)  # ภาพผังเดิม: /static/img/campus.jpg (ใส่กลับได้ใน Map Builder)
 
     def bld(rid, name, short, box, color, link=None, door=None, cap=0):
         return z.room(rid, rid.upper(), name, short, "building", box, door, capacity=cap, color=color, link_floor=link)

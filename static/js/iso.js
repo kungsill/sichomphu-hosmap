@@ -835,7 +835,7 @@ export class IsoMap {
     }
     // ต้นไม้บนพื้นที่นอกภาพผัง (เว้นถนน ลานจอดรถ สนาม)
     const img = this.images[f.plan_image];
-    const IH = img?.naturalWidth ? (f.width * img.naturalHeight) / img.naturalWidth : f.width * 0.6825;
+    const IH = !f.plan_image ? 0 : img?.naturalWidth ? (f.width * img.naturalHeight) / img.naturalWidth : f.width * 0.6825;
     const nodes = new Map(this.doc.nodes.filter((n) => n.floor_id === f.id).map((n) => [n.id, n]));
     const segs = this.doc.edges.map((e) => [nodes.get(e.node_a), nodes.get(e.node_b), e.kind === 'road' ? 11 : 6])
       .filter(([a, b]) => a && b);
@@ -843,7 +843,7 @@ export class IsoMap {
     const clear = (x, y) => segs.every(([a, b, w]) => segDist(x, y, a, b) > w)
       && boxes.every((q) => x < q.x1 - 3 || x > q.x2 + 3 || y < q.y1 - 3 || y > q.y2 + 3);
     const rt = rand(hash(f.id + 'trees'));
-    for (let i = 0; i < 260 && IH < f.height - 4; i++) {
+    for (let i = 0, n = IH ? 260 : 700; i < n && IH < f.height - 4; i++) {
       const x = 2 + rt() * (f.width - 4), y = IH + 3 + rt() * (f.height - IH - 5);
       if (clear(x, y)) items.push({ type: 'tree', x, y, s: 0.8 + rt() * 0.6, cx: x, cy: y });
     }
@@ -1322,11 +1322,11 @@ export class IsoMap {
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     const W = f.width, H = f.height;
     const campusImg = f.style === 'campus' && this.images[f.plan_image];
-    if (campusImg) {
+    if (f.style === 'campus') {
       // พื้นหญ้าทั้งพื้นที่ (ส่วนที่อยู่นอกภาพผัง)
       this._polyPath(ctx, [[0, 0], [W, 0], [W, H], [0, H]], 0);
       ctx.fillStyle = '#cfe3cf'; ctx.fill();
-      if (campusImg.complete && campusImg.naturalWidth) {
+      if (campusImg?.complete && campusImg.naturalWidth) {
         const IH = Math.min(H, (W * campusImg.height) / campusImg.width);   // ภาพผังคงสัดส่วน วางชิดบน
         const o = this.project(0, 0), ex = this.project(W, 0), ey = this.project(0, IH);
         ctx.save();
