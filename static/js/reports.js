@@ -68,10 +68,16 @@ function feedbackSection(fb) {
   barChart($('#fbSvc'), bad.map((s) => ({ label: s.name, value: s.unhappy, valueText: `${s.unhappy} / ${s.n}`,
     tip: `${esc(s.name)}<br>กังวล/ไม่พอใจ <b>${s.unhappy}</b> จาก ${s.n} คนที่กดความรู้สึก` })), 200);
   const emo = Object.fromEntries(fb.moods.map((m) => [m.key, m]));
+  if (fb.comments == null) {
+    $('#fbTbl').innerHTML = '<tbody><tr><td class="note">ข้อความและไฟล์จากผู้ป่วยเปิดดูได้เฉพาะฝ่าย IT (เข้าสู่ระบบด้วยบัญชีผู้ดูแลระบบ)</td></tr></tbody>';
+    return;
+  }
   $('#fbTbl').innerHTML = fb.comments.length
-    ? `<thead><tr><th>เวลา</th><th>คิว</th><th>จุดบริการ</th><th>รู้สึก</th><th>ข้อความ</th></tr></thead><tbody>${fb.comments.map((c) => `<tr>
+    ? `<thead><tr><th>เวลา</th><th>คิว</th><th>จุดบริการ</th><th>รู้สึก</th><th>ข้อความ</th><th>แนบ</th></tr></thead><tbody>${fb.comments.map((c) => `<tr>
         <td>${data.days > 1 ? `${esc(c.date)} ` : ''}${esc(c.time)}</td><td>${esc(c.q || '–')}</td><td>${esc(c.where || '–')}</td>
-        <td class="emo" title="${esc(emo[c.mood]?.label || '')}">${emo[c.mood]?.emoji || ''}</td><td class="msg">${esc(c.comment)}</td></tr>`).join('')}</tbody>`
+        <td class="emo" title="${esc(emo[c.mood]?.label || '')}">${emo[c.mood]?.emoji || ''}</td><td class="msg">${esc(c.comment || '')}</td>
+        <td>${c.file ? (c.file_type?.startsWith('image/') ? `<a href="/api/feedback/file/${c.file}" target="_blank" rel="noopener"><img class="fbthumb" src="/api/feedback/file/${c.file}" alt="รูปแนบ" loading="lazy"></a>`
+          : `<a href="/api/feedback/file/${c.file}" target="_blank" rel="noopener">📎 ไฟล์</a>`) : ''}</td></tr>`).join('')}</tbody>`
     : '<tbody><tr><td class="note">ยังไม่มีข้อความจากผู้ป่วยในช่วงนี้</td></tr></tbody>';
 }
 

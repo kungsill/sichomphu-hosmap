@@ -560,3 +560,17 @@ body.bigtext .sheet-fab small { font-size: 12px; }
   }
   .patient-page .sheet .grab { width: 44px; margin-left: auto; margin-right: auto; }
 }
+
+/* ---------- แนบรูป/ไฟล์ในความรู้สึกผู้ป่วย ---------- */
+.mattach { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.attach-btn { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; padding: 7px 12px; }
+.mfile { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 4px; border-radius: 12px; background: rgba(31,158,143,.08);
+  border: 1px solid rgba(31,158,143,.25); font-size: 12px; max-width: 100%; }
+.mfile img { width: 34px; height: 34px; object-fit: cover; border-radius: 8px; }
+.mfile img:not([src]) { display: none; }
+.mfile span { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mfile button { border: 0; background: transparent; font-size: 18px; line-height: 1; cursor: pointer; color: var(--muted); padding: 0 4px; }
+.moodbox .fbimg { display: block; margin-top: 4px; }
+.moodbox .fbimg img { max-width: 160px; max-height: 120px; border-radius: 10px; border: 1px solid var(--line); object-fit: cover; }
+.moodbox .fbdoc { display: inline-block; margin-top: 4px; font-size: 12.5px; }
+.moodbox .mlist { max-height: 220px; }

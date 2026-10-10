@@ -36,7 +36,9 @@ const T = {
     moodQ: 'ตอนนี้คุณรู้สึกอย่างไร', moodQDone: 'การรับบริการวันนี้เป็นอย่างไร',
     moods: { great: 'พอใจมาก', good: 'พอใจ', meh: 'เฉย ๆ', worried: 'กังวล', angry: 'ไม่พอใจ' },
     notePh: 'พิมพ์ความรู้สึกหรือข้อเสนอแนะ (ไม่บังคับ)', send: 'ส่ง', sent: 'ขอบคุณครับ เจ้าหน้าที่ได้รับแล้ว',
-    private: 'เจ้าหน้าที่โรงพยาบาลเท่านั้นที่เห็น ไม่แสดงบนจอสาธารณะ',
+    private: 'ส่งเฉพาะเมื่อคุณต้องการ · ข้อมูลส่งตรงถึงฝ่ายเทคโนโลยีสารสนเทศ (IT) เพื่อใช้ประเมินและปรับปรุงการบริการภายหลัง ไม่แสดงบนจอสาธารณะ',
+    attach: 'แนบรูป / ไฟล์', attachHint: 'รูป/ไฟล์ส่งถึงฝ่าย IT เท่านั้น เพื่อใช้ประเมินบริการภายหลัง · ระบบลบข้อมูลตำแหน่ง (GPS) ในรูปให้ · กรุณาหลีกเลี่ยงการถ่ายหน้าผู้ป่วยคนอื่น',
+    tooBig: 'ไฟล์ใหญ่เกิน 8 MB', sending: 'กำลังส่ง...',
     stages: { register: 'ลงทะเบียน', screening: 'คัดกรอง', doctor: 'พบแพทย์', lab: 'LAB', xray: 'X-ray', other: 'รับบริการ', finance: 'การเงิน', pharmacy: 'รับยา', home: 'กลับบ้าน' },
   },
   en: {
@@ -55,7 +57,9 @@ const T = {
     moodQ: 'How are you feeling right now?', moodQDone: 'How was your visit today?',
     moods: { great: 'Very happy', good: 'Happy', meh: 'Okay', worried: 'Worried', angry: 'Unhappy' },
     notePh: 'Tell us how you feel or any suggestion (optional)', send: 'Send', sent: 'Thank you — our staff has received it.',
-    private: 'Only hospital staff can see this. It is never shown on public screens.',
+    private: 'Optional. This goes directly to the hospital IT team to evaluate and improve our service later. Never shown on public screens.',
+    attach: 'Attach photo / file', attachHint: 'Attachments go to the IT team only, for later service evaluation. Location data is removed from photos. Please avoid photographing other patients.',
+    tooBig: 'File is larger than 8 MB', sending: 'Sending...',
     stages: { register: 'Register', screening: 'Screening', doctor: 'Doctor', lab: 'LAB', xray: 'X-ray', other: 'Service', finance: 'Payment', pharmacy: 'Pharmacy', home: 'Home' },
   },
 };
@@ -222,8 +226,15 @@ moodEl.className = 'moodcard';
 moodEl.innerHTML = `<div class="section-title"><span data-m="q"></span></div>
   <div class="moods" role="group">${MOODS.map(([k, e]) => `<button class="mood" data-mood="${k}" aria-pressed="false"><span>${e}</span><small></small></button>`).join('')}</div>
   <div class="mnote"><textarea rows="2" maxlength="300" data-m="ph"></textarea><button class="btn primary" data-m="send"></button></div>
+  <div class="mattach">
+    <label class="btn ghost attach-btn"><input type="file" accept="image/*,application/pdf" data-m="file" hidden>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+      <span data-m="attach"></span></label>
+    <div class="mfile hidden" data-m="chip"><img alt="" data-m="thumb"><span data-m="fname"></span><button type="button" aria-label="ลบไฟล์" data-m="rm">×</button></div>
+  </div>
+  <div class="mmsg muted" data-m="hint"></div>
   <div class="mmsg muted" data-m="msg"></div>`;
-let myMood = null, moodMsg = '';
+let myMood = null, moodMsg = '', moodFile = null;
 const mq = (k) => moodEl.querySelector(`[data-m="${k}"]`);
 
 function updateMood() {
@@ -231,6 +242,8 @@ function updateMood() {
   mq('q').textContent = view?.state === 'finished' ? L.moodQDone : L.moodQ;
   mq('ph').placeholder = L.notePh;
   mq('send').textContent = L.send;
+  mq('attach').textContent = L.attach;
+  mq('hint').textContent = L.attachHint;
   mq('msg').textContent = moodMsg || L.private;
   moodEl.querySelectorAll('.mood').forEach((b) => {
     b.querySelector('small').textContent = L.moods[b.dataset.mood];
@@ -239,11 +252,36 @@ function updateMood() {
   });
 }
 
+function setMoodFile(f) {
+  if (f && f.size > 8 * 1024 * 1024) { moodMsg = t().tooBig; updateMood(); f = null; }
+  moodFile = f || null;
+  const chip = mq('chip');
+  chip.classList.toggle('hidden', !moodFile);
+  if (mq('thumb').src) URL.revokeObjectURL(mq('thumb').src);
+  mq('thumb').removeAttribute('src');
+  if (moodFile) {
+    mq('fname').textContent = moodFile.name;
+    if (moodFile.type.startsWith('image/')) mq('thumb').src = URL.createObjectURL(moodFile);
+  }
+  mq('file').value = '';
+}
+
 async function sendMood(mood, comment) {
   const btns = moodEl.querySelectorAll('button');
   btns.forEach((b) => { b.disabled = true; });
+  const file = mood ? null : moodFile;
+  if (file) { moodMsg = t().sending; updateMood(); }
   try {
-    await api(`/api/t/${encodeURIComponent(token)}/feedback`, { method: 'POST', body: JSON.stringify({ mood, comment }) });
+    if (file) {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('comment', comment || '');
+      const res = await fetch(`/api/t/${encodeURIComponent(token)}/feedback/upload`, { method: 'POST', body: fd });
+      if (!res.ok) { let m = res.statusText; try { m = (await res.json()).detail || m; } catch { /* ไม่ใช่ JSON */ } throw new Error(m); }
+      setMoodFile(null);
+    } else {
+      await api(`/api/t/${encodeURIComponent(token)}/feedback`, { method: 'POST', body: JSON.stringify({ mood, comment }) });
+    }
     if (mood) myMood = mood;
     if (comment) mq('ph').value = '';
     moodMsg = t().sent;
@@ -262,8 +300,10 @@ async function sendMood(mood, comment) {
 moodEl.querySelectorAll('.mood').forEach((b) => { b.onclick = () => sendMood(b.dataset.mood, null); });
 mq('send').onclick = () => {
   const text = mq('ph').value.trim();
-  if (text) sendMood(null, text);
+  if (text || moodFile) sendMood(null, text);
 };
+mq('file').onchange = (e) => setMoodFile(e.target.files?.[0]);
+mq('rm').onclick = () => setMoodFile(null);
 
 function renderSheet() {
   const v = view;

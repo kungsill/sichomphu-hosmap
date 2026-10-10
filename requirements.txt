@@ -4,3 +4,4 @@ sqlalchemy>=2.0
 pymysql>=1.1
 qrcode[pil]>=7.4
 python-multipart>=0.0.9
+Pillow>=10.0          # ย่อรูป + ลบข้อมูล GPS/EXIF จากรูปที่ผู้ป่วยแนบ

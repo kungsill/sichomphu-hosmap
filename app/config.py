@@ -20,6 +20,7 @@ def _load_dotenv(path: Path) -> None:
 
 
 _load_dotenv(BASE_DIR / ".env")
+FEEDBACK_DIR = Path(os.environ.get("FEEDBACK_DIR", str(DATA_DIR / "feedback_files")))   # รูป/ไฟล์ที่ผู้ป่วยแนบ — ไม่ได้เปิดเป็นไฟล์สาธารณะ (ดูผ่าน API เจ้าหน้าที่เท่านั้น)
 
 
 def _bool(name: str, default: bool) -> bool:

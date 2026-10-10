@@ -166,6 +166,8 @@ patient_feedback = sa.Table(
     sa.Column("vstdate", sa.Date, nullable=False, index=True),
     sa.Column("mood", sa.String(10)),          # great / good / meh / worried / angry
     sa.Column("comment", sa.String(300)),
+    sa.Column("attachment", sa.String(120)),   # ไฟล์แนบใน data/feedback_files (รูปถูกย่อและลบ EXIF แล้ว)
+    sa.Column("attachment_type", sa.String(40)),
     sa.Column("depcode", sa.String(20)),       # จุดบริการที่อยู่ขณะส่ง
     sa.Column("state", sa.String(20)),
     sa.Column("created_at", sa.DateTime, nullable=False, index=True),

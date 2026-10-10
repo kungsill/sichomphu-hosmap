@@ -11,7 +11,7 @@ from contextlib import asynccontextmanager
 import qrcode
 import qrcode.image.svg
 import sqlalchemy as sa
-from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -294,6 +294,38 @@ async def api_patient_feedback(token: str, request: Request):
         raise HTTPException(exc.status, str(exc))
 
 
+@app.post("/api/t/{token}/feedback/upload")
+async def api_patient_feedback_upload(token: str, file: UploadFile = File(...), comment: str = Form(""), mood: str = Form("")):
+    """ผู้ป่วยแนบรูป/ไฟล์ (+ข้อความ) — เห็นเฉพาะเจ้าหน้าที่ · รูปถูกย่อและลบ EXIF/GPS"""
+    vn = _token_vn(token)
+    data = await file.read(feedback.MAX_FILE_BYTES + 1)
+    with db.engine.connect() as conn:
+        visit = conn.execute(sa.select(db.patient_visits.c.vstdate).where(db.patient_visits.c.vn == vn)).first()
+        st = conn.execute(sa.select(db.patient_status.c.cur_dep, db.patient_status.c.state)
+                          .where(db.patient_status.c.vn == vn)).first()
+    if not visit:
+        raise HTTPException(404, "ไม่พบข้อมูลการรับบริการ")
+    try:
+        return await asyncio.to_thread(feedback.add, vn, visit[0], mood or None, comment, st[0] if st else None,
+                                       st[1] if st else None, data)
+    except feedback.FeedbackError as exc:
+        raise HTTPException(exc.status, str(exc))
+
+
+@app.get("/api/feedback/file/{fid}", include_in_schema=False)
+def api_feedback_file(fid: int, _=Depends(admin)):
+    """ไฟล์ที่ผู้ป่วยแนบ (ฝ่าย IT / ผู้ดูแลระบบเท่านั้น)"""
+    with db.engine.connect() as conn:
+        row = conn.execute(sa.select(db.patient_feedback.c.attachment, db.patient_feedback.c.attachment_type)
+                           .where(db.patient_feedback.c.id == fid)).first()
+    path = feedback.attachment_path(row[0]) if row and row[0] else None
+    if not path:
+        raise HTTPException(404, "ไม่พบไฟล์")
+    return FileResponse(path, media_type=row[1] or "application/octet-stream",
+                        headers={"Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff",
+                                 "Content-Disposition": f'inline; filename="feedback_{fid}{path.suffix}"'})
+
+
 def _sse(data) -> str:
     return f"data: {json.dumps(data, ensure_ascii=False, default=str)}\n\n"
 
@@ -398,9 +430,12 @@ def reports_page(request: Request):
 
 
 @app.get("/api/reports")
-def api_reports(days: int = 1, _=Depends(staff)):
+def api_reports(request: Request, days: int = 1, _=Depends(staff)):
     from .reports import build
-    return build(state["worker"], days)
+    r = build(state["worker"], days)
+    if not auth.has_role(request, "admin"):   # ข้อความ/ไฟล์จากผู้ป่วย: ฝ่าย IT (ผู้ดูแลระบบ) เท่านั้น
+        r = {**r, "feedback": {**r["feedback"], "comments": None}}
+    return r
 
 
 @app.get("/api/reports.csv", include_in_schema=False)
@@ -444,11 +479,12 @@ async def api_stream(request: Request, _=Depends(staff)):
 
 
 @app.get("/api/visits/{vn}")
-def api_visit(vn: str, _=Depends(staff)):
+def api_visit(request: Request, vn: str, _=Depends(staff)):
     view = patient_view(state["builder"], vn)
     if not view:
         raise HTTPException(404, "ไม่พบ VN")
-    view["feedback"] = feedback.for_visit(vn)
+    # ข้อความ/ไฟล์ที่ผู้ป่วยส่ง เก็บไว้ให้ฝ่าย IT ประเมินภายหลัง → ผู้ดูแลระบบเท่านั้น (เจ้าหน้าที่ทั่วไปเห็นแค่อีโมจิ)
+    view["feedback"] = feedback.for_visit(vn) if auth.has_role(request, "admin") else None
     return view
 
 

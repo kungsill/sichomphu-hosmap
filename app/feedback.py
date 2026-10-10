@@ -3,13 +3,15 @@
 - อารมณ์ (อีโมจิ) แสดงบนแผนที่ของเจ้าหน้าที่เท่านั้น — ไม่แสดงบนจอทีวีหรือหน้าผู้ป่วยคนอื่น
 - ข้อความที่พิมพ์ เห็นได้เฉพาะหลังบ้าน (รายละเอียดผู้ป่วย และหน้ารายงานผู้บริหาร)
 """
+import io
 import re
+import secrets
 from collections import Counter
 from datetime import date, datetime, time as dtime, timedelta
 
 import sqlalchemy as sa
 
-from . import db
+from . import config, db
 from .clock import clock
 
 MOODS = {  # key: (อีโมจิ, ไทย, อังกฤษ) เรียงจากพอใจมาก → ไม่พอใจ
@@ -22,6 +24,9 @@ MOODS = {  # key: (อีโมจิ, ไทย, อังกฤษ) เรี�
 MAX_COMMENT = 300
 MIN_INTERVAL_S = 8        # กันกดรัว
 MAX_PER_DAY = 30          # ต่อ 1 Visit
+MAX_FILES_PER_DAY = 5     # ไฟล์แนบต่อ 1 Visit
+MAX_FILE_BYTES = 8 * 1024 * 1024
+IMG_MAX_SIDE = 1600
 
 _ctrl = re.compile(r"[\x00-\x08\x0b-\x1f\x7f]")
 
@@ -37,13 +42,48 @@ def clean_comment(text) -> str | None:
     return text[:MAX_COMMENT] or None
 
 
-def add(vn: str, vstdate: date, mood: str | None, comment, depcode: str | None, state: str | None) -> dict:
+def save_attachment(data: bytes) -> tuple[str, str]:
+    """เก็บไฟล์แนบ: รูป → ย่อ + บันทึกใหม่เป็น JPEG (ตัด EXIF/GPS ทิ้ง) · PDF → เก็บตามเดิม · อื่น ๆ ไม่รับ"""
+    if not data:
+        raise FeedbackError(400, "ไฟล์ว่างเปล่า")
+    if len(data) > MAX_FILE_BYTES:
+        raise FeedbackError(413, "ไฟล์ใหญ่เกิน 8 MB")
+    sub = clock.now().strftime("%Y%m")
+    folder = config.FEEDBACK_DIR / sub
+    folder.mkdir(parents=True, exist_ok=True)
+    name = secrets.token_hex(12)
+    if data[:5] == b"%PDF-":
+        (folder / f"{name}.pdf").write_bytes(data)
+        return f"{sub}/{name}.pdf", "application/pdf"
+    try:
+        from PIL import Image, ImageOps
+        with Image.open(io.BytesIO(data)) as im:
+            im = ImageOps.exif_transpose(im)
+            im = im.convert("RGB")
+            im.thumbnail((IMG_MAX_SIDE, IMG_MAX_SIDE))
+            im.save(folder / f"{name}.jpg", "JPEG", quality=82, optimize=True)   # ไม่ส่ง exif= → ข้อมูลตำแหน่ง/กล้องหายไป
+    except FeedbackError:
+        raise
+    except Exception:
+        raise FeedbackError(415, "รองรับเฉพาะรูปภาพ (JPG, PNG, WEBP) หรือ PDF")
+    return f"{sub}/{name}.jpg", "image/jpeg"
+
+
+def attachment_path(rel: str):
+    """ตำแหน่งไฟล์จริง (กันชื่อไฟล์แปลก ๆ หลุดออกนอกโฟลเดอร์)"""
+    base = config.FEEDBACK_DIR.resolve()
+    p = (base / rel).resolve()
+    return p if base in p.parents and p.is_file() else None
+
+
+def add(vn: str, vstdate: date, mood: str | None, comment, depcode: str | None, state: str | None,
+        file_data: bytes | None = None) -> dict:
     mood = mood or None
     if mood is not None and mood not in MOODS:
         raise FeedbackError(400, "อารมณ์ไม่ถูกต้อง")
     comment = clean_comment(comment)
-    if not mood and not comment:
-        raise FeedbackError(400, "กรุณาเลือกความรู้สึกหรือพิมพ์ข้อความ")
+    if not mood and not comment and not file_data:
+        raise FeedbackError(400, "กรุณาเลือกความรู้สึก พิมพ์ข้อความ หรือแนบรูป")
     now = clock.now()
     t = db.patient_feedback
     with db.engine.begin() as conn:
@@ -53,9 +93,16 @@ def add(vn: str, vstdate: date, mood: str | None, comment, depcode: str | None, 
             raise FeedbackError(429, "ส่งถี่เกินไป กรุณารอสักครู่")
         if (last[1] or 0) >= MAX_PER_DAY:
             raise FeedbackError(429, "ส่งความรู้สึกครบจำนวนของวันนี้แล้ว ขอบคุณครับ")
-        conn.execute(t.insert().values(vn=vn, vstdate=vstdate, mood=mood, comment=comment, depcode=depcode,
-                                       state=state, created_at=now))
-    return {"ok": True, "mood": mood, "time": now.strftime("%H:%M")}
+        att = att_type = None
+        if file_data:
+            files = conn.execute(sa.select(sa.func.count()).where(
+                (t.c.vn == vn) & (t.c.vstdate == vstdate) & t.c.attachment.isnot(None))).scalar() or 0
+            if files >= MAX_FILES_PER_DAY:
+                raise FeedbackError(429, f"แนบไฟล์ได้ไม่เกิน {MAX_FILES_PER_DAY} ไฟล์ต่อวัน")
+            att, att_type = save_attachment(file_data)
+        conn.execute(t.insert().values(vn=vn, vstdate=vstdate, mood=mood, comment=comment, attachment=att,
+                                       attachment_type=att_type, depcode=depcode, state=state, created_at=now))
+    return {"ok": True, "mood": mood, "time": now.strftime("%H:%M"), "attached": bool(att)}
 
 
 def latest_moods(day: date) -> dict[str, dict]:
@@ -63,12 +110,12 @@ def latest_moods(day: date) -> dict[str, dict]:
     t = db.patient_feedback
     out: dict[str, dict] = {}
     with db.engine.connect() as conn:
-        for r in conn.execute(sa.select(t.c.vn, t.c.mood, t.c.comment, t.c.created_at)
+        for r in conn.execute(sa.select(t.c.vn, t.c.mood, t.c.comment, t.c.attachment, t.c.created_at)
                               .where(t.c.vstdate == day).order_by(t.c.id)).mappings():
             cur = out.setdefault(r["vn"], {"mood": None, "time": None, "notes": 0})
             if r["mood"]:
                 cur["mood"], cur["time"] = r["mood"], r["created_at"].strftime("%H:%M")
-            if r["comment"]:
+            if r["comment"] or r["attachment"]:
                 cur["notes"] += 1
     return out
 
@@ -77,7 +124,8 @@ def for_visit(vn: str) -> list[dict]:
     t = db.patient_feedback
     with db.engine.connect() as conn:
         rs = conn.execute(sa.select(t).where(t.c.vn == vn).order_by(t.c.id)).mappings().all()
-    return [{"time": r["created_at"].strftime("%H:%M"), "mood": r["mood"], "comment": r["comment"],
+    return [{"id": r["id"], "time": r["created_at"].strftime("%H:%M"), "mood": r["mood"], "comment": r["comment"],
+             "file": r["id"] if r["attachment"] else None, "file_type": r["attachment_type"],
              "depcode": r["depcode"]} for r in rs]
 
 
@@ -105,7 +153,9 @@ def summary(d1: date, d2: date, dep_name=lambda d: d, queue_of=None, limit: int 
         mood_at[r["id"]] = r["mood"] or last.get(r["vn"])
     comments = [{"date": r["created_at"].strftime("%d/%m"), "time": r["created_at"].strftime("%H:%M"),
                  "q": queue_of(r["vn"]) if queue_of else None, "where": dep_name(r["depcode"]) if r["depcode"] else "",
-                 "mood": mood_at[r["id"]], "comment": r["comment"]} for r in rs if r["comment"]][:limit]
+                 "mood": mood_at[r["id"]], "comment": r["comment"],
+                 "file": r["id"] if r["attachment"] else None, "file_type": r["attachment_type"]}
+                for r in rs if r["comment"] or r["attachment"]][:limit]
     return {
         "moods": [{"key": k, "emoji": e, "label": th, "n": counts[k]} for k, (e, th, _en) in MOODS.items()],
         "total": sum(counts.values()),

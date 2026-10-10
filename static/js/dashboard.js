@@ -303,11 +303,15 @@ function focusPatient(p) {
 // ความรู้สึก/ข้อความของผู้ป่วย (เห็นเฉพาะเจ้าหน้าที่)
 const MOOD_TH = { great: 'พอใจมาก', good: 'พอใจ', meh: 'เฉย ๆ', worried: 'กังวล', angry: 'ไม่พอใจ' };
 const fbCache = {};
-const fbItem = (f) => `<li><time>${esc(f.time)}</time><span>${f.mood ? `${MOOD_EMOJI[f.mood] || ''} ` : ''}${f.comment ? esc(f.comment) : `<span class="muted">${esc(MOOD_TH[f.mood] || '')}</span>`}</span></li>`;
+const fbFile = (f) => (!f.file ? '' : f.file_type?.startsWith('image/')
+  ? `<a class="fbimg" href="/api/feedback/file/${f.file}" target="_blank" rel="noopener"><img src="/api/feedback/file/${f.file}" alt="รูปที่ผู้ป่วยแนบ" loading="lazy"></a>`
+  : `<a class="fbdoc" href="/api/feedback/file/${f.file}" target="_blank" rel="noopener">📎 เปิดไฟล์แนบ</a>`);
+const fbItem = (f) => (f.locked ? '<li><span class="muted">มีข้อความ/ไฟล์จากผู้ป่วย — เปิดดูได้เฉพาะฝ่าย IT (บัญชีผู้ดูแลระบบ)</span></li>' : `<li><time>${esc(f.time)}</time><span>${f.mood ? `${MOOD_EMOJI[f.mood] || ''} ` : ''}${f.comment ? esc(f.comment) : (f.mood ? `<span class="muted">${esc(MOOD_TH[f.mood] || '')}</span>` : '')}${fbFile(f)}</span></li>`);
 async function loadFeedback(p) {
   try {
     const v = await api(`/api/visits/${encodeURIComponent(p.vn)}`);
-    const list = (v.feedback || []).slice().reverse();
+    const list = v.feedback == null ? [] : v.feedback.slice().reverse();
+    if (v.feedback == null && p.mood_notes) list.push({ locked: true });
     list.key = `${p.mood_time}|${p.mood_notes}`;
     fbCache[p.vn] = list;
     const ul = $('#pfb');
