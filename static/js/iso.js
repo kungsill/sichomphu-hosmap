@@ -1467,7 +1467,7 @@ export class IsoMap {
   _labels(ctx, rooms) {
     const placed = [];
     for (const r of rooms) {
-      if (r.kind === 'corridor' || r.decor === 'sign') continue;   // ป้ายมีชื่อบนแผ่นป้ายแล้ว
+      if (r.kind === 'corridor' || r.decor === 'sign' || r.decor === 'quiet') continue;   // ป้ายมีชื่อบนแผ่นป้ายแล้ว / อาคารทั่วไปไม่ติดป้าย
       const n = this.counts[r.id] || 0;
       const [cx, cy] = centroid(r.polygon);
       const lz = r.decor === 'flag' ? 13 : r.decor === 'buddha' ? 5.5 : (r.decor === 'parking' || r.decor === 'field') ? 2 : r.decor === 'carport' ? 4

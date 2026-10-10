@@ -589,6 +589,105 @@
    "link_floor": "flr_ari_1"
   },
   {
+   "id": "c_b_a",
+   "floor_id": "flr_campus",
+   "code": "B_A",
+   "name": "ทันตกรรมเก่า / ห้องพัก",
+   "short_name": "ทันตกรรมเก่า / ห้องพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     186.0,
+     54.0
+    ],
+    [
+     197.0,
+     54.0
+    ],
+    [
+     197.0,
+     72.0
+    ],
+    [
+     186.0,
+     72.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_b_b",
+   "floor_id": "flr_campus",
+   "code": "B_B",
+   "name": "คลังยา / พัสดุ",
+   "short_name": "คลังยา / พัสดุ",
+   "kind": "building",
+   "polygon": [
+    [
+     198.0,
+     54.0
+    ],
+    [
+     208.0,
+     54.0
+    ],
+    [
+     208.0,
+     72.0
+    ],
+    [
+     198.0,
+     72.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#5cc26c",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_b_c",
+   "floor_id": "flr_campus",
+   "code": "B_C",
+   "name": "IT / งานไฟฟ้า",
+   "short_name": "IT / งานไฟฟ้า",
+   "kind": "building",
+   "polygon": [
+    [
+     209.0,
+     54.0
+    ],
+    [
+     220.0,
+     54.0
+    ],
+    [
+     220.0,
+     72.0
+    ],
+    [
+     209.0,
+     72.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f5a35c",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
    "id": "c_buddha",
    "floor_id": "flr_campus",
    "code": "BUDDHA",
@@ -686,6 +785,39 @@
    "color": "#b9a7e8",
    "decor": null,
    "link_floor": "flr_clinic_1"
+  },
+  {
+   "id": "c_court",
+   "floor_id": "flr_campus",
+   "code": "COURT",
+   "name": "สนามกีฬา",
+   "short_name": "สนามกีฬา",
+   "kind": "building",
+   "polygon": [
+    [
+     245.6,
+     45.6
+    ],
+    [
+     266.0,
+     45.6
+    ],
+    [
+     266.0,
+     67.6
+    ],
+    [
+     245.6,
+     67.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#b0bec5",
+   "decor": "field",
+   "link_floor": null
   },
   {
    "id": "c_ct",
@@ -787,6 +919,270 @@
    "link_floor": "flr_dialysis_1"
   },
   {
+   "id": "c_director",
+   "floor_id": "flr_campus",
+   "code": "DIRECTOR",
+   "name": "บ้านพักผู้อำนวยการ",
+   "short_name": "บ้านพักผู้อำนวยการ",
+   "kind": "building",
+   "polygon": [
+    [
+     238.0,
+     129.0
+    ],
+    [
+     255.6,
+     129.0
+    ],
+    [
+     255.6,
+     139.0
+    ],
+    [
+     238.0,
+     139.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": null,
+   "link_floor": null
+  },
+  {
+   "id": "c_e1",
+   "floor_id": "flr_campus",
+   "code": "E1",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     231.0,
+     74.4
+    ],
+    [
+     246.0,
+     74.4
+    ],
+    [
+     246.0,
+     84.0
+    ],
+    [
+     231.0,
+     84.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_e2",
+   "floor_id": "flr_campus",
+   "code": "E2",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     252.4,
+     74.4
+    ],
+    [
+     267.0,
+     74.4
+    ],
+    [
+     267.0,
+     84.0
+    ],
+    [
+     252.4,
+     84.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_e3",
+   "floor_id": "flr_campus",
+   "code": "E3",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     233.0,
+     86.0
+    ],
+    [
+     243.0,
+     86.0
+    ],
+    [
+     243.0,
+     94.0
+    ],
+    [
+     233.0,
+     94.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_e4",
+   "floor_id": "flr_campus",
+   "code": "E4",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     244.4,
+     86.0
+    ],
+    [
+     254.4,
+     86.0
+    ],
+    [
+     254.4,
+     94.0
+    ],
+    [
+     244.4,
+     94.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_e5",
+   "floor_id": "flr_campus",
+   "code": "E5",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     255.6,
+     86.0
+    ],
+    [
+     265.6,
+     86.0
+    ],
+    [
+     265.6,
+     94.0
+    ],
+    [
+     255.6,
+     94.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_e6",
+   "floor_id": "flr_campus",
+   "code": "E6",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     266.4,
+     86.0
+    ],
+    [
+     276.4,
+     86.0
+    ],
+    [
+     276.4,
+     94.0
+    ],
+    [
+     266.4,
+     94.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_e7",
+   "floor_id": "flr_campus",
+   "code": "E7",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     279.6,
+     94.4
+    ],
+    [
+     291.0,
+     94.4
+    ],
+    [
+     291.0,
+     105.6
+    ],
+    [
+     279.6,
+     105.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
    "id": "c_er",
    "floor_id": "flr_campus",
    "code": "ER",
@@ -853,6 +1249,39 @@
    "link_floor": null
   },
   {
+   "id": "c_fitness",
+   "floor_id": "flr_campus",
+   "code": "FITNESS",
+   "name": "ฟิตเนส",
+   "short_name": "ฟิตเนส",
+   "kind": "building",
+   "polygon": [
+    [
+     199.0,
+     21.0
+    ],
+    [
+     222.0,
+     21.0
+    ],
+    [
+     222.0,
+     38.4
+    ],
+    [
+     199.0,
+     38.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": null,
+   "link_floor": null
+  },
+  {
    "id": "c_flag",
    "floor_id": "flr_campus",
    "code": "FLAG",
@@ -883,6 +1312,105 @@
    "desk": null,
    "color": "#f2d14b",
    "decor": "flag",
+   "link_floor": null
+  },
+  {
+   "id": "c_flat",
+   "floor_id": "flr_campus",
+   "code": "FLAT",
+   "name": "แฟลตบ้านพัก",
+   "short_name": "แฟลตบ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     8.0,
+     81.0
+    ],
+    [
+     45.0,
+     81.0
+    ],
+    [
+     45.0,
+     96.0
+    ],
+    [
+     8.0,
+     96.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#a78bdb",
+   "decor": null,
+   "link_floor": null
+  },
+  {
+   "id": "c_flat6",
+   "floor_id": "flr_campus",
+   "code": "FLAT6",
+   "name": "แฟลต 6 ชั้น",
+   "short_name": "แฟลต 6 ชั้น",
+   "kind": "building",
+   "polygon": [
+    [
+     8.0,
+     111.0
+    ],
+    [
+     34.0,
+     111.0
+    ],
+    [
+     34.0,
+     128.0
+    ],
+    [
+     8.0,
+     128.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f2d14b",
+   "decor": null,
+   "link_floor": null
+  },
+  {
+   "id": "c_flat_e",
+   "floor_id": "flr_campus",
+   "code": "FLAT_E",
+   "name": "แฟลตบ้านพัก",
+   "short_name": "แฟลตบ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     276.0,
+     60.0
+    ],
+    [
+     293.6,
+     60.0
+    ],
+    [
+     293.6,
+     92.0
+    ],
+    [
+     276.0,
+     92.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#5cc26c",
+   "decor": null,
    "link_floor": null
   },
   {
@@ -917,6 +1445,336 @@
    "color": "#f07ab8",
    "decor": null,
    "link_floor": "flr_promo_1"
+  },
+  {
+   "id": "c_h1",
+   "floor_id": "flr_campus",
+   "code": "H1",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     16.4,
+     39.6
+    ],
+    [
+     32.0,
+     39.6
+    ],
+    [
+     32.0,
+     48.4
+    ],
+    [
+     16.4,
+     48.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h10",
+   "floor_id": "flr_campus",
+   "code": "H10",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     68.6,
+     70.0
+    ],
+    [
+     84.6,
+     70.0
+    ],
+    [
+     84.6,
+     78.4
+    ],
+    [
+     68.6,
+     78.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h2",
+   "floor_id": "flr_campus",
+   "code": "H2",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     35.4,
+     39.6
+    ],
+    [
+     50.6,
+     39.6
+    ],
+    [
+     50.6,
+     48.4
+    ],
+    [
+     35.4,
+     48.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h3",
+   "floor_id": "flr_campus",
+   "code": "H3",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     54.0,
+     39.6
+    ],
+    [
+     69.0,
+     39.6
+    ],
+    [
+     69.0,
+     48.4
+    ],
+    [
+     54.0,
+     48.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h4",
+   "floor_id": "flr_campus",
+   "code": "H4",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     16.0,
+     50.0
+    ],
+    [
+     32.6,
+     50.0
+    ],
+    [
+     32.6,
+     59.6
+    ],
+    [
+     16.0,
+     59.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h5",
+   "floor_id": "flr_campus",
+   "code": "H5",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     38.0,
+     50.0
+    ],
+    [
+     55.0,
+     50.0
+    ],
+    [
+     55.0,
+     59.6
+    ],
+    [
+     38.0,
+     59.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h6",
+   "floor_id": "flr_campus",
+   "code": "H6",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     58.4,
+     50.0
+    ],
+    [
+     75.0,
+     50.0
+    ],
+    [
+     75.0,
+     59.6
+    ],
+    [
+     58.4,
+     59.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h7",
+   "floor_id": "flr_campus",
+   "code": "H7",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     15.4,
+     70.0
+    ],
+    [
+     32.4,
+     70.0
+    ],
+    [
+     32.4,
+     78.4
+    ],
+    [
+     15.4,
+     78.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h8",
+   "floor_id": "flr_campus",
+   "code": "H8",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     35.6,
+     72.4
+    ],
+    [
+     45.6,
+     72.4
+    ],
+    [
+     45.6,
+     79.0
+    ],
+    [
+     35.6,
+     79.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_h9",
+   "floor_id": "flr_campus",
+   "code": "H9",
+   "name": "บ้านพัก",
+   "short_name": "บ้านพัก",
+   "kind": "building",
+   "polygon": [
+    [
+     48.4,
+     70.0
+    ],
+    [
+     64.4,
+     70.0
+    ],
+    [
+     64.4,
+     78.4
+    ],
+    [
+     48.4,
+     78.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
   },
   {
    "id": "c_hall",
@@ -1016,6 +1874,105 @@
    "color": "#5cc26c",
    "decor": null,
    "link_floor": "flr_ipdm_1"
+  },
+  {
+   "id": "c_laundry",
+   "floor_id": "flr_campus",
+   "code": "LAUNDRY",
+   "name": "โรงซัก",
+   "short_name": "โรงซัก",
+   "kind": "building",
+   "polygon": [
+    [
+     172.0,
+     60.0
+    ],
+    [
+     184.0,
+     60.0
+    ],
+    [
+     184.0,
+     70.0
+    ],
+    [
+     172.0,
+     70.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_maint",
+   "floor_id": "flr_campus",
+   "code": "MAINT",
+   "name": "อาคารซ่อมบำรุง",
+   "short_name": "อาคารซ่อมบำรุง",
+   "kind": "building",
+   "polygon": [
+    [
+     112.4,
+     105.6
+    ],
+    [
+     125.6,
+     105.6
+    ],
+    [
+     125.6,
+     119.6
+    ],
+    [
+     112.4,
+     119.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f2d14b",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_o2",
+   "floor_id": "flr_campus",
+   "code": "O2",
+   "name": "ถังออกซิเจน",
+   "short_name": "ถังออกซิเจน",
+   "kind": "building",
+   "polygon": [
+    [
+     213.6,
+     82.0
+    ],
+    [
+     221.2,
+     82.0
+    ],
+    [
+     221.2,
+     90.4
+    ],
+    [
+     213.6,
+     90.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#e3e8ea",
+   "decor": "quiet",
+   "link_floor": null
   },
   {
    "id": "c_old",
@@ -1150,6 +2107,72 @@
    "link_floor": null
   },
   {
+   "id": "c_pchr",
+   "floor_id": "flr_campus",
+   "code": "PCHR",
+   "name": "ห้องพักพชร",
+   "short_name": "ห้องพักพชร",
+   "kind": "building",
+   "polygon": [
+    [
+     109.4,
+     91.2
+    ],
+    [
+     117.6,
+     91.2
+    ],
+    [
+     117.6,
+     100.8
+    ],
+    [
+     109.4,
+     100.8
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_power",
+   "floor_id": "flr_campus",
+   "code": "POWER",
+   "name": "โรงปั่นไฟ",
+   "short_name": "โรงปั่นไฟ",
+   "kind": "building",
+   "polygon": [
+    [
+     116.0,
+     121.2
+    ],
+    [
+     129.0,
+     121.2
+    ],
+    [
+     129.0,
+     130.0
+    ],
+    [
+     116.0,
+     130.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
    "id": "c_psy",
    "floor_id": "flr_campus",
    "code": "PSY",
@@ -1181,6 +2204,39 @@
    "color": "#a78bdb",
    "decor": null,
    "link_floor": "flr_psych_1"
+  },
+  {
+   "id": "c_sew",
+   "floor_id": "flr_campus",
+   "code": "SEW",
+   "name": "ตัดเย็บ",
+   "short_name": "ตัดเย็บ",
+   "kind": "building",
+   "polygon": [
+    [
+     181.0,
+     37.0
+    ],
+    [
+     193.0,
+     37.0
+    ],
+    [
+     193.0,
+     45.0
+    ],
+    [
+     181.0,
+     45.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f2d14b",
+   "decor": "quiet",
+   "link_floor": null
   },
   {
    "id": "c_sign",
@@ -1216,6 +2272,138 @@
    "link_floor": null
   },
   {
+   "id": "c_staff_e",
+   "floor_id": "flr_campus",
+   "code": "STAFF_E",
+   "name": "บ้านพัก (ตึกยาว)",
+   "short_name": "บ้านพัก (ตึกยาว)",
+   "kind": "building",
+   "polygon": [
+    [
+     231.0,
+     35.6
+    ],
+    [
+     243.0,
+     35.6
+    ],
+    [
+     243.0,
+     70.0
+    ],
+    [
+     231.0,
+     70.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": null,
+   "link_floor": null
+  },
+  {
+   "id": "c_store",
+   "floor_id": "flr_campus",
+   "code": "STORE",
+   "name": "อาคารเก็บวัสดุ",
+   "short_name": "อาคารเก็บวัสดุ",
+   "kind": "building",
+   "polygon": [
+    [
+     18.4,
+     21.6
+    ],
+    [
+     42.0,
+     21.6
+    ],
+    [
+     42.0,
+     32.0
+    ],
+    [
+     18.4,
+     32.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": null,
+   "link_floor": null
+  },
+  {
+   "id": "c_store2",
+   "floor_id": "flr_campus",
+   "code": "STORE2",
+   "name": "โรงเก็บของ",
+   "short_name": "โรงเก็บของ",
+   "kind": "building",
+   "polygon": [
+    [
+     8.4,
+     20.4
+    ],
+    [
+     16.0,
+     20.4
+    ],
+    [
+     16.0,
+     32.0
+    ],
+    [
+     8.4,
+     32.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_supply",
+   "floor_id": "flr_campus",
+   "code": "SUPPLY",
+   "name": "อาคารพัสดุ",
+   "short_name": "อาคารพัสดุ",
+   "kind": "building",
+   "polygon": [
+    [
+     159.0,
+     42.0
+    ],
+    [
+     178.0,
+     42.0
+    ],
+    [
+     178.0,
+     58.0
+    ],
+    [
+     159.0,
+     58.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": null,
+   "link_floor": null
+  },
+  {
    "id": "c_ttm",
    "floor_id": "flr_campus",
    "code": "TTM",
@@ -1247,6 +2435,105 @@
    "color": "#5cc26c",
    "decor": null,
    "link_floor": "flr_thaimed_1"
+  },
+  {
+   "id": "c_water",
+   "floor_id": "flr_campus",
+   "code": "WATER",
+   "name": "ประปา",
+   "short_name": "ประปา",
+   "kind": "building",
+   "polygon": [
+    [
+     117.6,
+     130.8
+    ],
+    [
+     127.2,
+     130.8
+    ],
+    [
+     127.2,
+     140.0
+    ],
+    [
+     117.6,
+     140.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#e3e8ea",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_wc",
+   "floor_id": "flr_campus",
+   "code": "WC",
+   "name": "ห้องน้ำ",
+   "short_name": "ห้องน้ำ",
+   "kind": "building",
+   "polygon": [
+    [
+     150.4,
+     116.4
+    ],
+    [
+     158.0,
+     116.4
+    ],
+    [
+     158.0,
+     128.0
+    ],
+    [
+     150.4,
+     128.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#f07ab8",
+   "decor": "quiet",
+   "link_floor": null
+  },
+  {
+   "id": "c_wc2",
+   "floor_id": "flr_campus",
+   "code": "WC2",
+   "name": "ห้องน้ำ",
+   "short_name": "ห้องน้ำ",
+   "kind": "building",
+   "polygon": [
+    [
+     195.0,
+     37.0
+    ],
+    [
+     207.0,
+     37.0
+    ],
+    [
+     207.0,
+     45.0
+    ],
+    [
+     195.0,
+     45.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": "quiet",
+   "link_floor": null
   },
   {
    "id": "d_ex1",
