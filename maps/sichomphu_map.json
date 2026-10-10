@@ -97,7 +97,7 @@
    "level": 1,
    "name": "ภาพรวม",
    "width": 303.6,
-   "height": 207.2,
+   "height": 312.0,
    "plan_image": "/static/img/campus.jpg",
    "plan_opacity": 1.0,
    "style": "campus"
@@ -787,6 +787,39 @@
    "link_floor": "flr_lr_1"
   },
   {
+   "id": "c_field",
+   "floor_id": "flr_campus",
+   "code": "FIELD",
+   "name": "สนามฟุตบอลกลาง",
+   "short_name": "สนามฟุตบอลกลาง",
+   "kind": "building",
+   "polygon": [
+    [
+     22.0,
+     252.4
+    ],
+    [
+     86.0,
+     252.4
+    ],
+    [
+     86.0,
+     298.4
+    ],
+    [
+     22.0,
+     298.4
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#b0bec5",
+   "decor": "field",
+   "link_floor": null
+  },
+  {
    "id": "c_flag",
    "floor_id": "flr_campus",
    "code": "FLAG",
@@ -1016,6 +1049,72 @@
    "color": "#4a90d9",
    "decor": null,
    "link_floor": "flr_opd_1"
+  },
+  {
+   "id": "c_park_amphoe",
+   "floor_id": "flr_campus",
+   "code": "PARK_AMPHOE",
+   "name": "ลานจอดรถ อำเภอสีชมพู",
+   "short_name": "ลานจอดรถ อำเภอสีชมพู",
+   "kind": "building",
+   "polygon": [
+    [
+     94.0,
+     252.4
+    ],
+    [
+     144.0,
+     252.4
+    ],
+    [
+     144.0,
+     300.0
+    ],
+    [
+     94.0,
+     300.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#b0bec5",
+   "decor": "parking",
+   "link_floor": null
+  },
+  {
+   "id": "c_park_dial",
+   "floor_id": "flr_campus",
+   "code": "PARK_DIAL",
+   "name": "ลานจอดรถ (ไตเทียม · แผนไทย)",
+   "short_name": "ลานจอดรถ (ไตเทียม · แผนไทย)",
+   "kind": "building",
+   "polygon": [
+    [
+     81.0,
+     91.0
+    ],
+    [
+     99.4,
+     91.0
+    ],
+    [
+     99.4,
+     105.6
+    ],
+    [
+     81.0,
+     105.6
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#b0bec5",
+   "decor": "parking",
+   "link_floor": null
   },
   {
    "id": "c_psy",
@@ -5103,38 +5202,65 @@
    "link_group": null
   },
   {
-   "id": "c_b400",
+   "id": "c_a178",
    "floor_id": "flr_campus",
-   "kind": "corridor",
-   "x": 111.0,
-   "y": 80.0,
+   "kind": "junction",
+   "x": 84.4,
+   "y": 35.6,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_b465",
+   "id": "c_a322",
+   "floor_id": "flr_campus",
+   "kind": "junction",
+   "x": 103.6,
+   "y": 64.4,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c_a465",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 122.0,
+   "x": 122.8,
    "y": 93.0,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_b530",
+   "id": "c_a560",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 132.0,
-   "y": 106.0,
+   "x": 135.4,
+   "y": 112.0,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_b615",
+   "id": "c_a_top",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 143.0,
-   "y": 123.0,
+   "x": 60.0,
+   "y": 0.0,
+   "name": "ถนนด้านบน",
+   "link_group": null
+  },
+  {
+   "id": "c_amphoe_in",
+   "floor_id": "flr_campus",
+   "kind": "corridor",
+   "x": 144.4,
+   "y": 276.4,
+   "name": "ทางเข้าลานจอดรถอำเภอสีชมพู",
+   "link_group": null
+  },
+  {
+   "id": "c_c690",
+   "floor_id": "flr_campus",
+   "kind": "junction",
+   "x": 138.0,
+   "y": 144.4,
    "name": null,
    "link_group": null
   },
@@ -5238,19 +5364,10 @@
    "link_group": "Z_TTM"
   },
   {
-   "id": "c_dd",
-   "floor_id": "flr_campus",
-   "kind": "corridor",
-   "x": 140.0,
-   "y": 152.0,
-   "name": null,
-   "link_group": null
-  },
-  {
    "id": "c_e780",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 167.0,
+   "x": 166.4,
    "y": 156.0,
    "name": null,
    "link_group": null
@@ -5274,47 +5391,38 @@
    "link_group": null
   },
   {
-   "id": "c_h175",
-   "floor_id": "flr_campus",
-   "kind": "corridor",
-   "x": 60.0,
-   "y": 35.0,
-   "name": null,
-   "link_group": null
-  },
-  {
    "id": "c_h178",
    "floor_id": "flr_campus",
    "kind": "junction",
-   "x": 11.0,
+   "x": 9.6,
    "y": 35.6,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_h300",
+   "id": "c_h178m",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 11.0,
-   "y": 60.0,
+   "x": 46.0,
+   "y": 35.6,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_h325a",
+   "id": "c_h328",
    "floor_id": "flr_campus",
-   "kind": "corridor",
-   "x": 17.0,
-   "y": 65.0,
+   "kind": "junction",
+   "x": 9.6,
+   "y": 65.6,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_h325b",
+   "id": "c_h328m",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 84.0,
-   "y": 65.0,
+   "x": 56.0,
+   "y": 65.6,
    "name": null,
    "link_group": null
   },
@@ -5322,8 +5430,8 @@
    "id": "c_ja",
    "floor_id": "flr_campus",
    "kind": "junction",
-   "x": 155.6,
-   "y": 139.6,
+   "x": 154.2,
+   "y": 140.0,
    "name": "สามแยกหน้าตึก ER",
    "link_group": null
   },
@@ -5340,7 +5448,7 @@
    "id": "c_main_j",
    "floor_id": "flr_campus",
    "kind": "junction",
-   "x": 183.0,
+   "x": 184.0,
    "y": 186.0,
    "name": "ปากทางเข้าโรงพยาบาล",
    "link_group": null
@@ -5382,20 +5490,29 @@
    "link_group": null
   },
   {
+   "id": "c_psy_r",
+   "floor_id": "flr_campus",
+   "kind": "corridor",
+   "x": 69.0,
+   "y": 169.2,
+   "name": null,
+   "link_group": null
+  },
+  {
    "id": "c_s640",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 109.4,
+   "x": 110.0,
    "y": 128.0,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_s760",
+   "id": "c_s748",
    "floor_id": "flr_campus",
-   "kind": "corridor",
-   "x": 112.4,
-   "y": 152.0,
+   "kind": "junction",
+   "x": 112.0,
+   "y": 149.6,
    "name": null,
    "link_group": null
   },
@@ -5404,7 +5521,34 @@
    "floor_id": "flr_campus",
    "kind": "junction",
    "x": 113.2,
-   "y": 170.0,
+   "y": 169.2,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c_south_e",
+   "floor_id": "flr_campus",
+   "kind": "corridor",
+   "x": 185.6,
+   "y": 312.0,
+   "name": "ถนนทางใต้",
+   "link_group": null
+  },
+  {
+   "id": "c_south_j",
+   "floor_id": "flr_campus",
+   "kind": "junction",
+   "x": 185.2,
+   "y": 276.4,
+   "name": "ทางเข้าลานจอดรถอำเภอ",
+   "link_group": null
+  },
+  {
+   "id": "c_south_m",
+   "floor_id": "flr_campus",
+   "kind": "corridor",
+   "x": 184.8,
+   "y": 230.0,
    "name": null,
    "link_group": null
   },
@@ -5445,33 +5589,6 @@
    "link_group": null
   },
   {
-   "id": "c_wr190",
-   "floor_id": "flr_campus",
-   "kind": "junction",
-   "x": 80.0,
-   "y": 38.0,
-   "name": null,
-   "link_group": null
-  },
-  {
-   "id": "c_wr280",
-   "floor_id": "flr_campus",
-   "kind": "corridor",
-   "x": 91.0,
-   "y": 56.0,
-   "name": null,
-   "link_group": null
-  },
-  {
-   "id": "c_wr350",
-   "floor_id": "flr_campus",
-   "kind": "junction",
-   "x": 99.0,
-   "y": 70.4,
-   "name": null,
-   "link_group": null
-  },
-  {
    "id": "c_wr420",
    "floor_id": "flr_campus",
    "kind": "corridor",
@@ -5490,20 +5607,29 @@
    "link_group": null
   },
   {
-   "id": "c_wr_top",
+   "id": "c_x1075_388",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 67.0,
-   "y": 23.0,
+   "x": 215.0,
+   "y": 77.6,
    "name": null,
    "link_group": null
   },
   {
-   "id": "c_x1130_380",
+   "id": "c_x1130_215",
+   "floor_id": "flr_campus",
+   "kind": "corridor",
+   "x": 225.6,
+   "y": 43.0,
+   "name": null,
+   "link_group": null
+  },
+  {
+   "id": "c_x1130_388",
    "floor_id": "flr_campus",
    "kind": "junction",
-   "x": 227.0,
-   "y": 74.0,
+   "x": 225.6,
+   "y": 77.6,
    "name": null,
    "link_group": null
   },
@@ -5511,17 +5637,8 @@
    "id": "c_x1130_450",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 227.0,
+   "x": 225.6,
    "y": 90.0,
-   "name": null,
-   "link_group": null
-  },
-  {
-   "id": "c_x785_380",
-   "floor_id": "flr_campus",
-   "kind": "junction",
-   "x": 157.4,
-   "y": 76.0,
    "name": null,
    "link_group": null
   },
@@ -5529,7 +5646,7 @@
    "id": "c_x785_450",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 157.4,
+   "x": 158.0,
    "y": 90.0,
    "name": null,
    "link_group": null
@@ -5538,7 +5655,7 @@
    "id": "c_x785_600",
    "floor_id": "flr_campus",
    "kind": "corridor",
-   "x": 157.4,
+   "x": 158.0,
    "y": 120.0,
    "name": null,
    "link_group": null
@@ -5562,10 +5679,10 @@
    "link_group": null
   },
   {
-   "id": "c_y690_1135",
+   "id": "c_y690_1128",
    "floor_id": "flr_campus",
    "kind": "junction",
-   "x": 227.0,
+   "x": 225.6,
    "y": 138.0,
    "name": null,
    "link_group": null
@@ -8252,30 +8369,58 @@
    "accessible": true
   },
   {
-   "id": "e_c_b400_c_wr350",
-   "node_a": "c_b400",
-   "node_b": "c_wr350",
+   "id": "e_c_a178_c_a322",
+   "node_a": "c_a178",
+   "node_b": "c_a322",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_b465_c_b400",
-   "node_a": "c_b465",
-   "node_b": "c_b400",
+   "id": "e_c_a178_c_h178m",
+   "node_a": "c_a178",
+   "node_b": "c_h178m",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_b530_c_b465",
-   "node_a": "c_b530",
-   "node_b": "c_b465",
+   "id": "e_c_a322_c_a465",
+   "node_a": "c_a322",
+   "node_b": "c_a465",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_b615_c_b530",
-   "node_a": "c_b615",
-   "node_b": "c_b530",
+   "id": "e_c_a322_c_wr420",
+   "node_a": "c_a322",
+   "node_b": "c_wr420",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_a465_c_a560",
+   "node_a": "c_a465",
+   "node_b": "c_a560",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_a560_c_ja",
+   "node_a": "c_a560",
+   "node_b": "c_ja",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_a_top_c_a178",
+   "node_a": "c_a_top",
+   "node_b": "c_a178",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_c690_c_ja",
+   "node_a": "c_c690",
+   "node_b": "c_ja",
    "kind": "walk",
    "accessible": true
   },
@@ -8294,9 +8439,9 @@
    "accessible": true
   },
   {
-   "id": "e_c_d_dent_c_dd",
+   "id": "e_c_d_dent_c_c690",
    "node_a": "c_d_dent",
-   "node_b": "c_dd",
+   "node_b": "c_c690",
    "kind": "walk",
    "accessible": true
   },
@@ -8343,9 +8488,9 @@
    "accessible": true
   },
   {
-   "id": "e_c_d_psy_c_s850",
+   "id": "e_c_d_psy_c_psy_r",
    "node_a": "c_d_psy",
-   "node_b": "c_s850",
+   "node_b": "c_psy_r",
    "kind": "walk",
    "accessible": true
   },
@@ -8357,30 +8502,16 @@
    "accessible": true
   },
   {
-   "id": "e_c_dd_c_ja",
-   "node_a": "c_dd",
-   "node_b": "c_ja",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_e780_c_ja",
+   "id": "e_c_e780_c_e845",
    "node_a": "c_e780",
-   "node_b": "c_ja",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_e845_c_e780",
-   "node_a": "c_e845",
-   "node_b": "c_e780",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_gate_c_e845",
-   "node_a": "c_gate",
    "node_b": "c_e845",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_e845_c_gate",
+   "node_a": "c_e845",
+   "node_b": "c_gate",
    "kind": "walk",
    "accessible": true
   },
@@ -8392,51 +8523,37 @@
    "accessible": true
   },
   {
-   "id": "e_c_h175_c_wr190",
-   "node_a": "c_h175",
-   "node_b": "c_wr190",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_h178_c_h175",
+   "id": "e_c_h178_c_h328",
    "node_a": "c_h178",
-   "node_b": "c_h175",
+   "node_b": "c_h328",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_h300_c_h178",
-   "node_a": "c_h300",
+   "id": "e_c_h178m_c_h178",
+   "node_a": "c_h178m",
    "node_b": "c_h178",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_h325a_c_h325b",
-   "node_a": "c_h325a",
-   "node_b": "c_h325b",
+   "id": "e_c_h328_c_h328m",
+   "node_a": "c_h328",
+   "node_b": "c_h328m",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_h325b_c_wr350",
-   "node_a": "c_h325b",
-   "node_b": "c_wr350",
+   "id": "e_c_h328m_c_a322",
+   "node_a": "c_h328m",
+   "node_b": "c_a322",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_ja_c_b615",
+   "id": "e_c_ja_c_e780",
    "node_a": "c_ja",
-   "node_b": "c_b615",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_ja_c_x785_600",
-   "node_a": "c_ja",
-   "node_b": "c_x785_600",
+   "node_b": "c_e780",
    "kind": "walk",
    "accessible": true
   },
@@ -8451,6 +8568,13 @@
    "id": "e_c_main_j_c_main_e",
    "node_a": "c_main_j",
    "node_b": "c_main_e",
+   "kind": "road",
+   "accessible": true
+  },
+  {
+   "id": "e_c_main_j_c_south_m",
+   "node_a": "c_main_j",
+   "node_b": "c_south_m",
    "kind": "road",
    "accessible": true
   },
@@ -8483,15 +8607,22 @@
    "accessible": true
   },
   {
-   "id": "e_c_s640_c_s760",
+   "id": "e_c_s640_c_s748",
    "node_a": "c_s640",
-   "node_b": "c_s760",
+   "node_b": "c_s748",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_s760_c_s850",
-   "node_a": "c_s760",
+   "id": "e_c_s748_c_c690",
+   "node_a": "c_s748",
+   "node_b": "c_c690",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_s748_c_s850",
+   "node_a": "c_s748",
    "node_b": "c_s850",
    "kind": "walk",
    "accessible": true
@@ -8501,6 +8632,34 @@
    "node_a": "c_s850",
    "node_b": "c_main_wj",
    "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_s850_c_psy_r",
+   "node_a": "c_s850",
+   "node_b": "c_psy_r",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_south_j_c_amphoe_in",
+   "node_a": "c_south_j",
+   "node_b": "c_amphoe_in",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_south_j_c_south_e",
+   "node_a": "c_south_j",
+   "node_b": "c_south_e",
+   "kind": "road",
+   "accessible": true
+  },
+  {
+   "id": "e_c_south_m_c_south_j",
+   "node_a": "c_south_m",
+   "node_b": "c_south_j",
+   "kind": "road",
    "accessible": true
   },
   {
@@ -8532,27 +8691,6 @@
    "accessible": true
   },
   {
-   "id": "e_c_wr190_c_wr280",
-   "node_a": "c_wr190",
-   "node_b": "c_wr280",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_wr280_c_wr350",
-   "node_a": "c_wr280",
-   "node_b": "c_wr350",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_wr350_c_wr420",
-   "node_a": "c_wr350",
-   "node_b": "c_wr420",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
    "id": "e_c_wr420_c_wr490",
    "node_a": "c_wr420",
    "node_b": "c_wr490",
@@ -8567,23 +8705,23 @@
    "accessible": true
   },
   {
-   "id": "e_c_wr_top_c_wr190",
-   "node_a": "c_wr_top",
-   "node_b": "c_wr190",
+   "id": "e_c_x1130_388_c_x1075_388",
+   "node_a": "c_x1130_388",
+   "node_b": "c_x1075_388",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_x1130_450_c_x1130_380",
+   "id": "e_c_x1130_388_c_x1130_215",
+   "node_a": "c_x1130_388",
+   "node_b": "c_x1130_215",
+   "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_x1130_450_c_x1130_388",
    "node_a": "c_x1130_450",
-   "node_b": "c_x1130_380",
-   "kind": "walk",
-   "accessible": true
-  },
-  {
-   "id": "e_c_x785_450_c_x785_380",
-   "node_a": "c_x785_450",
-   "node_b": "c_x785_380",
+   "node_b": "c_x1130_388",
    "kind": "walk",
    "accessible": true
   },
@@ -8591,7 +8729,7 @@
    "id": "e_c_x785_600_c_x785_450",
    "node_a": "c_x785_600",
    "node_b": "c_x785_450",
-   "kind": "walk",
+   "kind": "path",
    "accessible": true
   },
   {
@@ -8602,17 +8740,24 @@
    "accessible": true
   },
   {
-   "id": "e_c_y690_1093_c_y690_1135",
+   "id": "e_c_y690_1093_c_y690_1128",
    "node_a": "c_y690_1093",
-   "node_b": "c_y690_1135",
+   "node_b": "c_y690_1128",
    "kind": "walk",
    "accessible": true
   },
   {
-   "id": "e_c_y690_1135_c_x1130_450",
-   "node_a": "c_y690_1135",
+   "id": "e_c_y690_1128_c_x1130_450",
+   "node_a": "c_y690_1128",
    "node_b": "c_x1130_450",
    "kind": "walk",
+   "accessible": true
+  },
+  {
+   "id": "e_c_y690_814_c_x785_600",
+   "node_a": "c_y690_814",
+   "node_b": "c_x785_600",
+   "kind": "path",
    "accessible": true
   },
   {

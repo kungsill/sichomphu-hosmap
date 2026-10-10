@@ -126,7 +126,7 @@ function render() {
     <pattern id="g5" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="url(#g1)"/><path d="M5 0H0V5" fill="none" stroke="#cfdcd9" stroke-width="0.06"/></pattern>
   </defs>
   <rect x="0" y="0" width="${f.width}" height="${f.height}" fill="#fff" stroke="#1f9e8f" stroke-width="0.3"/>`;
-  if (f.plan_image) out += `<image href="${esc(f.plan_image)}" x="0" y="0" width="${f.width}" height="${f.height}" preserveAspectRatio="none" opacity="${f.plan_opacity ?? 0.5}" style="pointer-events:none"/>`;
+  if (f.plan_image) out += `<image href="${esc(f.plan_image)}" x="0" y="0" width="${f.width}" height="${f.height}" preserveAspectRatio="${f.style === 'campus' ? 'xMinYMin meet' : 'none'}" opacity="${f.plan_opacity ?? 0.5}" style="pointer-events:none"/>`;
   out += `<rect x="0" y="0" width="${f.width}" height="${f.height}" fill="url(#g5)" style="pointer-events:none"/>`;
   const order = { corridor: 0, waiting: 1, other: 1, counter: 2, service: 3, window: 3 };
   for (const r of [...rooms].sort((a, b) => (order[a.kind] ?? 1) - (order[b.kind] ?? 1))) {
@@ -444,7 +444,7 @@ function propsHtml() {
       </div>
       ${r.kind === 'building' ? `<label class="field"><span>คลิกตึกนี้แล้วเปิดโซน</span><select data-room="link_floor">${opt('', '— ไม่มีแผนที่ภายใน —', r.link_floor)}${doc.floors.filter((x) => x.style !== 'campus').map((x) => opt(x.id, `${doc.buildings.find((b) => b.id === x.building_id)?.name || ''} ${x.name}`, r.link_floor)).join('')}</select></label>` : ''}
       <label class="check"><input type="checkbox" data-room="seats" ${r.seats ? 'checked' : ''}> วาดเก้าอี้นั่งรอ</label>
-      <label class="field"><span>ของตกแต่งภายใน</span><select data-room="decor">${opt('', 'ไม่มี', r.decor)}${opt('pharmacy', 'ชั้นวางยา (ห้องยา)', r.decor)}${opt('cashier', 'ตู้เอกสาร/ตู้เซฟ (ห้องเก็บเงิน)', r.decor)}${opt('dental', 'เก้าอี้ทำฟัน (ห้องทันตกรรม)', r.decor)}${opt('beds', 'เตียงรักษา (เช่น เตียงกายภาพ)', r.decor)}${opt('sign', 'ป้ายชื่อ (แผนที่ภาพรวม)', r.decor)}${opt('buddha', 'พระพุทธรูป (แผนที่ภาพรวม)', r.decor)}${opt('flag', 'เสาธง (แผนที่ภาพรวม)', r.decor)}</select></label>
+      <label class="field"><span>ของตกแต่งภายใน</span><select data-room="decor">${opt('', 'ไม่มี', r.decor)}${opt('pharmacy', 'ชั้นวางยา (ห้องยา)', r.decor)}${opt('cashier', 'ตู้เอกสาร/ตู้เซฟ (ห้องเก็บเงิน)', r.decor)}${opt('dental', 'เก้าอี้ทำฟัน (ห้องทันตกรรม)', r.decor)}${opt('beds', 'เตียงรักษา (เช่น เตียงกายภาพ)', r.decor)}${opt('sign', 'ป้ายชื่อ (แผนที่ภาพรวม)', r.decor)}${opt('buddha', 'พระพุทธรูป (แผนที่ภาพรวม)', r.decor)}${opt('flag', 'เสาธง (แผนที่ภาพรวม)', r.decor)}${opt('parking', 'ลานจอดรถ (แผนที่ภาพรวม)', r.decor)}${opt('field', 'สนามฟุตบอล (แผนที่ภาพรวม)', r.decor)}</select></label>
       <div class="grid2">
         <label class="field"><span>สีพื้น (เว้นว่าง = อัตโนมัติ)</span><input type="color" data-room="color" value="${esc(r.color || ROOM_FILL[r.kind] || '#eeeeee')}"></label>
         <div class="field"><span>&nbsp;</span><button class="btn ghost" data-act="clearColor">ใช้สีอัตโนมัติ</button></div>
@@ -471,7 +471,7 @@ function propsHtml() {
     const len = a && b ? Math.hypot(a.x - b.x, a.y - b.y).toFixed(1) : '-';
     h += `<div class="ptitle">ทางเดิน <button class="btn ghost" data-act="del">ลบ</button></div>
       <div class="muted" style="margin-bottom:10px">ระยะ ${len} เมตร</div>
-      <label class="field"><span>ชนิด</span><select data-edge="kind">${opt('walk', 'ทางเดินปกติ', e.kind)}${opt('ramp', 'ทางลาด', e.kind)}${opt('stairs', 'ขั้นบันได', e.kind)}${opt('road', 'ถนนหลัก (แผนที่ภาพรวม)', e.kind)}</select></label>
+      <label class="field"><span>ชนิด</span><select data-edge="kind">${opt('walk', 'ทางเดินปกติ', e.kind)}${opt('ramp', 'ทางลาด', e.kind)}${opt('stairs', 'ขั้นบันได', e.kind)}${opt('road', 'ถนนหลัก (แผนที่ภาพรวม)', e.kind)}${opt('path', 'ทางเดินเท้า (แผนที่ภาพรวม)', e.kind)}</select></label>
       <label class="check"><input type="checkbox" data-edge="accessible" ${e.accessible !== false && e.kind !== 'stairs' ? 'checked' : ''} ${e.kind === 'stairs' ? 'disabled' : ''}> รถเข็นผ่านได้</label>`;
   } else {
     const f = floor();

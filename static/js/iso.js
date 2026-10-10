@@ -92,6 +92,37 @@ export function densityText(ratio) {
   return '#2a9d5c';
 }
 
+// ระยะจากจุดถึงเส้นตรง (เมตร)
+function segDist(x, y, a, b) {
+  const dx = b.x - a.x, dy = b.y - a.y, L = dx * dx + dy * dy || 1;
+  const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (y - a.y) * dy) / L));
+  return Math.hypot(x - (a.x + t * dx), y - (a.y + t * dy));
+}
+
+// ช่องจอดรถในลาน: แถวคู่ (ลึก 5 ม. กว้าง 2.6 ม.) คั่นด้วยทางวิ่ง 6 ม. — คืนค่าเส้นแบ่งช่องและตำแหน่งรถ
+function parkingStalls(b) {
+  const horiz = b.x2 - b.x1 >= b.y2 - b.y1;
+  const L1 = horiz ? b.x1 : b.y1, L2 = horiz ? b.x2 : b.y2, D1 = horiz ? b.y1 : b.x1, D2 = horiz ? b.y2 : b.x2;
+  const rows = [];
+  let d = D1 + 1;
+  for (;;) {                                 // ช่องจอด | ทางวิ่ง | ช่องจอด ... ซ้ำจนเต็มลาน
+    if (d + 5 > D2 - 1) break;
+    rows.push([d, d + 5]); d += 5;
+    if (d + 6 + 5 > D2 - 1) break;
+    d += 6; rows.push([d, d + 5]); d += 5;
+  }
+  const out = [];
+  const pt = (l, dd) => (horiz ? [l, dd] : [dd, l]);
+  const n = Math.floor((L2 - L1 - 2) / 2.6);
+  rows.forEach(([r1, r2], ri) => {
+    for (let i = 0; i <= n; i++) {
+      const l = L1 + 1 + i * 2.6;
+      out.push({ edge: [pt(l, r1), pt(l, r2)], car: i < n ? { l: l + 1.3, d: (r1 + r2) / 2, key: ri * 1000 + i } : null, horiz });
+    }
+  });
+  return out;
+}
+
 export class IsoMap {
   constructor(canvas, opts = {}) {
     this.canvas = canvas;
@@ -364,6 +395,44 @@ export class IsoMap {
     return { x1, y1, x2: x1 + depth, y2: y1 + len, inset, depth };
   }
 
+  // ลานจอดรถ (ผิวยาง + เส้นช่องจอด) และสนามฟุตบอล (หญ้าลายทาง + เส้นสนาม) วาดบนพื้น
+  _drawCampusGround(ctx, f) {
+    const fill = (pts, color) => { this._polyPath(ctx, pts, 0); ctx.fillStyle = color; ctx.fill(); };
+    const line = (pts, color, w) => {
+      ctx.beginPath();
+      pts.forEach((q, i) => { const [sx, sy] = this.project(q[0], q[1], 0); i ? ctx.lineTo(sx, sy) : ctx.moveTo(sx, sy); });
+      ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke();
+    };
+    const o = this.project(0, 0), ux = this.project(1, 0);
+    const ppm = Math.hypot(ux[0] - o[0], ux[1] - o[1]);
+    for (const r of this.doc.rooms) {
+      if (r.floor_id !== f.id || (r.decor !== 'parking' && r.decor !== 'field')) continue;
+      const b = bbox(r.polygon);
+      const box = (x1, y1, x2, y2) => [[x1, y1], [x2, y1], [x2, y2], [x1, y2]];
+      if (r.decor === 'parking') {
+        fill(box(b.x1 - 0.6, b.y1 - 0.6, b.x2 + 0.6, b.y2 + 0.6), 'rgba(255,255,255,0.95)');
+        fill(box(b.x1, b.y1, b.x2, b.y2), '#66737a');
+        for (const s of parkingStalls(b)) line(s.edge, 'rgba(255,255,255,0.8)', Math.max(0.6, 0.12 * ppm));
+      } else {
+        fill(box(b.x1 - 1.5, b.y1 - 1.5, b.x2 + 1.5, b.y2 + 1.5), '#5aa65e');
+        const horiz = b.x2 - b.x1 >= b.y2 - b.y1, len = horiz ? b.x2 - b.x1 : b.y2 - b.y1;
+        for (let i = 0, n = Math.round(len / 5); i < n; i += 2) {           // หญ้าตัดลายทาง
+          const a0 = (len * i) / n, a1 = (len * (i + 1)) / n;
+          fill(horiz ? box(b.x1 + a0, b.y1, b.x1 + a1, b.y2) : box(b.x1, b.y1 + a0, b.x2, b.y1 + a1), 'rgba(255,255,255,0.10)');
+        }
+        const w = Math.max(0.8, 0.14 * ppm), white = 'rgba(255,255,255,0.92)', m = 1.2;
+        const X1 = b.x1 + m, X2 = b.x2 - m, Y1 = b.y1 + m, Y2 = b.y2 - m, cx = (X1 + X2) / 2, cy = (Y1 + Y2) / 2;
+        line([...box(X1, Y1, X2, Y2), [X1, Y1]], white, w);
+        line(horiz ? [[cx, Y1], [cx, Y2]] : [[X1, cy], [X2, cy]], white, w);
+        const cr = Math.min(X2 - X1, Y2 - Y1) * 0.16;
+        line(Array.from({ length: 33 }, (_, i) => [cx + cr * Math.cos((i / 32) * Math.PI * 2), cy + cr * Math.sin((i / 32) * Math.PI * 2)]), white, w);
+        const pd = (horiz ? X2 - X1 : Y2 - Y1) * 0.16, pw = (horiz ? Y2 - Y1 : X2 - X1) * 0.55;   // กรอบเขตโทษ
+        if (horiz) for (const [x0, dir] of [[X1, 1], [X2, -1]]) line([[x0, cy - pw / 2], [x0 + dir * pd, cy - pw / 2], [x0 + dir * pd, cy + pw / 2], [x0, cy + pw / 2]], white, w);
+        else for (const [y0, dir] of [[Y1, 1], [Y2, -1]]) line([[cx - pw / 2, y0], [cx - pw / 2, y0 + dir * pd], [cx + pw / 2, y0 + dir * pd], [cx + pw / 2, y0]], white, w);
+      }
+    }
+  }
+
   // ถนน / ทางเดินนอกอาคารบนแผนที่ภาพรวม วาดจากเส้นทางนำทางจริง (ทับภาพผัง ให้เห็นว่าระบบพาเดินทางไหน)
   _drawCampusRoads(ctx, f) {
     const nodes = new Map(this.doc.nodes.filter((n) => n.floor_id === f.id).map((n) => [n.id, n]));
@@ -371,7 +440,7 @@ export class IsoMap {
     for (const e of this.doc.edges) {
       const a = nodes.get(e.node_a), b = nodes.get(e.node_b);
       if (!a || !b) continue;
-      (e.kind === 'road' ? mains : a.kind === 'portal' || b.kind === 'portal' ? walks : roads).push([a, b]);
+      (e.kind === 'road' ? mains : e.kind === 'path' || a.kind === 'portal' || b.kind === 'portal' ? walks : roads).push([a, b]);
     }
     if (!roads.length && !walks.length && !mains.length) return;
     // พิกเซลต่อเมตรบนจอ (เฉลี่ยแกน x/y เพราะมุมมองไอโซเมตริกบีบแกนหนึ่ง)
@@ -609,6 +678,29 @@ export class IsoMap {
         items.push({ type: 'sign', poly, horiz, mid, t, L, z0: 1.4, z1: 4.4, text: r.short_name || r.name, cx: c[0], cy: c[1] + 0.01 });
         continue;
       }
+      if (r.decor === 'parking' || r.decor === 'field') {
+        if (r.decor === 'parking') {
+          const COLORS = ['#e8edf0', '#c0392b', '#2c3e50', '#95a5a6', '#2e86de', '#f5f6fa', '#7f8c8d', '#d35400'];
+          const rnd = rand(hash(r.id));
+          for (const s of parkingStalls(b)) {
+            if (!s.car || rnd() > 0.62) continue;
+            const c = s.car, col = COLORS[Math.floor(rnd() * COLORS.length)];
+            const [cx, cy] = s.horiz ? [c.l, c.d] : [c.d, c.l];
+            const poly = s.horiz ? this._rect(cx - 0.9, cy - 2.1, 1.8, 4.2) : this._rect(cx - 2.1, cy - 0.9, 4.2, 1.8);
+            const cabin = s.horiz ? this._rect(cx - 0.8, cy - 1.1, 1.6, 2.0) : this._rect(cx - 1.1, cy - 0.8, 2.0, 1.6);
+            items.push({ type: 'prism', poly, z0: 0, z1: 0.75, color: col, top: col, cx, cy });
+            items.push({ type: 'prism', poly: cabin, z0: 0.75, z1: 1.35, color: '#5d7480', top: col, cx, cy: cy + 0.01 });
+          }
+        } else {                                            // ประตูฟุตบอล 2 ข้าง
+          const horiz = b.x2 - b.x1 >= b.y2 - b.y1, cx = (b.x1 + b.x2) / 2, cy = (b.y1 + b.y2) / 2;
+          for (const end of [0, 1]) {
+            const poly = horiz ? this._rect(end ? b.x2 - 1.6 : b.x1 + 1.0, cy - 3.6, 0.6, 7.2) : this._rect(cx - 3.6, end ? b.y2 - 1.6 : b.y1 + 1.0, 7.2, 0.6);
+            const c = centroid(poly);
+            items.push({ type: 'prism', poly, z0: 0, z1: 2.4, color: '#f4f6f7', top: '#ffffff', cx: c[0], cy: c[1] });
+          }
+        }
+        continue;
+      }
       if (r.decor === 'buddha') {                         // พระพุทธรูป: ฐานหินอ่อน + ฐานทอง + องค์พระสีทอง
         const cx = (b.x1 + b.x2) / 2, cy = (b.y1 + b.y2) / 2, half = Math.min(b.x2 - b.x1, b.y2 - b.y1) / 2;
         const sq = (h) => this._rect(cx - h, cy - h, 2 * h, 2 * h);
@@ -636,8 +728,22 @@ export class IsoMap {
         items.push({ type: 'prism', poly: seg, z0: 0, z1: h, color: '#f4f6f6', top: r.color || '#cfd8dc', cx: c[0], cy: c[1] });
       }
     }
+    // ต้นไม้บนพื้นที่นอกภาพผัง (เว้นถนน ลานจอดรถ สนาม)
+    const img = this.images[f.plan_image];
+    const IH = img?.naturalWidth ? (f.width * img.naturalHeight) / img.naturalWidth : f.width * 0.6825;
+    const nodes = new Map(this.doc.nodes.filter((n) => n.floor_id === f.id).map((n) => [n.id, n]));
+    const segs = this.doc.edges.map((e) => [nodes.get(e.node_a), nodes.get(e.node_b), e.kind === 'road' ? 11 : 6])
+      .filter(([a, b]) => a && b);
+    const boxes = this.doc.rooms.filter((r) => r.floor_id === f.id).map((r) => bbox(r.polygon));
+    const clear = (x, y) => segs.every(([a, b, w]) => segDist(x, y, a, b) > w)
+      && boxes.every((q) => x < q.x1 - 3 || x > q.x2 + 3 || y < q.y1 - 3 || y > q.y2 + 3);
+    const rt = rand(hash(f.id + 'trees'));
+    for (let i = 0; i < 260 && IH < f.height - 4; i++) {
+      const x = 2 + rt() * (f.width - 4), y = IH + 3 + rt() * (f.height - IH - 5);
+      if (clear(x, y)) items.push({ type: 'tree', x, y, s: 0.8 + rt() * 0.6, cx: x, cy: y });
+    }
     this.static[f.id] = items;
-    (this.shadows ||= {})[f.id] = items.map((it) => ({ poly: it.poly, h: it.z1 }));
+    (this.shadows ||= {})[f.id] = items.filter((it) => it.poly).map((it) => ({ poly: it.poly, h: it.z1 }));
   }
 
   // พื้นที่เตียงรักษา (เช่น เตียงกายภาพ): เตียงเรียงเป็นแถว มีม่านกั้นระหว่างเตียง
@@ -1103,17 +1209,22 @@ export class IsoMap {
     const W = f.width, H = f.height;
     const campusImg = f.style === 'campus' && this.images[f.plan_image];
     if (campusImg) {
+      // พื้นหญ้าทั้งพื้นที่ (ส่วนที่อยู่นอกภาพผัง)
+      this._polyPath(ctx, [[0, 0], [W, 0], [W, H], [0, H]], 0);
+      ctx.fillStyle = '#cfe3cf'; ctx.fill();
       if (campusImg.complete && campusImg.naturalWidth) {
-        const o = this.project(0, 0), ex = this.project(W, 0), ey = this.project(0, H);
+        const IH = Math.min(H, (W * campusImg.height) / campusImg.width);   // ภาพผังคงสัดส่วน วางชิดบน
+        const o = this.project(0, 0), ex = this.project(W, 0), ey = this.project(0, IH);
         ctx.save();
         ctx.setTransform(this.dpr * (ex[0] - o[0]) / campusImg.width, this.dpr * (ex[1] - o[1]) / campusImg.width,
           this.dpr * (ey[0] - o[0]) / campusImg.height, this.dpr * (ey[1] - o[1]) / campusImg.height, this.dpr * o[0], this.dpr * o[1]);
         ctx.drawImage(campusImg, 0, 0);
         ctx.restore();
         // ทำภาพให้อ่อนลงเล็กน้อย ตึก 3 มิติจะเด่นขึ้น
-        this._polyPath(ctx, [[0, 0], [W, 0], [W, H], [0, H]], 0);
+        this._polyPath(ctx, [[0, 0], [W, 0], [W, IH], [0, IH]], 0);
         ctx.fillStyle = 'rgba(255,255,255,0.28)'; ctx.fill();
       }
+      this._drawCampusGround(ctx, f);
       this._drawCampusRoads(ctx, f);
       ctx.beginPath();
       for (const s of this.shadows?.[f.id] || []) {
@@ -1228,7 +1339,8 @@ export class IsoMap {
       if (r.kind === 'corridor' || r.decor === 'sign') continue;   // ป้ายมีชื่อบนแผ่นป้ายแล้ว
       const n = this.counts[r.id] || 0;
       const [cx, cy] = centroid(r.polygon);
-      const lz = r.decor === 'flag' ? 13 : r.decor === 'buddha' ? 5.5 : r.kind === 'building' ? 7.5 : 2.6;
+      const lz = r.decor === 'flag' ? 13 : r.decor === 'buddha' ? 5.5 : (r.decor === 'parking' || r.decor === 'field') ? 2
+        : r.kind === 'building' ? 7.5 : 2.6;
       const [sx, sy] = this.project(cx, cy, lz);
       const name = r.short_name || r.name;
       const showCount = this.opts.labelMode !== 'names' && (r.kind === 'waiting' || r.kind === 'counter' || (r.kind === 'building' && r.link_floor));
