@@ -556,6 +556,39 @@
    "link_floor": null
   },
   {
+   "id": "c_amphoe",
+   "floor_id": "flr_campus",
+   "code": "AMPHOE",
+   "name": "ที่ว่าการอำเภอสีชมพู",
+   "short_name": "ที่ว่าการอำเภอ",
+   "kind": "building",
+   "polygon": [
+    [
+     26.0,
+     210.0
+    ],
+    [
+     82.0,
+     210.0
+    ],
+    [
+     82.0,
+     243.0
+    ],
+    [
+     26.0,
+     243.0
+    ]
+   ],
+   "door_node_id": null,
+   "capacity": 0,
+   "seats": false,
+   "desk": null,
+   "color": "#4a90d9",
+   "decor": null,
+   "link_floor": null
+  },
+  {
    "id": "c_ari",
    "floor_id": "flr_campus",
    "code": "ARI",
@@ -11619,11 +11652,11 @@
    "avg_service_min": 6.0
   },
   {
-   "id": "m_007_h_wait",
+   "id": "m_007_r_proc",
    "depcode": "007",
    "dep_name": "คลินิกวัคซีน",
-   "room_id": null,
-   "wait_room_id": "h_wait",
+   "room_id": "r_proc",
+   "wait_room_id": "r_main_wait",
    "room_hint": null,
    "for_main_dep": null,
    "is_default": true,
@@ -11664,11 +11697,11 @@
    "avg_service_min": 5.0
   },
   {
-   "id": "m_011_h_wait",
+   "id": "m_011_r_proc",
    "depcode": "011",
    "dep_name": "หลังฉีดวัคซีน",
-   "room_id": null,
-   "wait_room_id": "h_wait",
+   "room_id": "r_proc",
+   "wait_room_id": "r_main_wait",
    "room_hint": null,
    "for_main_dep": null,
    "is_default": true,
@@ -11754,11 +11787,11 @@
    "avg_service_min": 5.0
   },
   {
-   "id": "m_025_h_wait",
+   "id": "m_025_r_proc",
    "depcode": "025",
    "dep_name": "หลังตรวจคลินิกวัคซีน",
-   "room_id": null,
-   "wait_room_id": "h_wait",
+   "room_id": "r_proc",
+   "wait_room_id": "r_main_wait",
    "room_hint": null,
    "for_main_dep": null,
    "is_default": true,

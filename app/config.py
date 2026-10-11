@@ -51,6 +51,8 @@ STALE_WAIT_MINUTES = float(os.environ.get("STALE_WAIT_MINUTES", "240"))
 # หน่วยที่เจ้าหน้าที่ไม่กด "รับผู้ป่วย" ใน HOSxP → ถือว่ากำลังรับบริการทันทีที่ถูกส่งเข้า (ไม่นับเป็นคิวรอ) เช่น ไตเทียม 031
 AUTO_SERVICE_DEPS = {d.strip() for d in os.environ.get("AUTO_SERVICE_DEPS", "031").split(",") if d.strip()}
 # ข้อความสถานะเฉพาะหน่วย (รหัส:ข้อความ คั่นด้วย ,)
+# PDPA: เก็บรูป/ไฟล์ที่ผู้ป่วยแนบไว้กี่วัน แล้วลบอัตโนมัติ (ข้อความ/อารมณ์ยังเก็บไว้สำหรับรายงาน)
+FEEDBACK_FILE_DAYS = int(os.environ.get("FEEDBACK_FILE_DAYS", "90"))
 SERVICE_LABELS = dict(x.strip().split(":", 1) for x in os.environ.get("SERVICE_LABELS", "031:กำลังฟอกไต").split(",") if ":" in x)
 
 # โหมดสาธิต: ความเร็วนาฬิกาจำลอง (นาทีจำลองต่อ 1 นาทีจริง)

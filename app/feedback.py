@@ -76,6 +76,28 @@ def attachment_path(rel: str):
     return p if base in p.parents and p.is_file() else None
 
 
+def purge_old_files(days: int) -> int:
+    """ลบรูป/ไฟล์แนบที่เก่ากว่า days วัน (PDPA) — แถวความรู้สึก/ข้อความยังอยู่ แต่ไม่มีไฟล์แล้ว"""
+    if days <= 0:
+        return 0
+    cutoff = clock.now() - timedelta(days=days)
+    t = db.patient_feedback
+    with db.engine.begin() as conn:
+        old = conn.execute(sa.select(t.c.id, t.c.attachment).where(
+            t.c.attachment.isnot(None) & (t.c.created_at < cutoff))).all()
+        for fid, rel in old:
+            path = attachment_path(rel)
+            if path:
+                path.unlink(missing_ok=True)
+            conn.execute(t.update().where(t.c.id == fid).values(attachment=None, attachment_type="deleted"))
+    # ลบโฟลเดอร์รายเดือนที่ว่างแล้ว
+    if config.FEEDBACK_DIR.exists():
+        for folder in config.FEEDBACK_DIR.iterdir():
+            if folder.is_dir() and not any(folder.iterdir()):
+                folder.rmdir()
+    return len(old)
+
+
 def add(vn: str, vstdate: date, mood: str | None, comment, depcode: str | None, state: str | None,
         file_data: bytes | None = None) -> dict:
     mood = mood or None

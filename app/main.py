@@ -91,8 +91,22 @@ async def lifespan(_app):
         await asyncio.to_thread(state["worker"].sync_once)
     await asyncio.to_thread(state["builder"].build)
     task = asyncio.create_task(sync_loop())
+    purge = asyncio.create_task(purge_loop())
     yield
     task.cancel()
+    purge.cancel()
+
+
+async def purge_loop():
+    """ลบรูป/ไฟล์ที่ผู้ป่วยแนบเมื่อครบ FEEDBACK_FILE_DAYS วัน (PDPA) — ตรวจตอนเปิดระบบและทุก 6 ชั่วโมง"""
+    while True:
+        try:
+            n = await asyncio.to_thread(feedback.purge_old_files, config.FEEDBACK_FILE_DAYS)
+            if n:
+                log.info("ลบไฟล์แนบที่เก่ากว่า %s วัน: %s ไฟล์", config.FEEDBACK_FILE_DAYS, n)
+        except Exception as exc:  # ไม่ให้ระบบหลักหยุดเพราะงานลบไฟล์
+            log.error("ลบไฟล์แนบเก่าไม่สำเร็จ: %s", exc)
+        await asyncio.sleep(6 * 3600)
 
 
 app = FastAPI(title="Smart Hospital Navigation", lifespan=lifespan)

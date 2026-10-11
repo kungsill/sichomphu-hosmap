@@ -128,6 +128,10 @@ def sichomphu_opd_document() -> dict:
                                "priority": priority, "queue_prefix": prefix, "servers": servers, "avg_service_min": avg})
 
     W = "r_main_wait"
+    # วัคซีน: รอที่ห้องรอรวม แล้วเข้าฉีดที่ห้องหัตถการ (หลังฉีดนั่งสังเกตอาการ ~30 นาที)
+    mp("007", "คลินิกวัคซีน", "r_proc", W, "other", "V", avg=5)
+    mp("011", "หลังฉีดวัคซีน", "r_proc", W, "other", avg=30)
+    mp("025", "หลังตรวจคลินิกวัคซีน", "r_proc", W, "other", avg=5)
     mp("144", "ซักประวัติ OPD", "r_hx1", W, "screening", "A", servers=3, avg=4, hint="1")
     mp("144", "ซักประวัติ OPD", "r_hx2", W, "screening", "A", servers=3, avg=4, hint="2", default=False)
     mp("144", "ซักประวัติ OPD", "r_hx3", W, "screening", "A", servers=3, avg=4, hint="3", default=False)
@@ -636,9 +640,7 @@ def promotion_mapping() -> list[dict]:
 
     for i in (1, 2, 3, 4):
         mp("033", "ส่งเสริมสุขภาพ", f"h_ex{i}", "h_wait", "other", "H", servers=4, avg=10, hint=str(i), default=i == 1)
-    mp("007", "คลินิกวัคซีน", None, "h_wait", "other", "V", avg=5)
-    mp("011", "หลังฉีดวัคซีน", None, "h_wait", "other", avg=30)
-    mp("025", "หลังตรวจคลินิกวัคซีน", None, "h_wait", "other", avg=5)
+    # วัคซีน (007/011/025) ฉีดที่ห้องหัตถการ โซน OPD — ดู opd_document
     return out
 
 
