@@ -83,7 +83,7 @@ function statusLabel(v) {
   if (lang === 'th') return v.label;
   const name = v.dest_name || '';
   if (v.state === 'finished') return 'Heading home';
-  if (v.state === 'in_service') return `Being served · ${name}`;
+  if (v.state === 'in_service') return v.label === 'กำลังฟอกไต' ? 'Dialysis in progress' : `Being served · ${name}`;
   if (v.state === 'service_done') return `Waiting for the next step · ${name}`;
   if (v.walking || v.label?.startsWith('เดินไป')) return `Please go to ${name}`;
   return v.pos ? `Waiting · ${name} · #${v.pos}` : `Waiting · ${name}`;

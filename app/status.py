@@ -138,7 +138,7 @@ class SnapshotBuilder:
                 if info.get("stage") == "doctor":
                     label = f"พบแพทย์ {hmap.rooms[service_room]['short_name']}" if service_room and service_room in hmap.rooms else "พบแพทย์"
                 else:
-                    label = f"กำลังรับบริการ{dep_name}"
+                    label = config.SERVICE_LABELS.get(dest) or f"กำลังรับบริการ{dep_name}"
             elif d["state"] == "service_done":
                 label = f"รอส่งต่อจาก{dep_name}"
             elif walking:

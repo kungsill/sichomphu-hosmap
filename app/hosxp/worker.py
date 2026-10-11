@@ -198,6 +198,8 @@ class Worker:
         busy = truthy(v.get("busy"))
         served = truthy(v.get("served")) and not busy  # บริการที่หน่วยนี้เสร็จแล้ว รอส่งต่อ
         finished = truthy(v.get("finished"))
+        if cur_dep in config.AUTO_SERVICE_DEPS and not served and not finished:
+            busy = True   # หน่วยนี้ไม่กดรับใน HOSxP (เช่น ไตเทียม) → ส่งเข้ามาแล้ว = กำลังรับบริการ
         hint = to_str(v.get("room_hint"))
         main_dep = to_str(v.get("main_dep"))
         dep_time = to_datetime(vstdate, v.get("cur_dep_time")) or now
